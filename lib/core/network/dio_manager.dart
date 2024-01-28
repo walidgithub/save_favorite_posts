@@ -3,9 +3,8 @@ import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
-
-import '../../constant/constant_values_manager.dart';
-import '../core/constant/constant_values_manager.dart';
+import '../error/error_handler.dart';
+import 'api_constants.dart';
 
 
 /// Class that makes API call easier
@@ -20,7 +19,7 @@ class DioManager {
   Dio initDio() {
     final Dio dio = Dio(
       BaseOptions(
-        baseUrl: AppConstants.baseUrl,
+        baseUrl: ApiConstants.baseUrl,
         headers: <String, String> {},
         sendTimeout: 30000,
         connectTimeout: 20000,
@@ -28,17 +27,17 @@ class DioManager {
       ),
     );
     if (!kReleaseMode) {
-      // dio.interceptors.add(
-      //   PrettyDioLogger(
-      //     requestHeader: true,
-      //     requestBody: true,
-      //     responseBody: true,
-      //     responseHeader: true,
-      //     error: true,
-      //     compact: true,
-      //     maxWidth: 120,
-      //   ),
-      // );
+      dio.interceptors.add(
+        PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+          responseBody: true,
+          responseHeader: true,
+          error: true,
+          compact: true,
+          maxWidth: 120,
+        ),
+      );
     }
     return dio;
   }
@@ -59,10 +58,7 @@ class DioManager {
     ).then((response) {
       return response;
     }).catchError((dynamic error) async {
-      // errorToast(
-      //   code: error.response?.data?['status_code']?.toString() ?? '',
-      //   message: '${error.response?.data?['status_message']?.toString() ?? ''} error',
-      // );
+      throw ErrorHandler.handle(error).failure;
     });
   }
 
@@ -85,10 +81,7 @@ class DioManager {
     ).then((response) {
       return response;
     }).catchError((dynamic error) {
-      // errorToast(
-      //   code: error.response?.data?['status_code']?.toString() ?? '',
-      //   message: '${error.response?.data?['status_message']?.toString() ?? ''} error',
-      // );
+      throw ErrorHandler.handle(error).failure;
     });
   }
 
@@ -106,10 +99,7 @@ class DioManager {
     ).then((response) {
       return response;
     }).catchError((dynamic error) {
-      // errorToast(
-      //   code: error.response?.data?['status_code']?.toString() ?? '',
-      //   message: '${error.response?.data?['status_message']?.toString() ?? ''} error',
-      // );
+      throw ErrorHandler.handle(error).failure;
     });
   }
 
@@ -127,10 +117,7 @@ class DioManager {
     ).then((response) {
       return response;
     }).catchError((dynamic error) {
-      // errorToast(
-      //   code: error.response?.data?['status_code']?.toString() ?? '',
-      //   message: '${error.response?.data?['status_message']?.toString() ?? ''} error',
-      // );
+      throw ErrorHandler.handle(error).failure;
     });
   }
 }

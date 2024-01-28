@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
-import '../constant/constant_values_manager.dart';
+import '../../shared/constant/constant_values_manager.dart';
 import 'text_component.dart';
 
 class ButtonComponent extends StatelessWidget {
