@@ -39,14 +39,14 @@ void main() async {
             children: [
               Text(
                 AppStrings.someThingWentWrong,
-                style: TextStyle(color: ColorManager.primary),
+                style: TextStyle(color: ColorManager.kPrimary),
               ),
               SizedBox(
                 height: AppConstants.heightBetweenElements,
               ),
               Text(
                 details.exceptionAsString(),
-                style: TextStyle(color: ColorManager.primary),
+                style: TextStyle(color: ColorManager.kPrimary),
               ),
             ],
           ),
