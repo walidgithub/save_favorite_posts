@@ -4,10 +4,10 @@ import '../repository/base_repository.dart';
 import '../reposnses/test_response.dart';
 import 'base_usecase/base_usecase.dart';
 
-class GetTestUseCase extends BaseUsecase {
+class GetPostsWithParameterUseCase extends BaseUsecase {
   final BaseRepository baseRepository;
 
-  GetTestUseCase(this.baseRepository);
+  GetPostsWithParameterUseCase(this.baseRepository);
 
   @override
   Future<Either<Failure, List<TestResponse>>> call(parameters) async {

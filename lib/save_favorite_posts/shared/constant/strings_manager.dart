@@ -1,6 +1,7 @@
 class AppStrings {
 
   static const String success = "success";
+  static const String someThingWentWrong = "Some Thing Went Wrong";
 
   // error handler
   static const String badRequestError = "bad_request_error";
