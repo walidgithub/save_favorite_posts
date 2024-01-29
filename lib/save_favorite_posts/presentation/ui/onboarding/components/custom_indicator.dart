@@ -12,7 +12,7 @@ class CustomIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DotsIndicator(
-      dotsCount: onboardingList.length,
+      dotsCount: onBoardingList.length,
       position: position,
       decorator: DotsDecorator(
         color: Colors.grey.withOpacity(0.5),

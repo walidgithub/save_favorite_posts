@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/di/di.dart';
@@ -17,7 +18,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ServiceLocator().init();
   await EasyLocalization.ensureInitialized();
-
   SystemChrome.setPreferredOrientations(
       [
         DeviceOrientation.portraitUp,
@@ -37,7 +37,7 @@ void main() async {
         body: Center(
           child: Column(
             children: [
-              Text(
+              const Text(
                 AppStrings.someThingWentWrong,
                 style: TextStyle(color: ColorManager.kPrimary),
               ),
@@ -46,7 +46,7 @@ void main() async {
               ),
               Text(
                 details.exceptionAsString(),
-                style: TextStyle(color: ColorManager.kPrimary),
+                style: const TextStyle(color: ColorManager.kPrimary),
               ),
             ],
           ),
@@ -100,13 +100,12 @@ class _MyAppState extends State<MyApp> {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       debugShowCheckedModeBanner: false,
-      title: 'Save Favorite Posts',
+      title: 'Posts',
       onGenerateRoute: RouteGenerator.getRoute,
-      initialRoute: Routes.homeRoute,
+      initialRoute: Routes.onBoarding,
       theme: ThemeData(
-        useMaterial3: false,
+        useMaterial3: true,
       ),
-      home: const HomeView(),
     ));
   }
 }

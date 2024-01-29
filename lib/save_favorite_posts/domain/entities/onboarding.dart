@@ -1,11 +1,11 @@
-import 'package:foochi/app/data/constants/app_assets.dart';
+import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
 
-class Onboarding {
+class OnBoarding {
   String title1;
   String title2;
   String description;
   String image;
-  Onboarding({
+  OnBoarding({
     required this.title1,
     required this.title2,
     required this.description,
@@ -13,23 +13,23 @@ class Onboarding {
   });
 }
 
-List<Onboarding> onboardingList = [
-  Onboarding(
-      title1: 'Save posts of',
-      title2: 'LinkedIn',
+List<OnBoarding> onBoardingList = [
+  OnBoarding(
+      title1: 'Save posts of ',
+      title2: ' LinkedIn',
       description:
-          'Save LinkedIn posts.',
-      image: AppAssets.kOnboardingFirst),
-  Onboarding(
-      title1: 'Save posts of',
-      title2: 'FaceBook',
+          'Use Share via method and save your post with selected category.',
+      image: AssetsManager.linkedIn),
+  OnBoarding(
+      title1: 'Save posts of ',
+      title2: ' FaceBook',
       description:
-          'Save FaceBook posts.',
-      image: AppAssets.kOnboardingSecond),
-  Onboarding(
+          'Use Share method and save your post with selected category.',
+      image: AssetsManager.facebook),
+  OnBoarding(
       title1: 'And ',
-      title2: 'Other favorite websites',
+      title2: ' Other favorite websites',
       description:
-          'And other favorite websites',
-      image: AppAssets.kOnboardingThird)
+          'X, Youtube, Instagram, and others.',
+      image: AssetsManager.others)
 ];
