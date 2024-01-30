@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/device/functions/get_device_type.dart';
-import '../../../core/device/models/device_info.dart';
+import 'functions/get_device_type.dart';
+import 'models/device_info.dart';
 
 class InfoWidget extends StatelessWidget {
   final Widget Function(BuildContext context, DeviceInfo deviceInfo) builder;

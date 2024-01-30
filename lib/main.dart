@@ -1,12 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/di/di.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/router/app_router.dart';
-import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/home_view/home_view.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/language_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
@@ -101,10 +100,12 @@ class _MyAppState extends State<MyApp> {
       locale: context.locale,
       debugShowCheckedModeBanner: false,
       title: 'Posts',
+      builder: EasyLoading.init(),
       onGenerateRoute: RouteGenerator.getRoute,
-      initialRoute: Routes.onBoarding,
+      initialRoute: Routes.landing,
       theme: ThemeData(
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(seedColor: ColorManager.kPrimary),
       ),
     ));
   }

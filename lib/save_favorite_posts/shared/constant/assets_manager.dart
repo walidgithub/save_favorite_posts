@@ -10,4 +10,11 @@ class AssetsManager {
   static const String facebookImg = '$imagePath/facebook.png';
   static const String logo = '$imagePath/logo.png';
   static const String language = '$imagePath/language.svg';
+  static const String search = '$imagePath/search.svg';
+  static const String home = '$imagePath/home.svg';
+  static const String homeSelected = '$imagePath/home-selected.svg';
+  static const String addNew = '$imagePath/add-new.svg';
+  static const String addNewSelected = '$imagePath/add-new-selected.svg';
+  static const String filter = '$imagePath/filter.svg';
+  static String deleteImg = 'assets/icons/delete.svg';
 }

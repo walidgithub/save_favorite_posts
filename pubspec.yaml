@@ -65,7 +65,6 @@ dependencies:
   flutter_easyloading: ^3.0.5
   image_stack: ^2.1.1
   simple_animations: ^5.0.2
-  flutter_native_splash: ^2.2.19
 
 dev_dependencies:
   flutter_test:

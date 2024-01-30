@@ -8,7 +8,7 @@ import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_mana
 import '../../../shared/constant/app_typography.dart';
 import '../../ui_components/buttons/custom_text_button.dart';
 import '../../ui_components/buttons/primary_button.dart';
-import '../../ui_components/custom_animation.dart';
+import '../../ui_components/others/custom_animation.dart';
 import '../../ui_components/dialogs/loading_dialog.dart';
 import 'components/auth_field.dart';
 import 'components/social_icons_row.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../shared/constant/app_typography.dart';
 import '../../../shared/style/colors_manager.dart';
-import '../profile_image_card.dart';
+import '../others/profile_image_card.dart';
 
 class HeadingRichText extends StatelessWidget {
   final String text1;

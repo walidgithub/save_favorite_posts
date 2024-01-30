@@ -1,6 +1,10 @@
 class AppStrings {
 
   static const String success = "success";
+  static const String yes  = 'Yes';
+  static const String no  = 'No';
+  static const String warning  = 'Warning';
+  static const String closeApp  = 'Do you want to close the app?';
   static const String someThingWentWrong = "Some Thing Went Wrong";
 
   // error handler
@@ -16,5 +20,4 @@ class AppStrings {
   static const String defaultError = "somethingError";
   static const String cacheError = "cache_error";
   static const String noInternetError = "no_internet_error";
-
 }

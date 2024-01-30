@@ -66,7 +66,7 @@ class _SocialIconsState extends State<SocialIcons>
             width: 50.w,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: widget.isGoogleIcon ? ColorManager.kWhite : null,
+              color: ColorManager.kWhite,
               border: Border.all(color: ColorManager.kOrange),
               borderRadius: BorderRadius.circular(AppConstants.radius),
             ),

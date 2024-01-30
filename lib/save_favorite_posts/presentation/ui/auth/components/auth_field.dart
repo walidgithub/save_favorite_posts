@@ -17,6 +17,7 @@ class AuthField extends StatefulWidget {
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final void Function(String)? onChanged;
+  final void Function()? onTab;
   const AuthField({
     super.key,
     required this.hintText,
@@ -29,6 +30,7 @@ class AuthField extends StatefulWidget {
     this.isPasswordField = false,
     this.isForgetButton = false,
     this.keyboardType,
+    this.onTab,
   });
 
   @override
@@ -40,6 +42,7 @@ class _AuthFieldState extends State<AuthField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTap: widget.onTab,
       controller: widget.controller,
       obscureText: widget.isPasswordField ? isObscure : false,
       validator: widget.validator,
