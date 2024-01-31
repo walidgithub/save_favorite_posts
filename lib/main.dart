@@ -6,6 +6,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/di/di.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/router/app_router.dart';
+import 'package:save_favorite_posts/save_favorite_posts/shared/constant/app_theme.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/language_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
@@ -17,12 +18,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ServiceLocator().init();
   await EasyLocalization.ensureInitialized();
-  SystemChrome.setPreferredOrientations(
-      [
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]
-  );
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   // runApp(DevicePreview(builder: (context) => const MyApp()));
   runApp(EasyLocalization(
@@ -31,28 +31,28 @@ void main() async {
       child: Phoenix(child: const MyApp())));
 
   ErrorWidget.builder = (FlutterErrorDetails details) => Scaffold(
-    body: SafeArea(
-      child: Scaffold(
-        body: Center(
-          child: Column(
-            children: [
-              const Text(
-                AppStrings.someThingWentWrong,
-                style: TextStyle(color: ColorManager.kPrimary),
+        body: SafeArea(
+          child: Scaffold(
+            body: Center(
+              child: Column(
+                children: [
+                  const Text(
+                    AppStrings.someThingWentWrong,
+                    style: TextStyle(color: ColorManager.kPrimary),
+                  ),
+                  SizedBox(
+                    height: AppConstants.heightBetweenElements,
+                  ),
+                  Text(
+                    details.exceptionAsString(),
+                    style: const TextStyle(color: ColorManager.kPrimary),
+                  ),
+                ],
               ),
-              SizedBox(
-                height: AppConstants.heightBetweenElements,
-              ),
-              Text(
-                details.exceptionAsString(),
-                style: const TextStyle(color: ColorManager.kPrimary),
-              ),
-            ],
+            ),
           ),
         ),
-      ),
-    ),
-  );
+      );
 }
 
 class MyApp extends StatefulWidget {
@@ -68,11 +68,8 @@ class _MyAppState extends State<MyApp> {
   bool loggedIn = false;
   goNext() {
     _appPreferences.isUserLoggedIn().then((isUserLoggedIn) => {
-      if (isUserLoggedIn)
-        {loggedIn = true}
-      else
-        {loggedIn = false}
-    });
+          if (isUserLoggedIn) {loggedIn = true} else {loggedIn = false}
+        });
   }
 
   @override
@@ -87,26 +84,30 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-        designSize: const Size(360, 690),
-    minTextAdapt: true,
-    splitScreenMode: true,
-    child: MaterialApp(
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      debugShowCheckedModeBanner: false,
-      title: 'Posts',
-      builder: EasyLoading.init(),
-      onGenerateRoute: RouteGenerator.getRoute,
-      initialRoute: Routes.landing,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: ColorManager.kPrimary),
-      ),
-    ));
+      designSize: const Size(375, 812),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            child: MaterialApp(
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              debugShowCheckedModeBanner: false,
+              title: 'Posts',
+              builder: EasyLoading.init(),
+              onGenerateRoute: RouteGenerator.getRoute,
+              initialRoute: Routes.landing,
+              theme: AppTheme.lightTheme,
+            ));
+      },
+    );
   }
 }

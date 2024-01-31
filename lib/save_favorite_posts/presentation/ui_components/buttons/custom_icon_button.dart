@@ -22,17 +22,20 @@ class CustomIconButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: size ?? 45.h,
-        width: size ?? 45.w,
+        height: size ?? 50.h,
+        width: size ?? 50.w,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: iconColor,
           borderRadius: BorderRadius.circular(10.r),
           border: Border.all(color: borderCol ?? const Color(0xFFD3BBAA)),
         ),
-        child: SvgPicture.asset(
-          icon,
-          color: iconColor != null ? ColorManager.kWhite : ColorManager.kSecondary,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SvgPicture.asset(
+            icon,
+            color: iconColor != null ? ColorManager.kWhite : ColorManager.kSecondary,
+          ),
         ),
       ),
     );

@@ -16,5 +16,6 @@ class AssetsManager {
   static const String addNew = '$imagePath/add-new.svg';
   static const String addNewSelected = '$imagePath/add-new-selected.svg';
   static const String filter = '$imagePath/filter.svg';
-  static String deleteImg = 'assets/icons/delete.svg';
+  static String deleteImg = '$imagePath/delete.svg';
+  static String goImg = '$imagePath/go.svg';
 }

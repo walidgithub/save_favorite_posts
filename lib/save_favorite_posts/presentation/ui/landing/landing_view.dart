@@ -27,7 +27,7 @@ class _SearchViewState extends State<LandingView> {
       bottomNavigationBar: SizedBox(
         height: 65.h,
         child: BottomNavigationBar(
-          unselectedLabelStyle: const TextStyle(color: ColorManager.kSecondary),
+          // unselectedLabelStyle: const TextStyle(color: ColorManager.kSecondary),
           selectedItemColor: ColorManager.kSecondary,
           currentIndex: _currentIndex,
           onTap: (value) {

@@ -7,7 +7,7 @@ class SearchResultModel extends SearchResultResponse {
     required super.category,
     required super.subCategory,
     required super.website,
-    required super.seen,
+    required super.seen, required super.description, required super.link,
   });
 
   factory SearchResultModel.fromJson(Map<String, dynamic> json) {
@@ -16,7 +16,7 @@ class SearchResultModel extends SearchResultResponse {
       category: json['category'],
       subCategory: json['subCategory'],
       website: json['website'],
-      seen: json['seen'],
+      seen: json['seen'], description: json['description'], link: json['link'],
     );
   }
 
@@ -27,6 +27,8 @@ class SearchResultModel extends SearchResultResponse {
       'subCategory': subCategory,
       'website': website,
       'seen': seen,
+      'description': description,
+      'link': link,
     };
   }
 }

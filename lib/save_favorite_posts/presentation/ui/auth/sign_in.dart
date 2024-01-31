@@ -36,11 +36,12 @@ class _SignInViewState extends State<SignInView> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () => onBackButtonPressed(context),
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Scaffold(
-          floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-          floatingActionButton: FloatingActionButton(
+      child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        floatingActionButton:
+        Padding(
+          padding: EdgeInsets.only(top: 8.h),
+          child: FloatingActionButton(
             onPressed: () {
               setState(() {
                 _changeLanguage();
@@ -49,111 +50,111 @@ class _SignInViewState extends State<SignInView> {
             backgroundColor: ColorManager.kPrimary,
             child: SvgPicture.asset(
               AssetsManager.language,
-              width: 25.w,
+              width: 30.w,
               color: ColorManager.kWhite,
             ),
           ),
-          body: SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 24.w),
-            child: Form(
-              key: _formKey,
-              child: FadeAnimation(
-                delay: 1,
-                child: Column(
-                  children: [
-                    SizedBox(height: 80.h),
-                    Center(child: Image.asset(AssetsManager.logo,width: 100.w,)),
-                    SizedBox(height: 30.h),
-                    Text('Sign In',
-                        style: AppTypography.kBold30
-                            .copyWith(color: ColorManager.kSecondary)),
-                    SizedBox(height: 24.h),
-                    SocialIconRow(
-                      facebookCallback: () {
-                        debugPrint('Facebook');
+        ),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Form(
+            key: _formKey,
+            child: FadeAnimation(
+              delay: 1,
+              child: Column(
+                children: [
+                  SizedBox(height: 80.h),
+                  Center(child: Image.asset(AssetsManager.logo,width: 100.w,)),
+                  SizedBox(height: 30.h),
+                  Text('Sign In',
+                      style: AppTypography.kBold30
+                          .copyWith(color: ColorManager.kSecondary)),
+                  SizedBox(height: 24.h),
+                  SocialIconRow(
+                    facebookCallback: () {
+                      debugPrint('Facebook');
+                    },
+                    googleCallback: () {
+                      debugPrint('Google');
+                    },
+                  ),
+                  SizedBox(height: 30.h),
+                  Text('Or with Email', style: AppTypography.kLight14),
+                  SizedBox(height: 23.h),
+                  AuthField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    isFieldValidated: isEmailCorrect,
+                    onChanged: (value) {
+                      setState(() {});
+                      isEmailCorrect = validateEmail(value);
+                    },
+                    hintText: 'Your Email',
+                    validator: (value) {
+                      if (!validateEmail(value!)) {
+                        return 'Please enter a valid email address';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: AppConstants.heightBetweenElements),
+                  AuthField(
+                    hintText: 'Your Password',
+                    controller: _passwordController,
+                    keyboardType: TextInputType.visiblePassword,
+                    isForgetButton: true,
+                    isPasswordField: true,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your password';
+                      } else if (value.length < 6) {
+                        return 'Password should be at least 6 characters';
+                      } else if (!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$')
+                          .hasMatch(value)) {
+                        return 'Password should contain at least one uppercase letter, one lowercase letter, and one digit';
+                      }
+                      return null;
+                    },
+                  ),
+                  SizedBox(height: 0.h),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: CustomTextButton(
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(Routes.forgotPass);
                       },
-                      googleCallback: () {
-                        debugPrint('Google');
-                      },
+                      text: 'Forgot password?',
+                      color: ColorManager.kPrimary,
                     ),
-                    SizedBox(height: 30.h),
-                    Text('Or with Email', style: AppTypography.kLight14),
-                    SizedBox(height: 23.h),
-                    AuthField(
-                      controller: _emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      isFieldValidated: isEmailCorrect,
-                      onChanged: (value) {
-                        setState(() {});
-                        isEmailCorrect = validateEmail(value);
-                      },
-                      hintText: 'Your Email',
-                      validator: (value) {
-                        if (!validateEmail(value!)) {
-                          return 'Please enter a valid email address';
+                  ),
+                  SizedBox(height: 20.h),
+                  PrimaryButton(
+                      onTap: () async {
+                        if (_formKey.currentState!.validate()) {
+                          showLoading();
+                          await Future.delayed(const Duration(seconds: 3));
+                          hideLoading();
+                          Navigator.of(context).pushReplacementNamed(Routes.landing);
                         }
-                        return null;
                       },
-                    ),
-                    SizedBox(height: AppConstants.heightBetweenElements),
-                    AuthField(
-                      hintText: 'Your Password',
-                      controller: _passwordController,
-                      keyboardType: TextInputType.visiblePassword,
-                      isForgetButton: true,
-                      isPasswordField: true,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        } else if (value.length < 6) {
-                          return 'Password should be at least 6 characters';
-                        } else if (!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$')
-                            .hasMatch(value)) {
-                          return 'Password should contain at least one uppercase letter, one lowercase letter, and one digit';
-                        }
-                        return null;
-                      },
-                    ),
-                    SizedBox(height: 0.h),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: CustomTextButton(
+                      text: 'Sign In'),
+                  SizedBox(height: 20.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('New User?',
+                          style: AppTypography.kLight14.copyWith(
+                            color: ColorManager.kSecondary,
+                          )),
+                      CustomTextButton(
                         onPressed: () {
-                          Navigator.of(context).pushNamed(Routes.forgotPass);
+                          Navigator.of(context).pushNamed(Routes.signOut);
                         },
-                        text: 'Forgot password?',
-                        color: ColorManager.kPrimary,
-                      ),
-                    ),
-                    SizedBox(height: 20.h),
-                    PrimaryButton(
-                        onTap: () async {
-                          if (_formKey.currentState!.validate()) {
-                            showLoading();
-                            await Future.delayed(const Duration(seconds: 3));
-                            hideLoading();
-                            Navigator.of(context).pushReplacementNamed(Routes.landing);
-                          }
-                        },
-                        text: 'Sign In'),
-                    SizedBox(height: 20.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('New User?',
-                            style: AppTypography.kLight14.copyWith(
-                              color: ColorManager.kSecondary,
-                            )),
-                        CustomTextButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed(Routes.signOut);
-                          },
-                          text: 'Sign Up',
-                        )
-                      ],
-                    )
-                  ],
-                ),
+                        text: 'Sign Up',
+                      )
+                    ],
+                  )
+                ],
               ),
             ),
           ),

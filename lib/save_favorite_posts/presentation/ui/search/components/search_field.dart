@@ -20,7 +20,7 @@ class SearchField extends StatelessWidget {
       onChanged: onChange,
       style: AppTypography.kLight14,
       decoration: InputDecoration(
-          constraints: BoxConstraints(maxHeight: 47.h),
+          constraints: BoxConstraints(maxHeight: 55.h),
           contentPadding:
               EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
           hintText: 'Search',

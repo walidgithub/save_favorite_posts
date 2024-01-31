@@ -6,6 +6,9 @@ class AppStrings {
   static const String warning  = 'Warning';
   static const String closeApp  = 'Do you want to close the app?';
   static const String someThingWentWrong = "Some Thing Went Wrong";
+  static const readMore = "Read more";
+  static const less = " Less";
+  static const noSearchResults = " No Search Results";
 
   // error handler
   static const String badRequestError = "bad_request_error";
