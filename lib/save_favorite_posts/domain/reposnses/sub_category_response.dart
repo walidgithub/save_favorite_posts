@@ -15,8 +15,11 @@ class SubCategoryResponse extends Equatable {
 
 
 List<SubCategoryResponse> subCategoryResponse = [
-  SubCategoryResponse(id: 1, title: 'All'),
+  SubCategoryResponse(id: 1, title: 'None'),
   SubCategoryResponse(id: 2, title: 'Designs'),
   SubCategoryResponse(id: 3, title: 'Git'),
   SubCategoryResponse(id: 4, title: 'Problems'),
+  SubCategoryResponse(id: 4, title: 'Problems 2'),
+  SubCategoryResponse(id: 4, title: 'Problems 3'),
+  SubCategoryResponse(id: 4, title: 'Problems 4'),
 ];

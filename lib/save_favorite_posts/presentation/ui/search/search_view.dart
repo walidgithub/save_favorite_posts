@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:number_paginator/number_paginator.dart';
+import 'package:save_favorite_posts/save_favorite_posts/presentation/ui_components/dividers/custom_dotted_divider.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
+import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 import '../../../domain/reposnses/search_results_response.dart';
 import '../../../shared/constant/strings_manager.dart';
 import '../../ui_components/buttons/custom_icon_button.dart';
 import '../../ui_components/texts/heading_rich_text.dart';
 import 'components/filter_sheet.dart';
+import 'components/pagination.dart';
 import 'components/search_field.dart';
 import 'components/search_result_card.dart';
 
@@ -22,12 +24,35 @@ class SearchView extends StatefulWidget {
 class _SearchViewState extends State<SearchView> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
-  var _currentPage = 1;
+
+  int currentPage = 0;
+  int totalPages = 10;
+  List<int> middlePages = [];
+
   @override
   void initState() {
     super.initState();
     _searchFocusNode.addListener(_onFocusChange);
     _searchController.addListener(_onSearch);
+    if (totalPages != 0) {
+      currentPage = 1;
+      middlePages = [];
+
+      if (totalPages >= 5) {
+        middlePages = [
+          currentPage + 1,
+          currentPage + 2,
+          currentPage + 3
+        ];
+      } else {
+        for (int i = 1; i < totalPages - 1; i++) {
+          middlePages.add(i + 1);
+        }
+      }
+    } else {
+      currentPage = 0;
+      middlePages = [];
+    }
   }
 
   @override
@@ -98,19 +123,18 @@ class _SearchViewState extends State<SearchView> {
               ),
               SizedBox(height: 30.h),
               Expanded(child: _buildBody()),
-              NumberPaginator(
-                numberPages: searchResultResponse.length,
-                initialPage: 1,
-                config: NumberPaginatorUIConfig(
-                  buttonSelectedBackgroundColor: ColorManager.kPrimary,
-                  buttonUnselectedForegroundColor: ColorManager.kPrimary,
-                ),
-                onPageChange: (int index) {
-                  setState(() {
-                    _currentPage = index;
-                  });
-                },
-              )
+              SizedBox(height: AppConstants.smallHeightBetweenElements,),
+              DottedDivider(
+                color: ColorManager.kLine2,
+                thickness: 1.0,
+                dashLength: 3.w,
+                dashSpacing: 2.w,
+              ),
+              SizedBox(height: AppConstants.smallHeightBetweenElements,),
+              SizedBox(
+                  height: 40.h,
+                  width: MediaQuery.of(context).size.width,
+                  child: PaginationView(totalPages: totalPages,middlePages: middlePages,))
             ],
           ),
         ),

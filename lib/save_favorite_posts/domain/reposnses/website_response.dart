@@ -15,7 +15,7 @@ class WebsiteResponse extends Equatable {
 
 
 List<WebsiteResponse> websiteResponse = [
-  WebsiteResponse(id: 1, title: 'All'),
+  WebsiteResponse(id: 1, title: 'None'),
   WebsiteResponse(id: 2, title: 'LinkedIn'),
   WebsiteResponse(id: 3, title: 'Facebook'),
   WebsiteResponse(id: 4, title: 'YouTube'),

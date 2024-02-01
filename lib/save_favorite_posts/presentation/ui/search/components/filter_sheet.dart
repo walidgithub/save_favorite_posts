@@ -16,6 +16,10 @@ class FilterSheet extends StatefulWidget {
 }
 
 class _FilterSheetState extends State<FilterSheet> {
+  final ScrollController _webScrollController = ScrollController();
+  final ScrollController _categoryScrollController = ScrollController();
+  final ScrollController _subCategoryScrollController = ScrollController();
+
   int selectedWebsite = 0;
   int selectedCategory = 0;
   int selectedSubCategory = 0;
@@ -41,59 +45,90 @@ class _FilterSheetState extends State<FilterSheet> {
           SizedBox(height: 13.h),
           Text('Websites', style: AppTypography.kBold18),
           SizedBox(height: 10.h),
-          Wrap(
-            runSpacing: 10.w,
-            spacing: 10.w,
-            children: List.generate(
-                websiteResponse.length,
-                    (index) => CategoryChip(
-                    onTap: () {
-                      selectedWebsite = index;
-                      setState(() {});
-                    },
-                    text: websiteResponse[index].title,
-                    isSelected: selectedWebsite == index)),
+          SizedBox(
+            height: 100.h,
+            width: MediaQuery.sizeOf(context).width,
+            child: Scrollbar(
+              thumbVisibility: true,
+              thickness: 2.w,
+              controller: _webScrollController,
+              child: SingleChildScrollView(
+                controller: _webScrollController,
+                child: Wrap(
+                  runSpacing: 5.w,
+                  spacing: 10.h,
+                  children: List.generate(
+                      websiteResponse.length,
+                      (index) => CategoryChip(
+                          onTap: () {
+                            selectedWebsite = index;
+                            setState(() {});
+                          },
+                          text: websiteResponse[index].title,
+                          isSelected: selectedWebsite == index)),
+                ),
+              ),
+            ),
           ),
           SizedBox(height: 20.h),
           Text('Categories', style: AppTypography.kBold18),
           SizedBox(height: 10.h),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Wrap(
-              runSpacing: 10.w,
-              spacing: 10.w,
-              children: List.generate(
-                  categoryResponse.length,
+          SizedBox(
+            height: 100.h,
+            width: MediaQuery.sizeOf(context).width,
+            child: Scrollbar(
+              thumbVisibility: true,
+              thickness: 2.w,
+              controller: _categoryScrollController,
+              child: SingleChildScrollView(
+                controller: _categoryScrollController,
+                child: Wrap(
+                  runSpacing: 5.w,
+                  spacing: 10.h,
+                  children: List.generate(
+                      categoryResponse.length,
                       (index) => CategoryChip(
-                      onTap: () {
-                        selectedCategory = index;
-                        setState(() {});
-                      },
-                      text: categoryResponse[index].title,
-                      isSelected: selectedCategory == index)),
+                          onTap: () {
+                            selectedCategory = index;
+                            setState(() {});
+                          },
+                          text: categoryResponse[index].title,
+                          isSelected: selectedCategory == index)),
+                ),
+              ),
             ),
           ),
           SizedBox(height: 20.h),
           Text('Sub Category', style: AppTypography.kBold18),
           SizedBox(height: 10.h),
-          Wrap(
-            runSpacing: 10.w,
-            spacing: 10.w,
-            children: List.generate(
-                subCategoryResponse.length,
-                (index) => CategoryChip(
-                    onTap: () {
-                      selectedSubCategory = index;
-                      setState(() {});
-                    },
-                    text: subCategoryResponse[index].title,
-                    isSelected: selectedSubCategory == index)),
+          SizedBox(
+            height: 100.h,
+            width: MediaQuery.sizeOf(context).width,
+            child: Scrollbar(
+              thumbVisibility: true,
+              thickness: 2.w,
+              controller: _subCategoryScrollController,
+              child: SingleChildScrollView(
+                controller: _subCategoryScrollController,
+                child: Wrap(
+                  runSpacing: 5.w,
+                  spacing: 10.h,
+                  children: List.generate(
+                      subCategoryResponse.length,
+                      (index) => CategoryChip(
+                          onTap: () {
+                            selectedSubCategory = index;
+                            setState(() {});
+                          },
+                          text: subCategoryResponse[index].title,
+                          isSelected: selectedSubCategory == index)),
+                ),
+              ),
+            ),
           ),
-          SizedBox(height: 50.h),
+          SizedBox(height: 30.h),
           PrimaryButton(
-            onTap: () {
-
-            },
+            onTap: () {},
             text: 'Filter',
           ),
           SizedBox(height: 20.h),
@@ -113,7 +148,8 @@ class CustomDivider extends StatelessWidget {
         height: 5.h,
         width: 60.w,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30.r), color: ColorManager.kWhite),
+            borderRadius: BorderRadius.circular(30.r),
+            color: ColorManager.kWhite),
       ),
     );
   }
