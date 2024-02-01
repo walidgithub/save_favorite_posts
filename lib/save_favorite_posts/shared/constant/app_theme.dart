@@ -43,6 +43,31 @@ class AppTheme {
         ),
         hintStyle: AppTypography.kLight14,
       ),
+      dropdownMenuTheme: DropdownMenuThemeData(
+        inputDecorationTheme: InputDecorationTheme(
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: AppConstants.heightBetweenElements,
+            vertical: 16.h,
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: ColorManager.kLine),
+            borderRadius: BorderRadius.circular(AppConstants.radius),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: ColorManager.kLine),
+            borderRadius: BorderRadius.circular(AppConstants.radius),
+          ),
+          border: OutlineInputBorder(
+            borderSide: const BorderSide(color: ColorManager.kLine),
+            borderRadius: BorderRadius.circular(AppConstants.radius),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: ColorManager.kLine),
+            borderRadius: BorderRadius.circular(AppConstants.radius),
+          ),
+          hintStyle: AppTypography.kLight14,
+        )
+      ),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
         backgroundColor: ColorManager.kBackground,
         elevation: 0,

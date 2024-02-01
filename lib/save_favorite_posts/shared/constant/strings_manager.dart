@@ -7,6 +7,9 @@ class AppStrings {
   static const String closeApp  = 'Do you want to close the app?';
   static const String someThingWentWrong = "Some Thing Went Wrong";
   static const readMore = "Read more";
+  static const website = "Website";
+  static const category = "Category";
+  static const subCategory = "SubCategory";
   static const less = " Less";
   static const noSearchResults = " No Search Results";
 
