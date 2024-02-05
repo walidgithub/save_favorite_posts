@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:save_favorite_posts/save_favorite_posts/presentation/router/app_router.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
 
 class ProfileImageCard extends StatelessWidget {
@@ -11,7 +12,7 @@ class ProfileImageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // Get.to(() => const ProfileView());
+        Navigator.pushNamed(context, Routes.profile);
       },
       child: Container(
         height: size ?? 46.h,

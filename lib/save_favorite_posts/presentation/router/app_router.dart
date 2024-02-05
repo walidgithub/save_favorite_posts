@@ -5,21 +5,20 @@ import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/auth/sig
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/auth/sign_up.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/landing/landing_view.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/onboarding/onboarding_view.dart';
+import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/profile/profile_view.dart';
 import '../ui/search/search_view.dart';
 class Routes {
-  static const String homeRoute = "/home";
   static const String onBoarding = "/onBoarding";
   static const String signIn = "/signIn";
   static const String signOut = "/signOut";
   static const String forgotPass = "/forgotPass";
   static const String landing = "/landing";
+  static const String profile = "/profile";
 }
 
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings settings) {
     switch (settings.name) {
-      case Routes.homeRoute:
-        return MaterialPageRoute(builder: (_) => const SearchView());
       case Routes.onBoarding:
         return MaterialPageRoute(builder: (_) => const OnBoardingView());
       case Routes.signIn:
@@ -30,6 +29,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ForgetPassword());
       case Routes.landing:
         return MaterialPageRoute(builder: (_) => const LandingView());
+      case Routes.profile:
+        return MaterialPageRoute(builder: (_) => const ProfileView());
       // case Routes.pdfRoute:
       //   return MaterialPageRoute(builder: (_) => PDFView(arguments: settings.arguments as GoToPage));
       default:

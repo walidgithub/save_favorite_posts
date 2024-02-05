@@ -66,6 +66,7 @@ dependencies:
   image_stack: ^2.1.1
   simple_animations: ^5.0.2
   readmore: ^2.2.0
+  image_picker: ^0.8.9
 
 dev_dependencies:
   flutter_test:

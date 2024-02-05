@@ -1,29 +1,31 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/filter_response.dart';
 
-import '../../../../domain/reposnses/website_response.dart';
 import '../../../../shared/constant/app_typography.dart';
 import '../../../../shared/constant/constant_values_manager.dart';
 import '../../../../shared/constant/strings_manager.dart';
 import '../../../../shared/style/colors_manager.dart';
 
-class WebsiteDropDown extends StatefulWidget {
-  TextEditingController websiteEditingController = TextEditingController();
-  WebsiteResponse? selectedWebSite;
-  List<WebsiteResponse> websiteResponse;
-  WebsiteDropDown(
-      {required this.websiteEditingController,
-      required this.selectedWebSite,
-      required this.websiteResponse,
+class FilterDropDown extends StatefulWidget {
+  TextEditingController filterEditingController = TextEditingController();
+  FilterResponse selectedFilter;
+  List<FilterResponse> filterResponse;
+  String hintText;
+  FilterDropDown(
+      {required this.filterEditingController,
+      required this.selectedFilter,
+      required this.filterResponse,
+      required this.hintText,
       Key? key})
       : super(key: key);
 
   @override
-  State<WebsiteDropDown> createState() => _WebsiteDropDownState();
+  State<FilterDropDown> createState() => _FilterDropDownState();
 }
 
-class _WebsiteDropDownState extends State<WebsiteDropDown> {
+class _FilterDropDownState extends State<FilterDropDown> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,30 +33,25 @@ class _WebsiteDropDownState extends State<WebsiteDropDown> {
         Expanded(
             child: DropdownButton2(
           underline: Container(),
-          value: widget.selectedWebSite,
-          items: widget.websiteResponse.map((item) {
+          value: widget.selectedFilter,
+          items: widget.filterResponse.map((item) {
             return DropdownMenuItem(
-                value: item.title,
+                value: item,
                 child: Row(
                   children: [
                     Container(
-                        constraints: BoxConstraints(maxWidth: 60.w),
-                        child: Text(item.title, style: AppTypography.kBold16)),
+                        constraints: BoxConstraints(maxWidth: 200.w),
+                        child: Text(item.title, style: AppTypography.kExtraLight15.copyWith(color: ColorManager.kSecondary))),
                   ],
                 ));
           }).toList(),
-          onChanged: (selectedCustomer) {
+          onChanged: (selectedFilter) {
             setState(() {
-              // widget.selectedWebSite = selectedCustomer as widget.websiteResponse?;
-              // widget.selectedWebSiteName =
-              // '${selectedCustomer?.firstName} ${selectedCustomer?.lastName}';
-              // widget.selectedWebSiteId = selectedCustomer?.id;
-              // widget.selectedWebSiteTel = selectedCustomer?.mobile;
-              // _selectedPriceGroupId = selectedCustomer?.priceGroupsId ?? 0;
+              widget.selectedFilter = selectedFilter as FilterResponse;
             });
           },
           dropdownSearchData: DropdownSearchData(
-            searchController: widget.websiteEditingController,
+            searchController: widget.filterEditingController,
             searchInnerWidgetHeight: 60,
             searchInnerWidget: Container(
               height: 60,
@@ -62,14 +59,14 @@ class _WebsiteDropDownState extends State<WebsiteDropDown> {
               child: TextField(
                 expands: true,
                 maxLines: null,
-                controller: widget.websiteEditingController,
+                controller: widget.filterEditingController,
                 decoration: InputDecoration(
                   isDense: true,
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: 10,
                     vertical: 8,
                   ),
-                  hintText: AppStrings.website,
+                  hintText: widget.hintText,
                   hintStyle: AppTypography.kExtraLight14,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(AppConstants.radius),
@@ -78,14 +75,14 @@ class _WebsiteDropDownState extends State<WebsiteDropDown> {
               ),
             ),
             searchMatchFn: (item, searchValue) {
-              widget.selectedWebSite = item.value as WebsiteResponse?;
-              var choose = widget.selectedWebSite!.title;
-              return choose.contains(searchValue);
+              widget.selectedFilter = item.value as FilterResponse;
+              var choose = widget.selectedFilter.title.toLowerCase();
+              return choose.contains(searchValue.toLowerCase());
             },
           ),
           onMenuStateChange: (isOpen) {
             if (!isOpen) {
-              widget.websiteEditingController.clear();
+              widget.filterEditingController.clear();
             }
           },
           buttonStyleData: ButtonStyleData(
@@ -101,10 +98,13 @@ class _WebsiteDropDownState extends State<WebsiteDropDown> {
             elevation: 0,
           ),
           dropdownStyleData: DropdownStyleData(
-            maxHeight: 400.h,
+            maxHeight: 300.h,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppConstants.radius),
               color: ColorManager.kBackground,
+              border: Border.all(
+                color: ColorManager.kLine
+              )
             ),
             elevation: 0,
             offset: const Offset(0, 0),
@@ -117,7 +117,7 @@ class _WebsiteDropDownState extends State<WebsiteDropDown> {
           isExpanded: true,
           hint: Row(
             children: [
-              Text(AppStrings.website, style: AppTypography.kExtraLight14),
+              Text(widget.hintText, style: AppTypography.kExtraLight14),
               SizedBox(
                 width: AppConstants.smallWidthBetweenElements,
               )

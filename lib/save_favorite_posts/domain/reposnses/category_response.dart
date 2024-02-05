@@ -1,16 +1,13 @@
-import 'package:equatable/equatable.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/filter_response.dart';
 
-class CategoryResponse extends Equatable {
+class CategoryResponse extends FilterResponse {
   final int id;
   final String title;
 
   const CategoryResponse({
     required this.id,
     required this.title,
-  });
-
-  @override
-  List<Object?> get props => [id, title];
+  }) : super(id: id, title: title);
 }
 
 

@@ -1,16 +1,14 @@
-import 'package:equatable/equatable.dart';
 
-class WebsiteResponse extends Equatable {
+import 'filter_response.dart';
+
+class WebsiteResponse extends FilterResponse {
   final int id;
   final String title;
 
   const WebsiteResponse({
     required this.id,
     required this.title,
-  });
-
-  @override
-  List<Object?> get props => [id, title];
+  }) : super(id: id, title: title);
 }
 
 

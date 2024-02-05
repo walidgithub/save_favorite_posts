@@ -18,4 +18,6 @@ class AssetsManager {
   static const String filter = '$imagePath/filter.svg';
   static String deleteImg = '$imagePath/delete.svg';
   static String goImg = '$imagePath/go.svg';
+  static String logOutImg = '$imagePath/logout.svg';
+  static String camera = '$imagePath/camera.svg';
 }
