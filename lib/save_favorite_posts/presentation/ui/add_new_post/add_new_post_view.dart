@@ -46,8 +46,8 @@ class _AddNewPostViewState extends State<AddNewPostView> {
             children: [
               SizedBox(height: 20.h),
               const HeadingRichText(
-                text1: 'External\n',
-                text2: 'Add new post',
+                text1: '${AppStrings.external}\n',
+                text2: AppStrings.addNewPost,
               ),
               SizedBox(height: 28.h),
               Expanded(child: _buildBody()),
@@ -72,9 +72,9 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                 controller: postLinkController,
                 decoration: InputDecoration(
                     // hintText: '${list?.join("\n\n")}',
-                    hintText: 'link',
+                    hintText: AppStrings.link,
                     hintStyle: TextStyle(fontSize: 15.sp),
-                    labelText: 'post link',
+                    labelText: AppStrings.postLink,
                     labelStyle:
                         TextStyle(fontSize: 15.sp, color: ColorManager.kPrimary),
                     border: InputBorder.none)),
@@ -124,7 +124,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                   contentPadding: const EdgeInsets.all(15),
-                  labelText: 'Description',
+                  labelText: AppStrings.description,
                   alignLabelWithHint: true,
                   labelStyle:
                       TextStyle(fontSize: 15.sp, color: ColorManager.kPrimary),
@@ -140,7 +140,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                   hideLoading();
                   // Navigator.of(context).pushReplacementNamed(Routes.landing);
                 },
-                text: 'Save'),
+                text: AppStrings.save),
           ],
         ),
       ),

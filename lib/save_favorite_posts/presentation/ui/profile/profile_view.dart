@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/profile/profile_account_view.dart';
+import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import '../../../shared/constant/app_typography.dart';
 import '../../../shared/services/image_picker.dart';
 import '../../../shared/style/colors_manager.dart';
@@ -46,7 +47,7 @@ class _ProfileViewState extends State<ProfileView> {
                 ),
                 SizedBox(height: 10.h),
                 Center(
-                  child: Text('Welcome To',
+                  child: Text(AppStrings.welcomeTo,
                       style: AppTypography.kExtraLight18
                           .copyWith(color: ColorManager.kSecondary)),
                 ),

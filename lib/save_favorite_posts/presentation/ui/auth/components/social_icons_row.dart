@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/auth/components/social_icons.dart';
+import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 
 import '../../../../shared/constant/app_typography.dart';
@@ -30,7 +31,7 @@ class SocialIconRow extends StatelessWidget {
                     ),
                     SizedBox(width: 14.w),
                     Text(
-                      'with Google',
+                      AppStrings.withGoogle,
                       style: AppTypography.kExtraLight14
                           .copyWith(color: ColorManager.kSecondary),
                     )

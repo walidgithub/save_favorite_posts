@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
+import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 import '../add_new_post/add_new_post_view.dart';
 import '../search/search_view.dart';
@@ -39,12 +40,12 @@ class _SearchViewState extends State<LandingView> {
           items: [
             BottomNavigationBarItem(
               icon: SvgPicture.asset(AssetsManager.home),
-              label: 'Home',
+              label: AppStrings.home,
               activeIcon: SvgPicture.asset(AssetsManager.homeSelected),
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(AssetsManager.addNew),
-              label: 'Add New',
+              label: AppStrings.addNew,
               activeIcon: SvgPicture.asset(AssetsManager.addNewSelected),
             ),
           ],

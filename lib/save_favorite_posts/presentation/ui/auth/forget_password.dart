@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
+import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 
 import '../../../shared/constant/app_typography.dart';
@@ -30,11 +31,11 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               SizedBox(height: 80.h),
               Center(child: Image.asset(AssetsManager.logo)),
               SizedBox(height: 30.h),
-              Text('Forget Password',
+              Text(AppStrings.forgetPassword,
                   style: AppTypography.kBold30
                       .copyWith(color: ColorManager.kSecondary)),
               Text(
-                'We will send the code to your phone',
+                AppStrings.weWillSendTheCodeToYourPhone,
                 style: AppTypography.kLight14
                     .copyWith(color: ColorManager.kSecondary),
               ),
@@ -44,10 +45,10 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 keyboardType: TextInputType.number,
                 inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 isPhone: true,
-                hintText: 'Phone Number',
+                hintText: AppStrings.phoneNumber,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Please enter your phone number';
+                    return AppStrings.enterYourPhoneNumber;
                   }
                   return null;
                 },
@@ -59,7 +60,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                       // Get.to(() => const VerificationCode());
                     }
                   },
-                  text: 'Send')
+                  text: AppStrings.send)
             ],
           ),
         ),

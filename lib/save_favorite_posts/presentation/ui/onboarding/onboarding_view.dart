@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 
 import '../../../../core/utils/functions.dart';
 import '../../../domain/entities/onboarding.dart';
@@ -70,8 +71,8 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                     }
                   },
                   text: currentIndex == (onBoardingList.length - 1)
-                      ? 'Get Started'
-                      : 'Next',
+                      ? AppStrings.getStarted
+                      : AppStrings.next,
                 ),
                 SizedBox(height: AppConstants.heightBetweenElements),
               ],

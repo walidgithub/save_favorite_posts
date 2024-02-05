@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
+import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 
 import '../../../../core/preferences/app_pref.dart';
@@ -66,20 +67,20 @@ class _SignInViewState extends State<SignInView> {
                   SizedBox(height: 80.h),
                   Center(child: Image.asset(AssetsManager.logo,width: 100.w,)),
                   SizedBox(height: 30.h),
-                  Text('Sign In',
+                  Text(AppStrings.signIn,
                       style: AppTypography.kBold30
                           .copyWith(color: ColorManager.kSecondary)),
                   SizedBox(height: 24.h),
                   SocialIconRow(
                     facebookCallback: () {
-                      debugPrint('Facebook');
+
                     },
                     googleCallback: () {
-                      debugPrint('Google');
+
                     },
                   ),
                   SizedBox(height: 30.h),
-                  Text('Or with Email', style: AppTypography.kLight14),
+                  Text(AppStrings.orWithEmail, style: AppTypography.kLight14),
                   SizedBox(height: 23.h),
                   AuthField(
                     controller: _emailController,
@@ -89,29 +90,29 @@ class _SignInViewState extends State<SignInView> {
                       setState(() {});
                       isEmailCorrect = validateEmail(value);
                     },
-                    hintText: 'Your Email',
+                    hintText: AppStrings.yourEmail,
                     validator: (value) {
                       if (!validateEmail(value!)) {
-                        return 'Please enter a valid email address';
+                        return AppStrings.enterValidEmailAddress;
                       }
                       return null;
                     },
                   ),
                   SizedBox(height: AppConstants.heightBetweenElements),
                   AuthField(
-                    hintText: 'Your Password',
+                    hintText: AppStrings.yourEmail,
                     controller: _passwordController,
                     keyboardType: TextInputType.visiblePassword,
                     isForgetButton: true,
                     isPasswordField: true,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter your password';
+                        return AppStrings.enterYourPassword;
                       } else if (value.length < 6) {
-                        return 'Password should be at least 6 characters';
+                        return AppStrings.passShouldBeSixCharacters;
                       } else if (!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$')
                           .hasMatch(value)) {
-                        return 'Password should contain at least one uppercase letter, one lowercase letter, and one digit';
+                        return AppStrings.passDigits;
                       }
                       return null;
                     },
@@ -123,7 +124,7 @@ class _SignInViewState extends State<SignInView> {
                       onPressed: () {
                         Navigator.of(context).pushNamed(Routes.forgotPass);
                       },
-                      text: 'Forgot password?',
+                      text: AppStrings.forgetPasswordQ,
                       color: ColorManager.kPrimary,
                     ),
                   ),
@@ -137,12 +138,12 @@ class _SignInViewState extends State<SignInView> {
                           Navigator.of(context).pushReplacementNamed(Routes.landing);
                         }
                       },
-                      text: 'Sign In'),
+                      text: AppStrings.signIn),
                   SizedBox(height: 20.h),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('New User?',
+                      Text(AppStrings.newUser,
                           style: AppTypography.kLight14.copyWith(
                             color: ColorManager.kSecondary,
                           )),
@@ -150,7 +151,7 @@ class _SignInViewState extends State<SignInView> {
                         onPressed: () {
                           Navigator.of(context).pushNamed(Routes.signOut);
                         },
-                        text: 'Sign Up',
+                        text: AppStrings.signUp,
                       )
                     ],
                   )
