@@ -6,16 +6,16 @@ import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../domain/reposnses/search_results_response.dart';
+import '../../../../domain/reposnses/favorite_posts_response.dart';
 import '../../../../shared/constant/app_typography.dart';
 import '../../../../shared/constant/assets_manager.dart';
 import '../../../../shared/constant/strings_manager.dart';
 import '../../../ui_components/buttons/custom_icon_button.dart';
 
 class SearchCard extends StatefulWidget {
-  final SearchResultResponse searchResultResponse;
+  final PostsReponse postsResponse;
   final int index;
-  const SearchCard({super.key, required this.searchResultResponse, required this.index});
+  const SearchCard({super.key, required this.postsResponse, required this.index});
 
   @override
   State<SearchCard> createState() => _SearchCardState();
@@ -40,7 +40,7 @@ class _SearchCardState extends State<SearchCard> {
                 Text('${widget.index + 1}',
                     style: AppTypography.kBold14),
                 SizedBox(height: AppConstants.smallHeightBetweenElements,),
-                Text(widget.searchResultResponse.website,
+                Text(widget.postsResponse.website,
                     style: AppTypography.kExtraLight15),
               ],
             ),
@@ -49,12 +49,12 @@ class _SearchCardState extends State<SearchCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.searchResultResponse.category,
+                  Text(widget.postsResponse.category,
                       style: AppTypography.kExtraLight18),
                   Row(
                     children: [
                       Text(
-                        widget.searchResultResponse.subCategory,
+                        widget.postsResponse.subCategory,
                         style: AppTypography.kMedium14
                             .copyWith(color: ColorManager.kLightBrown),
                       ),
@@ -65,7 +65,7 @@ class _SearchCardState extends State<SearchCard> {
                     height: AppConstants.smallHeightBetweenElements,
                   ),
                   ReadMoreText(
-                    widget.searchResultResponse.description,
+                    widget.postsResponse.description,
                     style: AppTypography.kLight14,
                     trimLines: 3,
                     colorClickableText: ColorManager.kOrange,
@@ -83,7 +83,7 @@ class _SearchCardState extends State<SearchCard> {
                   alignment: Alignment.bottomRight,
                   child: CustomIconButton(
                     onTap: () {
-                      _launchURL(widget.searchResultResponse.link,context);
+                      _launchURL(widget.postsResponse.link,context);
                     },
                     icon: AssetsManager.goImg,
                   ),
@@ -91,10 +91,10 @@ class _SearchCardState extends State<SearchCard> {
                 Checkbox(
                   checkColor: ColorManager.kWhite,
                   activeColor: ColorManager.kPrimary,
-                  value: widget.searchResultResponse.seen == 1 ? true : false,
+                  value: widget.postsResponse.seen == 1 ? true : false,
                   onChanged: (bool? value) {
                     setState(() {
-                      // widget.searchResultResponse.seen = value!;
+                      // widget.postsResponse.seen = value!;
                     });
                   },
                 )

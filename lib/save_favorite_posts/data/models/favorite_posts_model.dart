@@ -1,51 +1,28 @@
 
+import '../../domain/reposnses/favorite_posts_response.dart';
 
-import '../../domain/entities/favorite_posts_entities.dart';
-import '../../domain/reposnses/test_response.dart';
-import '../../domain/requests/test_request.dart';
-
-class TestEntityModel extends TestEntity {
-  const TestEntityModel({
+class FavoritePostsModel extends PostsReponse {
+  const FavoritePostsModel({
     required super.id,
-    required super.title,
+    required super.category,
+    required super.subCategory,
+    required super.website,
+    required super.seen,
+    required super.description,
+    required super.link,
+    required super.user,
   });
 
-  factory TestEntityModel.fromJson(Map<String, dynamic> json) {
-    return TestEntityModel(
+  factory FavoritePostsModel.fromJson(Map<String, dynamic> json) {
+    return FavoritePostsModel(
       id: (json['id'] as num).toInt(),
-      title: json['title'],
+      category: json['category'],
+      subCategory: json['subCategory'],
+      website: json['website'],
+      seen: json['seen'],
+      description: json['description'],
+      link: json['link'],
+      user: json['user'],
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-    };
-  }
-}
-
-class TestResponseModel extends TestResponse {
-  TestResponseModel({
-    required super.id,
-    required super.title,
-  });
-
-  factory TestResponseModel.fromJson(Map<String, dynamic> json) {
-    return TestResponseModel(id: json['id'], title: json['title']);
-  }
-}
-
-class TestRequestModel extends TestRequest {
-  const TestRequestModel({
-    required super.id,
-    required super.title,
-  });
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-    };
   }
 }

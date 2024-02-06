@@ -6,8 +6,22 @@ import '../../../core/preferences/app_pref.dart';
 import '../../data/datasource/favorite_posts_remote_datasource.dart';
 import '../../data/repository/favorite_posts_repository.dart';
 import '../../domain/repository/base_repository.dart';
-import '../../domain/usecases/favorite_posts_usecases.dart';
-import '../../domain/usecases/favorite_posts_with_parmater_usecases.dart';
+import '../../domain/usecases/get_all_posts_usecases.dart';
+import '../../domain/usecases/get_posts_by_category_n_subcategory_n_website_usecase.dart';
+import '../../domain/usecases/get_posts_by_category_n_subcategory_usecase.dart';
+import '../../domain/usecases/get_posts_by_category_n_website_usecase.dart';
+import '../../domain/usecases/get_posts_by_category_usecase.dart';
+import '../../domain/usecases/get_posts_by_desc_n_category_n_subcategory_n_website_usecases.dart';
+import '../../domain/usecases/get_posts_by_desc_n_category_n_subcategory_usecase.dart';
+import '../../domain/usecases/get_posts_by_desc_n_category_n_website_usecase.dart';
+import '../../domain/usecases/get_posts_by_desc_n_category_usecase.dart';
+import '../../domain/usecases/get_posts_by_desc_n_subcategory_n_website_usecase.dart';
+import '../../domain/usecases/get_posts_by_desc_n_subcategory_usecase.dart';
+import '../../domain/usecases/get_posts_by_desc_n_website_usecase.dart';
+import '../../domain/usecases/get_posts_by_desc_usecase.dart';
+import '../../domain/usecases/get_posts_by_subcategory_n_website_usecase.dart';
+import '../../domain/usecases/get_posts_by_subcategory_usecase.dart';
+import '../../domain/usecases/get_posts_by_website_usecase.dart';
 import '../ui/bloc/home_bloc/home_bloc.dart';
 final sl = GetIt.instance;
 
@@ -29,19 +43,62 @@ class ServiceLocator {
     sl.registerFactory(() => HomeBloc(sl(), sl()));
 
     // Use Cases
-    sl.registerLazySingleton<GetPostsUseCase>(
-            () => GetPostsUseCase(sl()));
+    sl.registerLazySingleton<GetAllPostsUseCase>(
+            () => GetAllPostsUseCase(sl()));
 
-    sl.registerLazySingleton<GetPostsWithParameterUseCase>(
-            () => GetPostsWithParameterUseCase(sl()));
+    sl.registerLazySingleton<GetPostsByCategoryNSubCategoryNWebsiteUseCase>(
+            () => GetPostsByCategoryNSubCategoryNWebsiteUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsByCategoryNSubCategoryUseCase>(
+            () => GetPostsByCategoryNSubCategoryUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsByCategoryNWebsiteUseCase>(
+            () => GetPostsByCategoryNWebsiteUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsByCategoryUseCase>(
+            () => GetPostsByCategoryUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsByDescNCategoryNSubCategoryNWebsiteUseCase>(
+            () => GetPostsByDescNCategoryNSubCategoryNWebsiteUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsByDescNCategoryNSubCategoryUseCase>(
+            () => GetPostsByDescNCategoryNSubCategoryUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsByDescNCategoryNWebsiteUseCase>(
+            () => GetPostsByDescNCategoryNWebsiteUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsByDescNCategoryUseCase>(
+            () => GetPostsByDescNCategoryUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsByDescNSubCategoryNWebsiteUseCase>(
+            () => GetPostsByDescNSubCategoryNWebsiteUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsByDescNSubCategoryUseCase>(
+            () => GetPostsByDescNSubCategoryUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsByDesNWebsiteUseCase>(
+            () => GetPostsByDesNWebsiteUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsByDescUseCase>(
+            () => GetPostsByDescUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsBySubCategoryNWebsiteUseCase>(
+            () => GetPostsBySubCategoryNWebsiteUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsBySubCategoryUseCase>(
+            () => GetPostsBySubCategoryUseCase(sl()));
+
+    sl.registerLazySingleton<GetPostsByWebsiteUseCase>(
+            () => GetPostsByWebsiteUseCase(sl()));
+
 
     // Repositories
     sl.registerLazySingleton<BaseRepository>(
-            () => TestRepository(sl(), sl()));
+            () => PostsRepository(sl(), sl()));
 
     // Remote DataSource
     sl.registerLazySingleton<BaseRemoteDataSource>(
-            () => FavoritePostsRemoteDataSource(sl()));
+            () => PostsRemoteDataSource(sl()));
 
   }
 }

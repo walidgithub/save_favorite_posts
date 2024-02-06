@@ -1,28 +1,28 @@
 part of 'home_bloc.dart';
 
 class HomeState extends Equatable {
-  final List<TestResponse> testList;
-  final RequestState testState;
-  final String testMessage;
+  final List<PostsReponse> postsList;
+  final RequestState postsState;
+  final String postsMessage;
 
   const HomeState({
-    this.testList = const [],
-    this.testState = RequestState.loading,
-    this.testMessage = '',
+    this.postsList = const [],
+    this.postsState = RequestState.loading,
+    this.postsMessage = '',
   });
 
   HomeState copyWith({
-    List<TestResponse>? testList,
-    RequestState? testState,
-    String? testMessage,
+    List<PostsReponse>? postsList,
+    RequestState? postsState,
+    String? postsMessage,
   }) {
     return HomeState(
-      testList: testList ?? this.testList,
-      testState: testState ?? this.testState,
-      testMessage: testMessage ?? this.testMessage,
+      postsList: postsList ?? this.postsList,
+      postsState: postsState ?? this.postsState,
+      postsMessage: postsMessage ?? this.postsMessage,
     );
   }
 
   @override
-  List<Object?> get props => [testList, testState, testMessage];
+  List<Object?> get props => [postsList, postsState, postsMessage];
 }

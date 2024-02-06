@@ -31,7 +31,7 @@ class AppStrings {
   static const subCategories = "Sub Categories";
   static const filter = "Filter";
   static const searchForPosts = "Search for posts";
-  static const search = "Search";
+  static const search = "Search by description";
   static const logout = "Logout";
   static const youCan = "You can";
   static const loading = "loading...";

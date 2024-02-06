@@ -5,7 +5,7 @@ import 'package:save_favorite_posts/save_favorite_posts/presentation/ui_componen
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
-import '../../../domain/reposnses/search_results_response.dart';
+import '../../../domain/reposnses/favorite_posts_response.dart';
 import '../../../shared/constant/strings_manager.dart';
 import '../../ui_components/buttons/custom_icon_button.dart';
 import '../../ui_components/texts/heading_rich_text.dart';
@@ -141,10 +141,10 @@ class _SearchViewState extends State<SearchView> {
   }
   Widget _buildBody() {
     return SingleChildScrollView(
-      child: searchResultResponse.isNotEmpty ?
+      child: postsResponse.isNotEmpty ?
       AnimationLimiter(
         child: ListView.separated(
-          itemCount: searchResultResponse.length,
+          itemCount: postsResponse.length,
           separatorBuilder: (context, index) =>
               SizedBox(height: 15.h),
           shrinkWrap: true,
@@ -158,7 +158,7 @@ class _SearchViewState extends State<SearchView> {
                 child: FadeInAnimation(
                   child: SearchResultView(
                     index:index,
-                    searchResultResponse: searchResultResponse[index],
+                    postsResponse: postsResponse[index],
                     removeCallback: () {
                       // fc.removeFromFavorites(fc.favorite![index]);
                     },
