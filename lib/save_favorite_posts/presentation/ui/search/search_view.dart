@@ -84,8 +84,8 @@ class _SearchViewState extends State<SearchView> {
             children: [
               SizedBox(height: 20.h),
               const HeadingRichText(
-                text1: 'You can\n',
-                text2: 'Search for posts',
+                text1: '${AppStrings.youCan}\n',
+                text2: AppStrings.searchForPosts,
               ),
               SizedBox(height: 28.h),
               Row(

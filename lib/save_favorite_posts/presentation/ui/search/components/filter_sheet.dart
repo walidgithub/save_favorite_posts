@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/category_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_category_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website_response.dart';
+import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 import '../../../../shared/constant/app_typography.dart';
 import '../../../ui_components/buttons/primary_button.dart';
@@ -38,12 +39,12 @@ class _FilterSheetState extends State<FilterSheet> {
           const CustomDivider(),
           SizedBox(height: 20.h),
           Center(
-            child: Text('Filters',
+            child: Text(AppStrings.filters,
                 style: AppTypography.kBold24
                     .copyWith(color: ColorManager.kSecondary)),
           ),
           SizedBox(height: 13.h),
-          Text('Websites', style: AppTypography.kBold18),
+          Text(AppStrings.websites, style: AppTypography.kBold18),
           SizedBox(height: 10.h),
           SizedBox(
             height: 100.h,
@@ -71,7 +72,7 @@ class _FilterSheetState extends State<FilterSheet> {
             ),
           ),
           SizedBox(height: 20.h),
-          Text('Categories', style: AppTypography.kBold18),
+          Text(AppStrings.categories, style: AppTypography.kBold18),
           SizedBox(height: 10.h),
           SizedBox(
             height: 100.h,
@@ -99,7 +100,7 @@ class _FilterSheetState extends State<FilterSheet> {
             ),
           ),
           SizedBox(height: 20.h),
-          Text('Sub Category', style: AppTypography.kBold18),
+          Text(AppStrings.subCategories, style: AppTypography.kBold18),
           SizedBox(height: 10.h),
           SizedBox(
             height: 100.h,
@@ -129,7 +130,7 @@ class _FilterSheetState extends State<FilterSheet> {
           SizedBox(height: 30.h),
           PrimaryButton(
             onTap: () {},
-            text: 'Filter',
+            text: AppStrings.filter,
           ),
           SizedBox(height: 20.h),
         ],

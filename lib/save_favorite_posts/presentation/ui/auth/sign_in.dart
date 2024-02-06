@@ -100,7 +100,7 @@ class _SignInViewState extends State<SignInView> {
                   ),
                   SizedBox(height: AppConstants.heightBetweenElements),
                   AuthField(
-                    hintText: AppStrings.yourEmail,
+                    hintText: AppStrings.yourPassword,
                     controller: _passwordController,
                     keyboardType: TextInputType.visiblePassword,
                     isForgetButton: true,

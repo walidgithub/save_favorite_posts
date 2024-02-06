@@ -76,7 +76,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                     hintStyle: TextStyle(fontSize: 15.sp),
                     labelText: AppStrings.postLink,
                     labelStyle:
-                        TextStyle(fontSize: 15.sp, color: ColorManager.kPrimary),
+                        TextStyle(fontSize: 15.sp, color: ColorManager.kSecondary),
                     border: InputBorder.none)),
             SizedBox(
               height: 20.h,
@@ -127,7 +127,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                   labelText: AppStrings.description,
                   alignLabelWithHint: true,
                   labelStyle:
-                      TextStyle(fontSize: 15.sp, color: ColorManager.kPrimary),
+                      TextStyle(fontSize: 15.sp, color: ColorManager.kSecondary),
                   border: InputBorder.none),
             ),
             SizedBox(

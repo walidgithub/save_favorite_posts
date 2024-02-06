@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import '../../../shared/constant/app_typography.dart';
 
 class LogoutDialog extends StatelessWidget {
@@ -20,12 +21,12 @@ class LogoutDialog extends StatelessWidget {
         children: [
           SizedBox(height: 20.h),
           Text(
-            'Logout confirmation',
+            AppStrings.logoutConfirmation,
             style: AppTypography.kBold18,
           ),
           SizedBox(height: 10.h),
           Text(
-            'Would you like to log out and return to the login screen?',
+            AppStrings.askToLogout,
             style: AppTypography.kExtraLight14,
             textAlign: TextAlign.center,
           ),
@@ -47,7 +48,7 @@ class LogoutDialog extends StatelessWidget {
                       height: 50.0.h,
                       alignment: Alignment.center,
                       child: Text(
-                        'Cancel',
+                        AppStrings.cancel,
                         style: AppTypography.kBold16,
                       ),
                     ),
@@ -68,7 +69,7 @@ class LogoutDialog extends StatelessWidget {
                       height: 50.01.h,
                       alignment: Alignment.center,
                       child: Text(
-                        'Logout',
+                        AppStrings.logout,
                         style:
                             AppTypography.kBold16.copyWith(color: Colors.red),
                       ),

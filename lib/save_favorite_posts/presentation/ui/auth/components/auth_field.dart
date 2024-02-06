@@ -51,6 +51,7 @@ class _AuthFieldState extends State<AuthField> {
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
           hintText: widget.hintText,
+          hintStyle: TextStyle(fontSize: 15.sp),
           errorMaxLines: 2,
           suffixIcon: widget.isPasswordField
                   ? IconButton(
