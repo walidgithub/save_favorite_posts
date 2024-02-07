@@ -1,15 +1,15 @@
-part of 'home_bloc.dart';
+part of 'search_bloc.dart';
 
-abstract class HomeEvent extends Equatable {
-  const HomeEvent();
+abstract class SearchEvent extends Equatable {
+  const SearchEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class GetAllPostsEvent extends HomeEvent {}
+class GetAllPostsEvent extends SearchEvent {}
 
-class GetPostsByWebsiteEvent extends HomeEvent {
+class GetPostsByWebsiteEvent extends SearchEvent {
   final PostsByWebsiteRequest postsByWebsiteRequest;
 
   const GetPostsByWebsiteEvent(this.postsByWebsiteRequest);
@@ -17,7 +17,7 @@ class GetPostsByWebsiteEvent extends HomeEvent {
   List<Object> get props => [postsByWebsiteRequest];
 }
 
-class GetPostsBySubCategoryEvent extends HomeEvent {
+class GetPostsBySubCategoryEvent extends SearchEvent {
   final PostsBySubCategoryRequest postsBySubCategoryRequest;
 
   const GetPostsBySubCategoryEvent(this.postsBySubCategoryRequest);
@@ -25,7 +25,7 @@ class GetPostsBySubCategoryEvent extends HomeEvent {
   List<Object> get props => [postsBySubCategoryRequest];
 }
 
-class GetPostsBySubCategoryNWebsiteEvent extends HomeEvent {
+class GetPostsBySubCategoryNWebsiteEvent extends SearchEvent {
   final PostsBySubCategoryNWebsiteRequest postsBySubCategoryNWebsiteRequest;
 
   const GetPostsBySubCategoryNWebsiteEvent(this.postsBySubCategoryNWebsiteRequest);
@@ -33,7 +33,7 @@ class GetPostsBySubCategoryNWebsiteEvent extends HomeEvent {
   List<Object> get props => [postsBySubCategoryNWebsiteRequest];
 }
 
-class GetPostsByDescEvent extends HomeEvent {
+class GetPostsByDescEvent extends SearchEvent {
   final PostsByDescRequest postsByDescRequest;
 
   const GetPostsByDescEvent(this.postsByDescRequest);
@@ -41,7 +41,7 @@ class GetPostsByDescEvent extends HomeEvent {
   List<Object> get props => [postsByDescRequest];
 }
 
-class GetPostsByDesNWebsiteEvent extends HomeEvent {
+class GetPostsByDesNWebsiteEvent extends SearchEvent {
   final PostsByDesNWebsiteRequest postsByDesNWebsiteRequest;
 
   const GetPostsByDesNWebsiteEvent(this.postsByDesNWebsiteRequest);
@@ -49,7 +49,7 @@ class GetPostsByDesNWebsiteEvent extends HomeEvent {
   List<Object> get props => [postsByDesNWebsiteRequest];
 }
 
-class GetPostsByDescNSubCategoryEvent extends HomeEvent {
+class GetPostsByDescNSubCategoryEvent extends SearchEvent {
   final PostsByDescNSubCategoryRequest postsByDescNSubCategoryRequest;
 
   const GetPostsByDescNSubCategoryEvent(this.postsByDescNSubCategoryRequest);
@@ -57,7 +57,7 @@ class GetPostsByDescNSubCategoryEvent extends HomeEvent {
   List<Object> get props => [postsByDescNSubCategoryRequest];
 }
 
-class GetPostsByDescNSubCategoryNWebsiteEvent extends HomeEvent {
+class GetPostsByDescNSubCategoryNWebsiteEvent extends SearchEvent {
   final PostsByDescNSubCategoryNWebsiteRequest postsByDescNSubCategoryNWebsiteRequest;
 
   const GetPostsByDescNSubCategoryNWebsiteEvent(this.postsByDescNSubCategoryNWebsiteRequest);
@@ -65,7 +65,7 @@ class GetPostsByDescNSubCategoryNWebsiteEvent extends HomeEvent {
   List<Object> get props => [postsByDescNSubCategoryNWebsiteRequest];
 }
 
-class GetPostsByDescNCategoryEvent extends HomeEvent {
+class GetPostsByDescNCategoryEvent extends SearchEvent {
   final PostsByDescNCategoryRequest postsByDescNCategoryRequest;
 
   const GetPostsByDescNCategoryEvent(this.postsByDescNCategoryRequest);
@@ -73,7 +73,7 @@ class GetPostsByDescNCategoryEvent extends HomeEvent {
   List<Object> get props => [postsByDescNCategoryRequest];
 }
 
-class GetPostsByDescNCategoryNWebsiteEvent extends HomeEvent {
+class GetPostsByDescNCategoryNWebsiteEvent extends SearchEvent {
   final PostsByDescNCategoryNWebsiteRequest postsByDescNCategoryNWebsiteRequest;
 
   const GetPostsByDescNCategoryNWebsiteEvent(this.postsByDescNCategoryNWebsiteRequest);
@@ -81,7 +81,7 @@ class GetPostsByDescNCategoryNWebsiteEvent extends HomeEvent {
   List<Object> get props => [postsByDescNCategoryNWebsiteRequest];
 }
 
-class GetPostsByDescNCategoryNSubCategoryEvent extends HomeEvent {
+class GetPostsByDescNCategoryNSubCategoryEvent extends SearchEvent {
   final PostsByDescNCategoryNSubCategoryRequest postsByDescNCategoryNSubCategoryRequest;
 
   const GetPostsByDescNCategoryNSubCategoryEvent(this.postsByDescNCategoryNSubCategoryRequest);
@@ -89,7 +89,7 @@ class GetPostsByDescNCategoryNSubCategoryEvent extends HomeEvent {
   List<Object> get props => [postsByDescNCategoryNSubCategoryRequest];
 }
 
-class GetPostsByDescNCategoryNSubCategoryNWebsiteEvent extends HomeEvent {
+class GetPostsByDescNCategoryNSubCategoryNWebsiteEvent extends SearchEvent {
   final PostsByDescNCategoryNSubCategoryNWebsiteRequest postsByDescNCategoryNSubCategoryNWebsiteRequest;
 
   const GetPostsByDescNCategoryNSubCategoryNWebsiteEvent(this.postsByDescNCategoryNSubCategoryNWebsiteRequest);
@@ -97,7 +97,7 @@ class GetPostsByDescNCategoryNSubCategoryNWebsiteEvent extends HomeEvent {
   List<Object> get props => [postsByDescNCategoryNSubCategoryNWebsiteRequest];
 }
 
-class GetPostsByCategoryEvent extends HomeEvent {
+class GetPostsByCategoryEvent extends SearchEvent {
   final PostsByCategoryRequest postsByCategoryRequest;
 
   const GetPostsByCategoryEvent(this.postsByCategoryRequest);
@@ -105,7 +105,7 @@ class GetPostsByCategoryEvent extends HomeEvent {
   List<Object> get props => [postsByCategoryRequest];
 }
 
-class GetPostsByCategoryNWebsiteEvent extends HomeEvent {
+class GetPostsByCategoryNWebsiteEvent extends SearchEvent {
   final PostsByCategoryNWebsiteRequest postsByCategoryNWebsiteRequest;
 
   const GetPostsByCategoryNWebsiteEvent(this.postsByCategoryNWebsiteRequest);
@@ -113,7 +113,7 @@ class GetPostsByCategoryNWebsiteEvent extends HomeEvent {
   List<Object> get props => [postsByCategoryNWebsiteRequest];
 }
 
-class GetPostsByCategoryNSubCategoryEvent extends HomeEvent {
+class GetPostsByCategoryNSubCategoryEvent extends SearchEvent {
   final PostsByCategoryNSubCategoryRequest postsByCategoryNSubCategoryRequest;
 
   const GetPostsByCategoryNSubCategoryEvent(this.postsByCategoryNSubCategoryRequest);
@@ -121,7 +121,7 @@ class GetPostsByCategoryNSubCategoryEvent extends HomeEvent {
   List<Object> get props => [postsByCategoryNSubCategoryRequest];
 }
 
-class GetPostsByCategoryNSubCategoryNWebsiteEvent extends HomeEvent {
+class GetPostsByCategoryNSubCategoryNWebsiteEvent extends SearchEvent {
   final PostsByCategoryNSubCategoryNWebsiteRequest postsByCategoryNSubCategoryNWebsiteRequest;
 
   const GetPostsByCategoryNSubCategoryNWebsiteEvent(this.postsByCategoryNSubCategoryNWebsiteRequest);

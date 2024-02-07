@@ -13,4 +13,5 @@ class ColorManager{
   static const Color kLightPink = Color(0xFFF5D3BB);
   static const Color kLightPink2 = Color(0xFFFFE2CD);
   static const Color kLightBrown = Color(0xFF73665C);
+  static const Color kTransparent = Colors.transparent;
 }

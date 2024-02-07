@@ -17,9 +17,9 @@ import '../../../core/error/error_handler.dart';
 import '../../../core/error/failure.dart';
 import '../../../core/network/network_info.dart';
 import '../../domain/repository/base_repository.dart';
-import '../../domain/reposnses/favorite_posts_response.dart';
+import '../../domain/reposnses/posts_response.dart';
 import '../../domain/requests/posts_by_desc_n_category_n_subcategory_n_website_request.dart';
-import '../datasource/favorite_posts_remote_datasource.dart';
+import '../datasource/posts_remote_datasource.dart';
 
 class PostsRepository extends BaseRepository {
   final BaseRemoteDataSource _baseRemoteDataSource;

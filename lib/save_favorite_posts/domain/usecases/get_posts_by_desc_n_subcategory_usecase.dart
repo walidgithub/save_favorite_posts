@@ -2,7 +2,7 @@ import '../repository/base_repository.dart';
 import 'base_usecase/base_usecase.dart';
 import 'package:dartz/dartz.dart';
 import '../../../core/error/failure.dart';
-import '../reposnses/favorite_posts_response.dart';
+import '../reposnses/posts_response.dart';
 
 class GetPostsByDescNSubCategoryUseCase extends BaseUsecase {
   final BaseRepository baseRepository;

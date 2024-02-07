@@ -1,22 +1,22 @@
-part of 'home_bloc.dart';
+part of 'search_bloc.dart';
 
-class HomeState extends Equatable {
+class SearchState extends Equatable {
   final List<PostsReponse> postsList;
   final RequestState postsState;
   final String postsMessage;
 
-  const HomeState({
+  const SearchState({
     this.postsList = const [],
     this.postsState = RequestState.loading,
     this.postsMessage = '',
   });
 
-  HomeState copyWith({
+  SearchState copyWith({
     List<PostsReponse>? postsList,
     RequestState? postsState,
     String? postsMessage,
   }) {
-    return HomeState(
+    return SearchState(
       postsList: postsList ?? this.postsList,
       postsState: postsState ?? this.postsState,
       postsMessage: postsMessage ?? this.postsMessage,

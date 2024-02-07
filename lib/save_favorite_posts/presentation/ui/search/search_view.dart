@@ -5,7 +5,7 @@ import 'package:save_favorite_posts/save_favorite_posts/presentation/ui_componen
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
-import '../../../domain/reposnses/favorite_posts_response.dart';
+import '../../../domain/reposnses/posts_response.dart';
 import '../../../shared/constant/strings_manager.dart';
 import '../../ui_components/buttons/custom_icon_button.dart';
 import '../../ui_components/texts/heading_rich_text.dart';
@@ -26,7 +26,7 @@ class _SearchViewState extends State<SearchView> {
   final FocusNode _searchFocusNode = FocusNode();
 
   int currentPage = 0;
-  int totalPages = 10;
+  int totalPages = 2;
   List<int> middlePages = [];
 
   @override
@@ -122,17 +122,21 @@ class _SearchViewState extends State<SearchView> {
               SizedBox(height: 30.h),
               Expanded(child: _buildBody()),
               SizedBox(height: AppConstants.smallHeightBetweenElements,),
-              DottedDivider(
-                color: ColorManager.kLine2,
-                thickness: 1.0,
-                dashLength: 3.w,
-                dashSpacing: 2.w,
-              ),
-              SizedBox(height: AppConstants.smallHeightBetweenElements,),
-              SizedBox(
-                  height: 40.h,
-                  width: MediaQuery.of(context).size.width,
-                  child: PaginationView(totalPages: totalPages,middlePages: middlePages,))
+              totalPages > 1 ? Column(
+                children: [
+                  DottedDivider(
+                    color: ColorManager.kLine2,
+                    thickness: 1.0,
+                    dashLength: 3.w,
+                    dashSpacing: 2.w,
+                  ),
+                  SizedBox(height: AppConstants.smallHeightBetweenElements,),
+                  SizedBox(
+                      height: 40.h,
+                      width: MediaQuery.of(context).size.width,
+                      child: PaginationView(totalPages: totalPages,middlePages: middlePages,))
+                ],
+              ) : Container()
             ],
           ),
         ),

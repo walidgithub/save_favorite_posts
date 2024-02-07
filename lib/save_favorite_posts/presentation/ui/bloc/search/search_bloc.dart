@@ -10,7 +10,7 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_subcategory_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_website_request.dart';
 import '../../../../../core/utils/enums.dart';
-import '../../../../domain/reposnses/favorite_posts_response.dart';
+import '../../../../domain/reposnses/posts_response.dart';
 import '../../../../domain/requests/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../../../domain/requests/posts_by_category_n_subcategory_request.dart';
 import '../../../../domain/requests/posts_by_category_n_website_request.dart';
@@ -36,11 +36,11 @@ import '../../../../domain/usecases/get_posts_by_desc_usecase.dart';
 import '../../../../domain/usecases/get_posts_by_subcategory_n_website_usecase.dart';
 import '../../../../domain/usecases/get_posts_by_subcategory_usecase.dart';
 import '../../../../domain/usecases/get_posts_by_website_usecase.dart';
-part 'home_event.dart';
-part 'home_state.dart';
+part 'search_event.dart';
+part 'search_state.dart';
 
 
-class HomeBloc extends Bloc<HomeEvent, HomeState> {
+class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final GetAllPostsUseCase getAllPostsUseCase;
   final GetPostsByWebsiteUseCase getPostsByWebsiteUseCase;
   final GetPostsBySubCategoryUseCase getPostsBySubCategoryUseCase;
@@ -58,7 +58,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetPostsByCategoryNSubCategoryUseCase getPostsByCategoryNSubCategoryUseCase;
   final GetPostsByCategoryNSubCategoryNWebsiteUseCase getPostsByCategoryNSubCategoryNWebsiteUseCase;
 
-  HomeBloc(this.getAllPostsUseCase
+  SearchBloc(this.getAllPostsUseCase
       , this.getPostsByWebsiteUseCase
       , this.getPostsBySubCategoryUseCase
       , this.getPostsBySubCategoryNWebsiteUseCase
@@ -75,7 +75,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       , this.getPostsByCategoryNSubCategoryUseCase
       , this.getPostsByCategoryNSubCategoryNWebsiteUseCase
       )
-      : super(const HomeState()) {
+      : super(const SearchState()) {
     on<GetAllPostsEvent>(_getAllPosts);
     on<GetPostsByWebsiteEvent>(_getPostsByWebsite);
     on<GetPostsBySubCategoryEvent>(_getPostsBySubCategory);
@@ -95,7 +95,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getAllPosts(
-      GetAllPostsEvent event, Emitter<HomeState> emit) async {
+      GetAllPostsEvent event, Emitter<SearchState> emit) async {
     final result = await getAllPostsUseCase(const NoParameters());
 
     result.fold(
@@ -108,7 +108,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsByWebsite(
-      GetPostsByWebsiteEvent event, Emitter<HomeState> emit) async {
+      GetPostsByWebsiteEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsByWebsiteUseCase(event.postsByWebsiteRequest);
 
     result.fold(
@@ -121,7 +121,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsBySubCategory(
-      GetPostsBySubCategoryEvent event, Emitter<HomeState> emit) async {
+      GetPostsBySubCategoryEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsBySubCategoryUseCase(event.postsBySubCategoryRequest);
 
     result.fold(
@@ -134,7 +134,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsBySubCategoryNWebsite(
-      GetPostsBySubCategoryNWebsiteEvent event, Emitter<HomeState> emit) async {
+      GetPostsBySubCategoryNWebsiteEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsBySubCategoryNWebsiteUseCase(event.postsBySubCategoryNWebsiteRequest);
 
     result.fold(
@@ -147,7 +147,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsByDesc(
-      GetPostsByDescEvent event, Emitter<HomeState> emit) async {
+      GetPostsByDescEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsByDescUseCase(event.postsByDescRequest);
 
     result.fold(
@@ -160,7 +160,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsByDesNWebsite(
-      GetPostsByDesNWebsiteEvent event, Emitter<HomeState> emit) async {
+      GetPostsByDesNWebsiteEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsByDesNWebsiteUseCase(event.postsByDesNWebsiteRequest);
 
     result.fold(
@@ -173,7 +173,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsByDescNSubCategory(
-   GetPostsByDescNSubCategoryEvent event, Emitter<HomeState> emit) async {
+   GetPostsByDescNSubCategoryEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsByDescNSubCategoryUseCase(event.postsByDescNSubCategoryRequest);
 
     result.fold(
@@ -186,7 +186,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsByDescNSubCategoryNWebsite(
-      GetPostsByDescNSubCategoryNWebsiteEvent event, Emitter<HomeState> emit) async {
+      GetPostsByDescNSubCategoryNWebsiteEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsByDescNSubCategoryNWebsiteUseCase(event.postsByDescNSubCategoryNWebsiteRequest);
 
     result.fold(
@@ -199,7 +199,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsByDescNCategory(
-      GetPostsByDescNCategoryEvent event, Emitter<HomeState> emit) async {
+      GetPostsByDescNCategoryEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsByDescNCategoryUseCase(event.postsByDescNCategoryRequest);
 
     result.fold(
@@ -212,7 +212,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsByDescNCategoryNWebsite(
-      GetPostsByDescNCategoryNWebsiteEvent event, Emitter<HomeState> emit) async {
+      GetPostsByDescNCategoryNWebsiteEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsByDescNCategoryNWebsiteUseCase(event.postsByDescNCategoryNWebsiteRequest);
 
     result.fold(
@@ -225,7 +225,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsByDescNCategoryNSubCategory(
-      GetPostsByDescNCategoryNSubCategoryEvent event, Emitter<HomeState> emit) async {
+      GetPostsByDescNCategoryNSubCategoryEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsByDescNCategoryNSubCategoryUseCase(event.postsByDescNCategoryNSubCategoryRequest);
 
     result.fold(
@@ -238,7 +238,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsByDescNCategoryNSubCategoryNWebsite(
-      GetPostsByDescNCategoryNSubCategoryNWebsiteEvent event, Emitter<HomeState> emit) async {
+      GetPostsByDescNCategoryNSubCategoryNWebsiteEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsByDescNCategoryNSubCategoryNWebsiteUseCase(event.postsByDescNCategoryNSubCategoryNWebsiteRequest);
 
     result.fold(
@@ -251,7 +251,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsByCategory(
-      GetPostsByCategoryEvent event, Emitter<HomeState> emit) async {
+      GetPostsByCategoryEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsByCategoryUseCase(event.postsByCategoryRequest);
 
     result.fold(
@@ -264,7 +264,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsByCategoryNWebsite(
-      GetPostsByCategoryNWebsiteEvent event, Emitter<HomeState> emit) async {
+      GetPostsByCategoryNWebsiteEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsByCategoryNWebsiteUseCase(event.postsByCategoryNWebsiteRequest);
 
     result.fold(
@@ -277,7 +277,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsByCategoryNSubCategory(
-      GetPostsByCategoryNSubCategoryEvent event, Emitter<HomeState> emit) async {
+      GetPostsByCategoryNSubCategoryEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsByCategoryNSubCategoryUseCase(event.postsByCategoryNSubCategoryRequest);
 
     result.fold(
@@ -290,7 +290,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> _getPostsByCategoryNSubCategoryNWebsite(
-      GetPostsByCategoryNSubCategoryNWebsiteEvent event, Emitter<HomeState> emit) async {
+      GetPostsByCategoryNSubCategoryNWebsiteEvent event, Emitter<SearchState> emit) async {
     final result = await getPostsByCategoryNSubCategoryNWebsiteUseCase(event.postsByCategoryNSubCategoryNWebsiteRequest);
 
     result.fold(

@@ -1,8 +1,8 @@
 
-import '../../domain/reposnses/favorite_posts_response.dart';
+import '../../domain/reposnses/posts_response.dart';
 
-class FavoritePostsModel extends PostsReponse {
-  const FavoritePostsModel({
+class PostsModel extends PostsReponse {
+  const PostsModel({
     required super.id,
     required super.category,
     required super.subCategory,
@@ -13,8 +13,8 @@ class FavoritePostsModel extends PostsReponse {
     required super.user,
   });
 
-  factory FavoritePostsModel.fromJson(Map<String, dynamic> json) {
-    return FavoritePostsModel(
+  factory PostsModel.fromJson(Map<String, dynamic> json) {
+    return PostsModel(
       id: (json['id'] as num).toInt(),
       category: json['category'],
       subCategory: json['subCategory'],

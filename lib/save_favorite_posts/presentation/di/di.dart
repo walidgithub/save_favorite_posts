@@ -3,8 +3,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/network/network_info.dart';
 import '../../../core/preferences/app_pref.dart';
-import '../../data/datasource/favorite_posts_remote_datasource.dart';
-import '../../data/repository/favorite_posts_repository.dart';
+import '../../data/datasource/posts_remote_datasource.dart';
+import '../../data/repository/posts_repository.dart';
 import '../../domain/repository/base_repository.dart';
 import '../../domain/usecases/get_all_posts_usecases.dart';
 import '../../domain/usecases/get_posts_by_category_n_subcategory_n_website_usecase.dart';
@@ -22,7 +22,7 @@ import '../../domain/usecases/get_posts_by_desc_usecase.dart';
 import '../../domain/usecases/get_posts_by_subcategory_n_website_usecase.dart';
 import '../../domain/usecases/get_posts_by_subcategory_usecase.dart';
 import '../../domain/usecases/get_posts_by_website_usecase.dart';
-import '../ui/bloc/home_bloc/home_bloc.dart';
+import '../ui/bloc/search/search_bloc.dart';
 final sl = GetIt.instance;
 
 class ServiceLocator {
@@ -40,7 +40,7 @@ class ServiceLocator {
             () => NetworkInfoImpl(InternetConnectionChecker()));
 
     // Bloc
-    sl.registerFactory(() => HomeBloc(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+    sl.registerFactory(() => SearchBloc(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
     // Use Cases
     sl.registerLazySingleton<GetAllPostsUseCase>(

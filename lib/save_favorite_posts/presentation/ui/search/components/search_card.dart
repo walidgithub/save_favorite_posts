@@ -6,7 +6,7 @@ import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../../../domain/reposnses/favorite_posts_response.dart';
+import '../../../../domain/reposnses/posts_response.dart';
 import '../../../../shared/constant/app_typography.dart';
 import '../../../../shared/constant/assets_manager.dart';
 import '../../../../shared/constant/strings_manager.dart';
@@ -29,7 +29,7 @@ class _SearchCardState extends State<SearchCard> {
         // Get.to(()=>FoodDishDetail(dish: dish));
       },
       child: Container(
-        padding: EdgeInsets.all(20.h),
+        padding: EdgeInsets.all(15.h),
         decoration: BoxDecoration(
             color: ColorManager.kLightPink,
             borderRadius: BorderRadius.circular(30.r)),
@@ -85,6 +85,7 @@ class _SearchCardState extends State<SearchCard> {
                     onTap: () {
                       _launchURL(widget.postsResponse.link,context);
                     },
+                    size: 40.w,
                     icon: AssetsManager.goImg,
                   ),
                 ),
@@ -97,7 +98,18 @@ class _SearchCardState extends State<SearchCard> {
                       // widget.postsResponse.seen = value!;
                     });
                   },
-                )
+                ),
+                Container(
+                  height: 50.h,
+                  alignment: Alignment.bottomRight,
+                  child: CustomIconButton(
+                    onTap: () {
+
+                    },
+                    size: 40.w,
+                    icon: AssetsManager.editIcon,
+                  ),
+                ),
               ],
             )
           ],

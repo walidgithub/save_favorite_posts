@@ -12,8 +12,8 @@ class AssetsManager {
   static const String logo = '$imagePath/logo.png';
   static const String language = '$imagePath/language.svg';
   static const String search = '$imagePath/search.svg';
-  static const String home = '$imagePath/home.svg';
-  static const String homeSelected = '$imagePath/home-selected.svg';
+  static const String homeSearch = '$imagePath/search-home.svg';
+  static const String homeSearchSelected = '$imagePath/search-selected.svg';
   static const String addNew = '$imagePath/add-new.svg';
   static const String addNewSelected = '$imagePath/add-new-selected.svg';
   static const String filter = '$imagePath/filter.svg';
@@ -21,4 +21,5 @@ class AssetsManager {
   static String goImg = '$imagePath/go.svg';
   static String logOutImg = '$imagePath/logout.svg';
   static String camera = '$imagePath/camera.svg';
+  static String editIcon = '$imagePath/edit.svg';
 }

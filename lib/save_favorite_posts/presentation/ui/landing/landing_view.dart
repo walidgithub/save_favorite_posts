@@ -26,7 +26,7 @@ class _SearchViewState extends State<LandingView> {
       extendBody: true,
       body: pages[_currentIndex],
       bottomNavigationBar: SizedBox(
-        height: 65.h,
+        height: 70.h,
         child: BottomNavigationBar(
           // unselectedLabelStyle: const TextStyle(color: ColorManager.kSecondary),
           selectedItemColor: ColorManager.kSecondary,
@@ -39,14 +39,14 @@ class _SearchViewState extends State<LandingView> {
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-              icon: SvgPicture.asset(AssetsManager.home),
+              icon: SvgPicture.asset(AssetsManager.homeSearch,width: 30.w),
               label: AppStrings.home,
-              activeIcon: SvgPicture.asset(AssetsManager.homeSelected),
+              activeIcon: SvgPicture.asset(AssetsManager.homeSearchSelected,width: 30.w),
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(AssetsManager.addNew),
               label: AppStrings.addNew,
-              activeIcon: SvgPicture.asset(AssetsManager.addNewSelected),
+              activeIcon: SvgPicture.asset(AssetsManager.addNewSelected,width: 30.w),
             ),
           ],
         ),

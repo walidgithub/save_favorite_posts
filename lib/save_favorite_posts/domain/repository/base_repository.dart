@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../core/error/failure.dart';
-import '../reposnses/favorite_posts_response.dart';
+import '../reposnses/posts_response.dart';
 import '../requests/posts_by_category_n_subcategory_n_website_request.dart';
 import '../requests/posts_by_category_n_subcategory_request.dart';
 import '../requests/posts_by_category_n_website_request.dart';

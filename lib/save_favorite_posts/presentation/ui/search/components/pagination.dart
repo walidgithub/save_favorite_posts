@@ -107,7 +107,7 @@ class _PaginationViewState extends State<PaginationView> {
                           fontSize: 20.sp)),
                 ),
                 height: 30.h,
-                width: 30.w,
+                width: 32.w,
                 color: currentPage == 1
                     ? ColorManager.kPrimary
                     : ColorManager.kLine,
@@ -199,10 +199,10 @@ class _PaginationViewState extends State<PaginationView> {
                                               ? ColorManager.kLine
                                               : ColorManager.kPrimary,
                                           fontSize: 20.sp))),
-                              padding: const EdgeInsets.fromLTRB(
-                                  5,
+                              padding: EdgeInsets.fromLTRB(
+                                  widget.middlePages[index].bitLength > 1 ? 10 : 5,
                                   0,
-                                  5,
+                                  widget.middlePages[index].bitLength > 1 ? 10 : 5,
                                   0),
                               color: currentPage == widget.middlePages[index]
                                   ? ColorManager.kPrimary
@@ -278,10 +278,10 @@ class _PaginationViewState extends State<PaginationView> {
                               fontSize: 20.sp)),
                     ),
                     height: 30.h,
-                    padding: const EdgeInsets.fromLTRB(
-                        5,
+                    padding: EdgeInsets.fromLTRB(
+                        widget.totalPages.bitLength > 1 ? 10 : 5,
                         0,
-                        5,
+                        widget.totalPages.bitLength > 1 ? 10 : 5,
                         0),
                     color: widget.totalPages == currentPage
                         ? ColorManager.kPrimary
