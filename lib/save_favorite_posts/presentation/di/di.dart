@@ -40,7 +40,7 @@ class ServiceLocator {
             () => NetworkInfoImpl(InternetConnectionChecker()));
 
     // Bloc
-    sl.registerFactory(() => HomeBloc(sl(), sl()));
+    sl.registerFactory(() => HomeBloc(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
     // Use Cases
     sl.registerLazySingleton<GetAllPostsUseCase>(

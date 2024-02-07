@@ -77,21 +77,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       )
       : super(const HomeState()) {
     on<GetAllPostsEvent>(_getAllPosts);
-    on<GetPostsByWebsiteEvent>(_getPostsByWebsiteEvent);
-    on<GetPostsBySubCategoryEvent>(_searchForTest);
-    on<GetPostsBySubCategoryNWebsiteEvent>(_searchForTest);
-    on<GetPostsByDescEvent>(_searchForTest);
-    on<GetPostsByDesNWebsiteEvent>(_searchForTest);
-    on<GetPostsByDescNSubCategoryEvent>(_searchForTest);
-    on<GetPostsByDescNSubCategoryNWebsiteEvent>(_searchForTest);
-    on<GetPostsByDescNCategoryEvent>(_searchForTest);
-    on<GetPostsByDescNCategoryNWebsiteEvent>(_searchForTest);
-    on<GetPostsByDescNCategoryNSubCategoryEvent>(_searchForTest);
-    on<GetPostsByDescNCategoryNSubCategoryNWebsiteEvent>(_searchForTest);
-    on<GetPostsByCategoryEvent>(_searchForTest);
-    on<GetPostsByCategoryNWebsiteEvent>(_searchForTest);
-    on<GetPostsByCategoryNSubCategoryEvent>(_searchForTest);
-    on<GetPostsByCategoryNSubCategoryNWebsiteEvent>(_searchForTest);
+    on<GetPostsByWebsiteEvent>(_getPostsByWebsite);
+    on<GetPostsBySubCategoryEvent>(_getPostsBySubCategory);
+    on<GetPostsBySubCategoryNWebsiteEvent>(_getPostsBySubCategoryNWebsite);
+    on<GetPostsByDescEvent>(_getPostsByDesc);
+    on<GetPostsByDesNWebsiteEvent>(_getPostsByDesNWebsite);
+    on<GetPostsByDescNSubCategoryEvent>(_getPostsByDescNSubCategory);
+    on<GetPostsByDescNSubCategoryNWebsiteEvent>(_getPostsByDescNSubCategoryNWebsite);
+    on<GetPostsByDescNCategoryEvent>(_getPostsByDescNCategory);
+    on<GetPostsByDescNCategoryNWebsiteEvent>(_getPostsByDescNCategoryNWebsite);
+    on<GetPostsByDescNCategoryNSubCategoryEvent>(_getPostsByDescNCategoryNSubCategory);
+    on<GetPostsByDescNCategoryNSubCategoryNWebsiteEvent>(_getPostsByDescNCategoryNSubCategoryNWebsite);
+    on<GetPostsByCategoryEvent>(_getPostsByCategory);
+    on<GetPostsByCategoryNWebsiteEvent>(_getPostsByCategoryNWebsite);
+    on<GetPostsByCategoryNSubCategoryEvent>(_getPostsByCategoryNSubCategory);
+    on<GetPostsByCategoryNSubCategoryNWebsiteEvent>(_getPostsByCategoryNSubCategoryNWebsite);
   }
 
   FutureOr<void> _getAllPosts(
@@ -107,7 +107,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _getPostsByWebsiteEvent(
+  FutureOr<void> _getPostsByWebsite(
       GetPostsByWebsiteEvent event, Emitter<HomeState> emit) async {
     final result = await getPostsByWebsiteUseCase(event.postsByWebsiteRequest);
 
@@ -120,9 +120,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsBySubCategory(
+      GetPostsBySubCategoryEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsBySubCategoryUseCase(event.postsBySubCategoryRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
@@ -133,9 +133,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsBySubCategoryNWebsite(
+      GetPostsBySubCategoryNWebsiteEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsBySubCategoryNWebsiteUseCase(event.postsBySubCategoryNWebsiteRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
@@ -146,9 +146,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsByDesc(
+      GetPostsByDescEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsByDescUseCase(event.postsByDescRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
@@ -159,9 +159,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsByDesNWebsite(
+      GetPostsByDesNWebsiteEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsByDesNWebsiteUseCase(event.postsByDesNWebsiteRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
@@ -172,9 +172,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsByDescNSubCategory(
+   GetPostsByDescNSubCategoryEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsByDescNSubCategoryUseCase(event.postsByDescNSubCategoryRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
@@ -185,9 +185,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsByDescNSubCategoryNWebsite(
+      GetPostsByDescNSubCategoryNWebsiteEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsByDescNSubCategoryNWebsiteUseCase(event.postsByDescNSubCategoryNWebsiteRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
@@ -198,9 +198,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsByDescNCategory(
+      GetPostsByDescNCategoryEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsByDescNCategoryUseCase(event.postsByDescNCategoryRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
@@ -211,9 +211,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsByDescNCategoryNWebsite(
+      GetPostsByDescNCategoryNWebsiteEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsByDescNCategoryNWebsiteUseCase(event.postsByDescNCategoryNWebsiteRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
@@ -224,9 +224,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsByDescNCategoryNSubCategory(
+      GetPostsByDescNCategoryNSubCategoryEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsByDescNCategoryNSubCategoryUseCase(event.postsByDescNCategoryNSubCategoryRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
@@ -237,9 +237,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsByDescNCategoryNSubCategoryNWebsite(
+      GetPostsByDescNCategoryNSubCategoryNWebsiteEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsByDescNCategoryNSubCategoryNWebsiteUseCase(event.postsByDescNCategoryNSubCategoryNWebsiteRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
@@ -250,9 +250,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsByCategory(
+      GetPostsByCategoryEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsByCategoryUseCase(event.postsByCategoryRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
@@ -263,9 +263,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsByCategoryNWebsite(
+      GetPostsByCategoryNWebsiteEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsByCategoryNWebsiteUseCase(event.postsByCategoryNWebsiteRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
@@ -276,9 +276,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsByCategoryNSubCategory(
+      GetPostsByCategoryNSubCategoryEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsByCategoryNSubCategoryUseCase(event.postsByCategoryNSubCategoryRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
@@ -289,9 +289,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         )));
   }
 
-  FutureOr<void> _searchForTest(
-      SearchTestEvent event, Emitter<HomeState> emit) async {
-    final result = await getPostsWithParameterUseCase(event.searchTitle);
+  FutureOr<void> _getPostsByCategoryNSubCategoryNWebsite(
+      GetPostsByCategoryNSubCategoryNWebsiteEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsByCategoryNSubCategoryNWebsiteUseCase(event.postsByCategoryNSubCategoryNWebsiteRequest);
 
     result.fold(
             (l) => emit(state.copyWith(
