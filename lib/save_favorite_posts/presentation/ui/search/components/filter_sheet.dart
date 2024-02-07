@@ -5,12 +5,14 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_cat
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
+import '../../../../domain/entities/search_filter.dart';
 import '../../../../shared/constant/app_typography.dart';
 import '../../../ui_components/buttons/primary_button.dart';
 import 'category_chip.dart';
 
 class FilterSheet extends StatefulWidget {
-  const FilterSheet({super.key});
+  Function search;
+  FilterSheet({required this.search, super.key});
 
   @override
   State<FilterSheet> createState() => _FilterSheetState();
@@ -129,7 +131,15 @@ class _FilterSheetState extends State<FilterSheet> {
           ),
           SizedBox(height: 30.h),
           PrimaryButton(
-            onTap: () {},
+            onTap: () {
+              searchFilter[0].searchText = '';
+              searchFilter[0].website = websiteResponse[selectedWebsite].title;
+              searchFilter[0].category =
+                  categoryResponse[selectedCategory].title;
+              searchFilter[0].subCategory =
+                  subCategoryResponse[selectedSubCategory].title;
+              widget.search();
+            },
             text: AppStrings.filter,
           ),
           SizedBox(height: 20.h),

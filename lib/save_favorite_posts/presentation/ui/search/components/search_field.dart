@@ -9,9 +9,9 @@ import '../../../../shared/constant/app_typography.dart';
 class SearchField extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode? focusNode;
-  final void Function(String)? onChange;
+  final void Function(String)? onSubmit;
   const SearchField(
-      {Key? key, required this.controller, this.focusNode, this.onChange})
+      {Key? key, required this.controller, this.focusNode, this.onSubmit})
       : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class SearchField extends StatelessWidget {
     return TextField(
       controller: controller,
       focusNode: focusNode,
-      onChanged: onChange,
+      onSubmitted: onSubmit,
       style: AppTypography.kLight14,
       decoration: InputDecoration(
           constraints: BoxConstraints(maxHeight: 55.h),

@@ -41,12 +41,12 @@ class GetPostsByDescEvent extends SearchEvent {
   List<Object> get props => [postsByDescRequest];
 }
 
-class GetPostsByDesNWebsiteEvent extends SearchEvent {
-  final PostsByDesNWebsiteRequest postsByDesNWebsiteRequest;
+class GetPostsByDescNWebsiteEvent extends SearchEvent {
+  final PostsByDescNWebsiteRequest postsByDescNWebsiteRequest;
 
-  const GetPostsByDesNWebsiteEvent(this.postsByDesNWebsiteRequest);
+  const GetPostsByDescNWebsiteEvent(this.postsByDescNWebsiteRequest);
 
-  List<Object> get props => [postsByDesNWebsiteRequest];
+  List<Object> get props => [postsByDescNWebsiteRequest];
 }
 
 class GetPostsByDescNSubCategoryEvent extends SearchEvent {

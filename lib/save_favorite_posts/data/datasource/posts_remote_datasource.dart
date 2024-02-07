@@ -33,7 +33,7 @@ abstract class BaseRemoteDataSource {
   // search with two fields ----------------------------------------
   Future<List<PostsModel>> getPostsByDescNCategory(PostsByDescNCategoryRequest postsByDescNCategoryRequest);
   Future<List<PostsModel>> getPostsByDescNSubCategory(PostsByDescNSubCategoryRequest postsByDescNSubCategoryRequest);
-  Future<List<PostsModel>> getPostsByDescNWebsite(PostsByDesNWebsiteRequest postsByDesNWebsiteRequest);
+  Future<List<PostsModel>> getPostsByDescNWebsite(PostsByDescNWebsiteRequest postsByDesNWebsiteRequest);
   Future<List<PostsModel>> getPostsByCategoryNSubCategory(PostsByCategoryNSubCategoryRequest postsByCategoryNSubCategoryRequest);
   Future<List<PostsModel>> getPostsByCategoryNWebsite(PostsByCategoryNWebsiteRequest postsByCategoryNWebsiteRequest);
   Future<List<PostsModel>> getPostsBySubCategoryNWebsite(PostsBySubCategoryNWebsiteRequest postsBySubCategoryNWebsiteRequest);
@@ -210,7 +210,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
   }
 
   @override
-  Future<List<PostsModel>> getPostsByDescNWebsite(PostsByDesNWebsiteRequest postsByDesNWebsiteRequest) async {
+  Future<List<PostsModel>> getPostsByDescNWebsite(PostsByDescNWebsiteRequest postsByDesNWebsiteRequest) async {
     // TODO: implement getPostsByDescNWebsite
     List<PostsModel> res = <PostsModel>[];
     try {

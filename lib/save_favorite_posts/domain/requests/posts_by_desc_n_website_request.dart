@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-class PostsByDesNWebsiteRequest extends Equatable {
+class PostsByDescNWebsiteRequest extends Equatable {
   final String description;
   final String website;
 
-  const PostsByDesNWebsiteRequest({
+  const PostsByDescNWebsiteRequest({
     required this.description,
     required this.website,
   });

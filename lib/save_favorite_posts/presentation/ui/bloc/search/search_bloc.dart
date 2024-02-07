@@ -81,7 +81,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<GetPostsBySubCategoryEvent>(_getPostsBySubCategory);
     on<GetPostsBySubCategoryNWebsiteEvent>(_getPostsBySubCategoryNWebsite);
     on<GetPostsByDescEvent>(_getPostsByDesc);
-    on<GetPostsByDesNWebsiteEvent>(_getPostsByDesNWebsite);
+    on<GetPostsByDescNWebsiteEvent>(_getPostsByDesNWebsite);
     on<GetPostsByDescNSubCategoryEvent>(_getPostsByDescNSubCategory);
     on<GetPostsByDescNSubCategoryNWebsiteEvent>(_getPostsByDescNSubCategoryNWebsite);
     on<GetPostsByDescNCategoryEvent>(_getPostsByDescNCategory);
@@ -160,8 +160,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   }
 
   FutureOr<void> _getPostsByDesNWebsite(
-      GetPostsByDesNWebsiteEvent event, Emitter<SearchState> emit) async {
-    final result = await getPostsByDesNWebsiteUseCase(event.postsByDesNWebsiteRequest);
+      GetPostsByDescNWebsiteEvent event, Emitter<SearchState> emit) async {
+    final result = await getPostsByDesNWebsiteUseCase(event.postsByDescNWebsiteRequest);
 
     result.fold(
             (l) => emit(state.copyWith(

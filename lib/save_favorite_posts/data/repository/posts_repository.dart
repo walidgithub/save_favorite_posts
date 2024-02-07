@@ -176,7 +176,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNWebsite(PostsByDesNWebsiteRequest postsByDesNWebsiteRequest) async {
+  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNWebsite(PostsByDescNWebsiteRequest postsByDesNWebsiteRequest) async {
     // TODO: implement getPostsByDescNWebsite
     if (await _networkInfo.isConnected) {
       try {

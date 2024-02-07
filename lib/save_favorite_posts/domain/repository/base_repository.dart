@@ -33,7 +33,7 @@ abstract class BaseRepository {
   // search with two fields ----------------------------------------
   Future<Either<Failure, List<PostsReponse>>> getPostsByDescNCategory(PostsByDescNCategoryRequest postsByDescNCategoryRequest);
   Future<Either<Failure, List<PostsReponse>>> getPostsByDescNSubCategory(PostsByDescNSubCategoryRequest postsByDescNSubCategoryRequest);
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNWebsite(PostsByDesNWebsiteRequest postsByDesNWebsiteRequest);
+  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNWebsite(PostsByDescNWebsiteRequest postsByDesNWebsiteRequest);
   Future<Either<Failure, List<PostsReponse>>> getPostsByCategoryNSubCategory(PostsByCategoryNSubCategoryRequest postsByCategoryNSubCategoryRequest);
   Future<Either<Failure, List<PostsReponse>>> getPostsByCategoryNWebsite(PostsByCategoryNWebsiteRequest postsByCategoryNWebsiteRequest);
   Future<Either<Failure, List<PostsReponse>>> getPostsBySubCategoryNWebsite(PostsBySubCategoryNWebsiteRequest postsBySubCategoryNWebsiteRequest);
