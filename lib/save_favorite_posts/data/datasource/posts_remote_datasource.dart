@@ -1,5 +1,6 @@
 import '../../../core/network/api_constants.dart';
 import '../../../core/network/dio_manager.dart';
+import '../../domain/reposnses/posts_response.dart';
 import '../../domain/requests/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../domain/requests/posts_by_category_n_subcategory_request.dart';
 import '../../domain/requests/posts_by_category_n_website_request.dart';
@@ -18,6 +19,9 @@ import '../../domain/requests/posts_by_website_request.dart';
 import '../models/posts_model.dart';
 
 abstract class BaseRemoteDataSource {
+  // no results ----------------------------------------
+  Future<List<PostsModel>> noResults();
+
   // get all data ----------------------------------------
   Future<List<PostsModel>> getAllPosts();
 
@@ -50,6 +54,17 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
   PostsRemoteDataSource(this._dio);
 
   @override
+  Future<List<PostsModel>> noResults() async {
+    // TODO: implement getAllPosts
+    List<PostsModel> res = <PostsModel>[];
+    try {
+      return [];
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
   Future<List<PostsModel>> getAllPosts() async {
     // TODO: implement getAllPosts
     List<PostsModel> res = <PostsModel>[];
@@ -69,13 +84,17 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
   Future<List<PostsModel>> getPostsByCategory(PostsByCategoryRequest postsByCategoryRequest) async {
     // TODO: implement getPostsByCategory
     List<PostsModel> res = <PostsModel>[];
+    var result = postsModel.where((element) => element.category == postsByCategoryRequest.category).toList();
+    print(result);
+    print('resulttttttttttt');
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      // return await _dio.get(ApiConstants.test).then((response) {
+      //   res = (response.data['result'] as List).map((e) {
+      //     return PostsModel.fromJson(e);
+      //   }).toList();
+      //   return res;
+      // });
+      return result;
     } catch (e) {
       throw e.toString();
     }

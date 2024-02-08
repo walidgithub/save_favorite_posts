@@ -1,3 +1,5 @@
+import 'package:save_favorite_posts/save_favorite_posts/data/models/user_model.dart';
+
 import '../../domain/reposnses/sub_category_response.dart';
 
 class SubCategoryModel extends SubCategoryResponse {
@@ -15,3 +17,12 @@ class SubCategoryModel extends SubCategoryResponse {
     );
   }
 }
+
+List<SubCategoryModel> subCategoryModel = [
+  SubCategoryModel(id: 1, title: 'None', user: userModel[0]),
+  SubCategoryModel(id: 2, title: 'Designs', user: userModel[0]),
+  SubCategoryModel(id: 3, title: 'Animation', user: userModel[0]),
+  SubCategoryModel(id: 4, title: 'Examples', user: userModel[0]),
+  SubCategoryModel(id: 5, title: 'Projects', user: userModel[0]),
+  SubCategoryModel(id: 6, title: 'Packages', user: userModel[0]),
+];

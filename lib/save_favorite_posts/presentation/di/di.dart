@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/get_no_resluts_usecases.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/network/dio_manager.dart';
 import '../../../core/network/network_info.dart';
 import '../../../core/preferences/app_pref.dart';
 import '../../data/datasource/posts_remote_datasource.dart';
@@ -35,14 +37,20 @@ class ServiceLocator {
 
     sl.registerLazySingleton<AppPreferences>(() => AppPreferences(sl()));
 
+    // Dio
+    sl.registerLazySingleton(() => DioManager());
+
     // Network Info
     sl.registerLazySingleton<NetworkInfo>(
             () => NetworkInfoImpl(InternetConnectionChecker()));
 
     // Bloc
-    sl.registerFactory(() => SearchBloc(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+    sl.registerFactory(() => SearchBloc(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
     // Use Cases
+    sl.registerLazySingleton<NoResultsUseCase>(
+            () => NoResultsUseCase(sl()));
+
     sl.registerLazySingleton<GetAllPostsUseCase>(
             () => GetAllPostsUseCase(sl()));
 

@@ -12,11 +12,3 @@ class CategoryResponse extends FilterResponse {
     required this.user,
   }) : super(id: id, title: title, user: user);
 }
-
-
-List<CategoryResponse> categoryResponse = [
-  CategoryResponse(id: 1, title: 'None', user: userResponse[0]),
-  CategoryResponse(id: 2, title: 'Flutter', user: userResponse[0]),
-  CategoryResponse(id: 3, title: 'FrontEnd', user: userResponse[1]),
-  CategoryResponse(id: 4, title: 'General', user: userResponse[1]),
-];

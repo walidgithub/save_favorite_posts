@@ -5,6 +5,9 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_cat
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
+import '../../../../data/models/category_model.dart';
+import '../../../../data/models/sub_category_model.dart';
+import '../../../../data/models/website_model.dart';
 import '../../../../domain/entities/search_filter.dart';
 import '../../../../shared/constant/app_typography.dart';
 import '../../../ui_components/buttons/primary_button.dart';
@@ -61,13 +64,13 @@ class _FilterSheetState extends State<FilterSheet> {
                   runSpacing: 5.w,
                   spacing: 10.h,
                   children: List.generate(
-                      websiteResponse.length,
+                      websiteModel.length,
                       (index) => CategoryChip(
                           onTap: () {
                             selectedWebsite = index;
                             setState(() {});
                           },
-                          text: websiteResponse[index].title,
+                          text: websiteModel[index].title,
                           isSelected: selectedWebsite == index)),
                 ),
               ),
@@ -89,13 +92,13 @@ class _FilterSheetState extends State<FilterSheet> {
                   runSpacing: 5.w,
                   spacing: 10.h,
                   children: List.generate(
-                      categoryResponse.length,
+                      categoryModel.length,
                       (index) => CategoryChip(
                           onTap: () {
                             selectedCategory = index;
                             setState(() {});
                           },
-                          text: categoryResponse[index].title,
+                          text: categoryModel[index].title,
                           isSelected: selectedCategory == index)),
                 ),
               ),
@@ -117,13 +120,13 @@ class _FilterSheetState extends State<FilterSheet> {
                   runSpacing: 5.w,
                   spacing: 10.h,
                   children: List.generate(
-                      subCategoryResponse.length,
+                      subCategoryModel.length,
                       (index) => CategoryChip(
                           onTap: () {
                             selectedSubCategory = index;
                             setState(() {});
                           },
-                          text: subCategoryResponse[index].title,
+                          text: subCategoryModel[index].title,
                           isSelected: selectedSubCategory == index)),
                 ),
               ),
@@ -133,11 +136,11 @@ class _FilterSheetState extends State<FilterSheet> {
           PrimaryButton(
             onTap: () {
               searchFilter[0].searchText = '';
-              searchFilter[0].website = websiteResponse[selectedWebsite].title;
+              searchFilter[0].website = websiteModel[selectedWebsite].title;
               searchFilter[0].category =
-                  categoryResponse[selectedCategory].title;
+                  categoryModel[selectedCategory].title;
               searchFilter[0].subCategory =
-                  subCategoryResponse[selectedSubCategory].title;
+                  subCategoryModel[selectedSubCategory].title;
               widget.search();
             },
             text: AppStrings.filter,

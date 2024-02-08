@@ -25,8 +25,3 @@ class PostsReponse extends Equatable {
   @override
   List<Object?> get props => [id, category, subCategory, website, description, link, seen, user];
 }
-
-
-List<PostsReponse> postsResponse = [
-  PostsReponse(id: 1, category: 'Flutter', subCategory: 'Designs', website: 'LinkedIn', description: 'sfdsdj  kjsdlkf jsd fdfs hfdjks khsdkfj hsdf kjfhsdk fjdfdsfsd sdfgdfsdf df sf sdg sdg',link: 'https://www.linkedin.com' , seen: 1,user: userResponse[0]),
-];

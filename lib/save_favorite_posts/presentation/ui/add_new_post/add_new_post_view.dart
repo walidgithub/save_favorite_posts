@@ -6,6 +6,9 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_cat
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 
+import '../../../data/models/category_model.dart';
+import '../../../data/models/sub_category_model.dart';
+import '../../../data/models/website_model.dart';
 import '../../../shared/style/colors_manager.dart';
 import '../../ui_components/buttons/primary_button.dart';
 import '../../ui_components/dialogs/loading_dialog.dart';
@@ -31,9 +34,9 @@ class _AddNewPostViewState extends State<AddNewPostView> {
   final TextEditingController _subCategoryEditingController =
       TextEditingController();
 
-  WebsiteResponse selectedWebSiteResponse = websiteResponse[0];
-  CategoryResponse selectedCategoryResponse = categoryResponse[0];
-  SubCategoryResponse selectedSubCategoryResponse = subCategoryResponse[0];
+  WebsiteResponse selectedWebSiteResponse = websiteModel[0];
+  CategoryResponse selectedCategoryResponse = categoryModel[0];
+  SubCategoryResponse selectedSubCategoryResponse = subCategoryModel[0];
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +89,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                 child: FilterDropDown(
                   filterEditingController: _websiteEditingController,
                   selectedFilter: selectedWebSiteResponse,
-                  filterResponse: websiteResponse,
+                  filterResponse: websiteModel,
                   hintText: AppStrings.website,
                 )),
             SizedBox(
@@ -97,7 +100,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                 child: FilterDropDown(
                   filterEditingController: _categoryEditingController,
                   selectedFilter: selectedCategoryResponse,
-                  filterResponse: categoryResponse,
+                  filterResponse: categoryModel,
                   hintText: AppStrings.category,
                 )),
             SizedBox(
@@ -108,7 +111,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                 child: FilterDropDown(
                   filterEditingController: _subCategoryEditingController,
                   selectedFilter: selectedSubCategoryResponse,
-                  filterResponse: subCategoryResponse,
+                  filterResponse: subCategoryModel,
                   hintText: AppStrings.subCategory,
                 )),
             SizedBox(

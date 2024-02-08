@@ -11,6 +11,6 @@ class GetPostsByDescNCategoryNSubCategoryUseCase extends BaseUsecase {
 
   @override
   Future<Either<Failure, List<PostsReponse>>> call(parameters) async {
-    return await baseRepository.getPostsByDescNCategoryNSubCategoryNWebsite(parameters);
+    return await baseRepository.getPostsByDescNCategoryNSubCategory(parameters);
   }
 }

@@ -12,11 +12,3 @@ class SubCategoryResponse extends FilterResponse {
     required this.user,
   }) : super(id: id, title: title, user: user);
 }
-
-
-List<SubCategoryResponse> subCategoryResponse = [
-  SubCategoryResponse(id: 1, title: 'None', user: userResponse[0]),
-  SubCategoryResponse(id: 2, title: 'Designs', user: userResponse[0]),
-  SubCategoryResponse(id: 3, title: 'Git', user: userResponse[1]),
-  SubCategoryResponse(id: 4, title: 'Problems', user: userResponse[1]),
-];

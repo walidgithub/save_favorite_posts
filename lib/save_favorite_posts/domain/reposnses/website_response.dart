@@ -14,11 +14,3 @@ class WebsiteResponse extends FilterResponse {
     required this.user,
   }) : super(id: id, title: title, user: user);
 }
-
-
-List<WebsiteResponse> websiteResponse = [
-  WebsiteResponse(id: 1, title: 'None', user: userResponse[0]),
-  WebsiteResponse(id: 2, title: 'LinkedIn', user: userResponse[0]),
-  WebsiteResponse(id: 3, title: 'Facebook', user: userResponse[1]),
-  WebsiteResponse(id: 4, title: 'YouTube', user: userResponse[1]),
-];

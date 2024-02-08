@@ -7,6 +7,8 @@ abstract class SearchEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class InitialEvent extends SearchEvent {}
+
 class GetAllPostsEvent extends SearchEvent {}
 
 class GetPostsByWebsiteEvent extends SearchEvent {

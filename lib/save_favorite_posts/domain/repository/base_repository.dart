@@ -18,6 +18,9 @@ import '../requests/posts_by_subcategory_request.dart';
 import '../requests/posts_by_website_request.dart';
 
 abstract class BaseRepository {
+  // no results ----------------------------------------
+  Future<Either<Failure, List<PostsReponse>>> noResults();
+
   // get all data ----------------------------------------
   Future<Either<Failure, List<PostsReponse>>> getAllPosts();
 
