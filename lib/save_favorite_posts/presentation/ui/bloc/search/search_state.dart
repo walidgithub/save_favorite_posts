@@ -7,7 +7,7 @@ class SearchState extends Equatable {
 
   const SearchState({
     this.postsList = const [],
-    this.postsState = RequestState.loading,
+    this.postsState = RequestState.empty,
     this.postsMessage = '',
   });
 
@@ -26,3 +26,5 @@ class SearchState extends Equatable {
   @override
   List<Object?> get props => [postsList, postsState, postsMessage];
 }
+
+class Empty extends SearchState{}

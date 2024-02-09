@@ -13,6 +13,7 @@ class AppStrings {
   static const less = " Less";
   static const noSearchResults = " No Search Results";
   static const addNewPost = "Add new post";
+  static const searching = "Start Searching";
   static const external = "External";
   static const internal = "Internal";
   static const link = "link";
@@ -22,7 +23,9 @@ class AppStrings {
   static const addNew = "Add New";
   static const getStarted = "Get Started";
   static const next = "Next";
+  static const or = "Or";
   static const saveProfile = "Save Profile";
+  static const getAllPosts = "Get All Posts";
   static const exit = "Exit";
   static const welcomeTo = "Welcome To";
   static const filters = "Filters";

@@ -29,20 +29,6 @@ class PostsRepository extends BaseRepository {
       this._baseRemoteDataSource, this._networkInfo);
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> noResults() async {
-    if (await _networkInfo.isConnected) {
-      try {
-        final remoteTest = await _baseRemoteDataSource.noResults();
-        return Right(remoteTest);
-      } catch (error) {
-        return Left(ErrorHandler.handle(error).failure);
-      }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
-  }
-
-  @override
   Future<Either<Failure, List<PostsReponse>>> getAllPosts() async {
     if (await _networkInfo.isConnected) {
       try {

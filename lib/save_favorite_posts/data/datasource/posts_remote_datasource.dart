@@ -19,10 +19,7 @@ import '../../domain/requests/posts_by_website_request.dart';
 import '../models/posts_model.dart';
 
 abstract class BaseRemoteDataSource {
-  // no results ----------------------------------------
-  Future<List<PostsModel>> noResults();
-
-  // get all data ----------------------------------------
+// get all data ----------------------------------------
   Future<List<PostsModel>> getAllPosts();
 
   // search with all fields ----------------------------------------
@@ -54,27 +51,18 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
   PostsRemoteDataSource(this._dio);
 
   @override
-  Future<List<PostsModel>> noResults() async {
-    // TODO: implement getAllPosts
-    List<PostsModel> res = <PostsModel>[];
-    try {
-      return [];
-    } catch (e) {
-      throw e.toString();
-    }
-  }
-
-  @override
   Future<List<PostsModel>> getAllPosts() async {
     // TODO: implement getAllPosts
     List<PostsModel> res = <PostsModel>[];
+    var result = postsModel.toList();
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      // return await _dio.get(ApiConstants.test).then((response) {
+      //   res = (response.data['result'] as List).map((e) {
+      //     return PostsModel.fromJson(e);
+      //   }).toList();
+      //   return res;
+      // });
+      return result;
     } catch (e) {
       throw e.toString();
     }
@@ -85,8 +73,6 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     // TODO: implement getPostsByCategory
     List<PostsModel> res = <PostsModel>[];
     var result = postsModel.where((element) => element.category == postsByCategoryRequest.category).toList();
-    print(result);
-    print('resulttttttttttt');
     try {
       // return await _dio.get(ApiConstants.test).then((response) {
       //   res = (response.data['result'] as List).map((e) {
@@ -152,6 +138,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
   Future<List<PostsModel>> getPostsByDesc(PostsByDescRequest postsByDescRequest) async {
     // TODO: implement getPostsByDesc
     List<PostsModel> res = <PostsModel>[];
+
     try {
       return await _dio.get(ApiConstants.test).then((response) {
         res = (response.data['result'] as List).map((e) {
@@ -168,13 +155,16 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
   Future<List<PostsModel>> getPostsByDescNCategory(PostsByDescNCategoryRequest postsByDescNCategoryRequest) async {
     // TODO: implement getPostsByDescNCategory
     List<PostsModel> res = <PostsModel>[];
+    var result = postsModel.where((element) => element.category == postsByDescNCategoryRequest.category && element.description == 'using LinkedIn with Flutter with Designs').toList();
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      // return await _dio.get(ApiConstants.test).then((response) {
+      //   res = (response.data['result'] as List).map((e) {
+      //     return PostsModel.fromJson(e);
+      //   }).toList();
+      //   return res;
+      // });
+
+      return result;
     } catch (e) {
       throw e.toString();
     }

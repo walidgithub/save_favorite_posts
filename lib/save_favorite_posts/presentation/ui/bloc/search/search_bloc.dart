@@ -10,7 +10,6 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_subcategory_n_website_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_subcategory_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_website_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/get_no_resluts_usecases.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../domain/reposnses/posts_response.dart';
 import '../../../../domain/requests/posts_by_category_n_subcategory_n_website_request.dart';
@@ -42,7 +41,6 @@ part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
-  final NoResultsUseCase noResultsUseCase;
   final GetAllPostsUseCase getAllPostsUseCase;
   final GetPostsByWebsiteUseCase getPostsByWebsiteUseCase;
   final GetPostsBySubCategoryUseCase getPostsBySubCategoryUseCase;
@@ -68,7 +66,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       getPostsByCategoryNSubCategoryNWebsiteUseCase;
 
   SearchBloc(
-      this.noResultsUseCase,
       this.getAllPostsUseCase,
       this.getPostsByWebsiteUseCase,
       this.getPostsBySubCategoryUseCase,
@@ -86,7 +83,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       this.getPostsByCategoryNSubCategoryUseCase,
       this.getPostsByCategoryNSubCategoryNWebsiteUseCase)
       : super(const SearchState()) {
-    on<InitialEvent>(_noResults);
     on<GetAllPostsEvent>(_getAllPosts);
     on<GetPostsByWebsiteEvent>(_getPostsByWebsite);
     on<GetPostsBySubCategoryEvent>(_getPostsBySubCategory);
@@ -107,19 +103,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     on<GetPostsByCategoryNSubCategoryEvent>(_getPostsByCategoryNSubCategory);
     on<GetPostsByCategoryNSubCategoryNWebsiteEvent>(
         _getPostsByCategoryNSubCategoryNWebsite);
-  }
-
-  FutureOr<void> _noResults(
-      InitialEvent event, Emitter<SearchState> emit) async {
-    final result = await noResultsUseCase(const NoParameters());
-
-    result.fold(
-        (l) => emit(state.copyWith(
-            postsState: RequestState.error, postsMessage: l.message)),
-        (r) => emit(state.copyWith(
-              postsList: r,
-              postsState: RequestState.loaded,
-            )));
   }
 
   FutureOr<void> _getAllPosts(
@@ -296,7 +279,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       GetPostsByCategoryEvent event, Emitter<SearchState> emit) async {
     final result =
         await getPostsByCategoryUseCase(event.postsByCategoryRequest);
-
     result.fold(
         (l) => emit(state.copyWith(
             postsState: RequestState.error, postsMessage: l.message)),
