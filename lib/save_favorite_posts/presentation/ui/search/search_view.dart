@@ -27,6 +27,7 @@ import '../../../shared/constant/strings_manager.dart';
 import '../../di/di.dart';
 import '../../ui_components/buttons/custom_icon_button.dart';
 import '../../ui_components/buttons/primary_button.dart';
+import '../../ui_components/others/custom_animation.dart';
 import '../../ui_components/texts/heading_rich_text.dart';
 import '../bloc/search/search_bloc.dart';
 import 'components/filter_sheet.dart';
@@ -115,41 +116,44 @@ class _SearchViewState extends State<SearchView> {
               children: [
                 headerBody(context),
                 Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.all(20.w),
-                    child: Center(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          AppStrings.searching,
-                          style: AppTypography.kExtraLight18,
-                        ),
-                        SizedBox(
-                          height: AppConstants.heightBetweenElements,
-                        ),
-                        Text(
-                          AppStrings.or,
-                          style: AppTypography.kExtraLight18,
-                        ),
-                        SizedBox(
-                          height: AppConstants.heightBetweenElements,
-                        ),
-                        PrimaryButton(
-                          onTap: () {
-                            BlocProvider.of<SearchBloc>(context)
-                                .add(GetAllPostsEvent());
-                            setState(() {
-                              totalPages = getPagesCount();
-                              print('total pages is $totalPages');
-                            });
-                          },
-                          height: 50.h,
-                          borderRadius: 10.r,
-                          text: AppStrings.getAllPosts,
-                        )
-                      ],
-                    )),
+                  child: FadeAnimation(
+                    delay: 0.5,
+                    child: Padding(
+                      padding: EdgeInsets.all(20.w),
+                      child: Center(
+                          child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            AppStrings.searching,
+                            style: AppTypography.kExtraLight18,
+                          ),
+                          SizedBox(
+                            height: AppConstants.heightBetweenElements,
+                          ),
+                          Text(
+                            AppStrings.or,
+                            style: AppTypography.kExtraLight18,
+                          ),
+                          SizedBox(
+                            height: AppConstants.heightBetweenElements,
+                          ),
+                          PrimaryButton(
+                            onTap: () {
+                              BlocProvider.of<SearchBloc>(context)
+                                  .add(GetAllPostsEvent());
+                              setState(() {
+                                totalPages = getPagesCount();
+                                print('total pages is $totalPages');
+                              });
+                            },
+                            height: 50.h,
+                            borderRadius: 10.r,
+                            text: AppStrings.getAllPosts,
+                          )
+                        ],
+                      )),
+                    ),
                   ),
                 )
               ],

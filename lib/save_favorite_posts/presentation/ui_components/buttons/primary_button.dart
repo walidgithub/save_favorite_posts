@@ -70,7 +70,7 @@ class _PrimaryButtonState extends State<PrimaryButton>
         child: Card(
           elevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(100),
+            borderRadius: BorderRadius.circular(50.w),
           ),
           child: Container(
             height: widget.height ?? 55.h,
@@ -78,8 +78,7 @@ class _PrimaryButtonState extends State<PrimaryButton>
             width: widget.width ?? double.maxFinite,
             decoration: BoxDecoration(
               color: widget.color ?? ColorManager.kPrimary,
-              borderRadius: BorderRadius.circular(
-                  widget.borderRadius ?? AppConstants.heightBetweenElements),
+              borderRadius: BorderRadius.circular(10.w),
             ),
             child: Text(
               widget.text,

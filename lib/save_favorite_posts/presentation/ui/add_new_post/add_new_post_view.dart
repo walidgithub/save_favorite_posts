@@ -10,10 +10,13 @@ import '../../../data/models/category_model.dart';
 import '../../../data/models/sub_category_model.dart';
 import '../../../data/models/website_model.dart';
 import '../../../shared/style/colors_manager.dart';
+import '../../router/app_router.dart';
+import 'components/add_new_item_arguments.dart';
 import '../../ui_components/buttons/primary_button.dart';
 import '../../ui_components/dialogs/loading_dialog.dart';
 import '../../ui_components/others/custom_animation.dart';
 import '../../ui_components/texts/heading_rich_text.dart';
+import 'components/add_new_item_to_filter.dart';
 import 'components/filter_drop_down.dart';
 
 class AddNewPostView extends StatefulWidget {
@@ -78,41 +81,116 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                     hintText: AppStrings.link,
                     hintStyle: TextStyle(fontSize: 15.sp),
                     labelText: AppStrings.postLink,
-                    labelStyle:
-                        TextStyle(fontSize: 15.sp, color: ColorManager.kSecondary),
+                    labelStyle: TextStyle(
+                        fontSize: 15.sp, color: ColorManager.kSecondary),
                     border: InputBorder.none)),
             SizedBox(
               height: 20.h,
             ),
             SizedBox(
-                height: 50.h,
-                child: FilterDropDown(
-                  filterEditingController: _websiteEditingController,
-                  selectedFilter: selectedWebSiteResponse,
-                  filterResponse: websiteModel,
-                  hintText: AppStrings.website,
+                height: 60.h,
+                child: Stack(
+                  children: [
+                    FilterDropDown(
+                      filterEditingController: _websiteEditingController,
+                      selectedFilter: selectedWebSiteResponse,
+                      filterResponse: websiteModel,
+                      hintText: AppStrings.website,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 60.w),
+                      child: GestureDetector(
+                        onTap: () {
+                          AddNewItemDialog.show(context,  NewItemDialogData(
+                              dialogTitle: AppStrings.addNewWebsite,
+                              newItemName: AppStrings.website,
+                              returnName: (String newItem) {
+
+                                setState(() {});
+                              }));
+                        },
+                        child: const Align(
+                          alignment: Alignment.centerRight,
+                          child: Icon(
+                            Icons.add_circle_outline_rounded,
+                            color: ColorManager.kLightBrown,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 )),
             SizedBox(
               height: 20.h,
             ),
             SizedBox(
-                height: 50.h,
-                child: FilterDropDown(
-                  filterEditingController: _categoryEditingController,
-                  selectedFilter: selectedCategoryResponse,
-                  filterResponse: categoryModel,
-                  hintText: AppStrings.category,
+                height: 60.h,
+                child: Stack(
+                  children: [
+                    FilterDropDown(
+                      filterEditingController: _categoryEditingController,
+                      selectedFilter: selectedCategoryResponse,
+                      filterResponse: categoryModel,
+                      hintText: AppStrings.category,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 60.w),
+                      child: GestureDetector(
+                        onTap: () {
+                          AddNewItemDialog.show(context,  NewItemDialogData(
+                              dialogTitle: AppStrings.addNewCategory,
+                              newItemName: AppStrings.category,
+                              returnName: (String newItem) {
+
+                                setState(() {});
+                              }));
+                        },
+                        child: const Align(
+                          alignment: Alignment.centerRight,
+                          child: Icon(
+                            Icons.add_circle_outline_rounded,
+                            color: ColorManager.kLightBrown,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 )),
             SizedBox(
               height: 20.h,
             ),
             SizedBox(
-                height: 50.h,
-                child: FilterDropDown(
-                  filterEditingController: _subCategoryEditingController,
-                  selectedFilter: selectedSubCategoryResponse,
-                  filterResponse: subCategoryModel,
-                  hintText: AppStrings.subCategory,
+                height: 60.h,
+                child: Stack(
+                  children: [
+                    FilterDropDown(
+                      filterEditingController: _subCategoryEditingController,
+                      selectedFilter: selectedSubCategoryResponse,
+                      filterResponse: subCategoryModel,
+                      hintText: AppStrings.subCategory,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 60.w),
+                      child: GestureDetector(
+                        onTap: () {
+                          AddNewItemDialog.show(context,  NewItemDialogData(
+                              dialogTitle: AppStrings.addNewSubCategory,
+                              newItemName: AppStrings.subCategory,
+                              returnName: (String newItem) {
+
+                                setState(() {});
+                              }));
+                      },
+                        child: const Align(
+                          alignment: Alignment.centerRight,
+                          child: Icon(
+                            Icons.add_circle_outline_rounded,
+                            color: ColorManager.kLightBrown,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 )),
             SizedBox(
               height: 20.h,
@@ -129,8 +207,8 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                   contentPadding: const EdgeInsets.all(15),
                   labelText: AppStrings.description,
                   alignLabelWithHint: true,
-                  labelStyle:
-                      TextStyle(fontSize: 15.sp, color: ColorManager.kSecondary),
+                  labelStyle: TextStyle(
+                      fontSize: 15.sp, color: ColorManager.kSecondary),
                   border: InputBorder.none),
             ),
             SizedBox(

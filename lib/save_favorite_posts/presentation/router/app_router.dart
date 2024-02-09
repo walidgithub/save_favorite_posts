@@ -6,7 +6,6 @@ import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/auth/sig
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/landing/landing_view.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/onboarding/onboarding_view.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/profile/profile_view.dart';
-import '../ui/search/search_view.dart';
 class Routes {
   static const String onBoarding = "/onBoarding";
   static const String signIn = "/signIn";
@@ -31,8 +30,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const LandingView());
       case Routes.profile:
         return MaterialPageRoute(builder: (_) => const ProfileView());
-      // case Routes.pdfRoute:
-      //   return MaterialPageRoute(builder: (_) => PDFView(arguments: settings.arguments as GoToPage));
       default:
         return unDefinedRoute();
     }

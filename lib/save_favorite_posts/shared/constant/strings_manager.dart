@@ -13,6 +13,9 @@ class AppStrings {
   static const less = " Less";
   static const noSearchResults = " No Search Results";
   static const addNewPost = "Add new post";
+  static const addNewWebsite = "Add New Website";
+  static const addNewCategory = "Add New Category";
+  static const addNewSubCategory = "Add New SubCategory";
   static const searching = "Start Searching";
   static const external = "External";
   static const internal = "Internal";
@@ -42,6 +45,8 @@ class AppStrings {
   static const askToLogout = "Would you like to log out and return to the login screen?";
   static const cancel = "Cancel";
   static const save = "Save";
+  static const add = "Add";
+  static const close = "Close";
   static const send = "Send";
   static const yourEmail = "Your Email";
   static const yourPassword = "Your Password";
