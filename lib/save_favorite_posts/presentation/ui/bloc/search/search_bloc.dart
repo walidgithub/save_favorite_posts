@@ -11,6 +11,7 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_subcategory_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_website_request.dart';
 import '../../../../../core/utils/enums.dart';
+import '../../../../data/models/posts_model.dart';
 import '../../../../domain/reposnses/posts_response.dart';
 import '../../../../domain/requests/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../../../domain/requests/posts_by_category_n_subcategory_request.dart';
@@ -107,6 +108,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
   FutureOr<void> _getAllPosts(
       GetAllPostsEvent event, Emitter<SearchState> emit) async {
+
     final result = await getAllPostsUseCase(const NoParameters());
 
     result.fold(

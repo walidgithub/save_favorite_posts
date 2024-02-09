@@ -108,59 +108,25 @@ class _SearchViewState extends State<SearchView> {
 
   BlocProvider<SearchBloc> bodyContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<SearchBloc>(),
-      child: BlocBuilder<SearchBloc, SearchState>(builder: (context, state) {
+      create: (context) => sl<SearchBloc>()..add(GetAllPostsEvent()),
+      child: BlocBuilder<SearchBloc, SearchState>(
+          builder: (context, state) {
+            print('state is $state');
         switch (state.postsState) {
-          case RequestState.empty:
+          case RequestState.loading:
             return Column(
               children: [
                 headerBody(context),
                 Expanded(
-                  child: FadeAnimation(
-                    delay: 0.5,
-                    child: Padding(
-                      padding: EdgeInsets.all(20.w),
-                      child: Center(
-                          child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            AppStrings.searching,
-                            style: AppTypography.kExtraLight18,
-                          ),
-                          SizedBox(
-                            height: AppConstants.heightBetweenElements,
-                          ),
-                          Text(
-                            AppStrings.or,
-                            style: AppTypography.kExtraLight18,
-                          ),
-                          SizedBox(
-                            height: AppConstants.heightBetweenElements,
-                          ),
-                          PrimaryButton(
-                            onTap: () {
-                              BlocProvider.of<SearchBloc>(context)
-                                  .add(GetAllPostsEvent());
-                              setState(() {
-                                totalPages = getPagesCount();
-                                print('total pages is $totalPages');
-                              });
-                            },
-                            height: 50.h,
-                            borderRadius: 10.r,
-                            text: AppStrings.getAllPosts,
-                          )
-                        ],
-                      )),
-                    ),
+                  child: Padding(
+                    padding: EdgeInsets.all(20.w),
+                    child: const Center(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [CircularProgressIndicator()])),
                   ),
                 )
               ],
-            );
-          case RequestState.loading:
-            return const Center(
-              child: CircularProgressIndicator(),
             );
           case RequestState.loaded:
             return Column(
@@ -294,7 +260,21 @@ class _SearchViewState extends State<SearchView> {
                 },
               ),
             )
-          : const Center(child: Text(AppStrings.noSearchResults)),
+          : SizedBox(
+              height: 500.h,
+              child: FadeAnimation(
+                delay: 0.5,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      AppStrings.noSearchResults,
+                      style: AppTypography.kExtraLight18,
+                    ),
+                  ],
+                ),
+              ),
+            ),
     );
   }
 
@@ -414,6 +394,5 @@ class _SearchViewState extends State<SearchView> {
           PostsBySubCategoryRequest(subCategory: subCategory)));
     }
     totalPages = getPagesCount();
-    print('total pages is $totalPages');
   }
 }

@@ -7,7 +7,7 @@ class SearchState extends Equatable {
 
   const SearchState({
     this.postsList = const [],
-    this.postsState = RequestState.empty,
+    this.postsState = RequestState.loading,
     this.postsMessage = '',
   });
 
