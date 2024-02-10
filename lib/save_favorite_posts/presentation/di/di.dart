@@ -23,7 +23,7 @@ import '../../domain/usecases/get_posts_by_desc_usecase.dart';
 import '../../domain/usecases/get_posts_by_subcategory_n_website_usecase.dart';
 import '../../domain/usecases/get_posts_by_subcategory_usecase.dart';
 import '../../domain/usecases/get_posts_by_website_usecase.dart';
-import '../ui/bloc/search/search_bloc.dart';
+import '../ui/cubit/search/search_cubit.dart';
 final sl = GetIt.instance;
 
 class ServiceLocator {
@@ -44,7 +44,7 @@ class ServiceLocator {
             () => NetworkInfoImpl(InternetConnectionChecker()));
 
     // Bloc
-    sl.registerFactory(() => SearchBloc(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+    sl.registerFactory(() => SearchCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
     // Use Cases
     sl.registerLazySingleton<GetAllPostsUseCase>(
@@ -80,8 +80,8 @@ class ServiceLocator {
     sl.registerLazySingleton<GetPostsByDescNSubCategoryUseCase>(
             () => GetPostsByDescNSubCategoryUseCase(sl()));
 
-    sl.registerLazySingleton<GetPostsByDesNWebsiteUseCase>(
-            () => GetPostsByDesNWebsiteUseCase(sl()));
+    sl.registerLazySingleton<GetPostsByDescNWebsiteUseCase>(
+            () => GetPostsByDescNWebsiteUseCase(sl()));
 
     sl.registerLazySingleton<GetPostsByDescUseCase>(
             () => GetPostsByDescUseCase(sl()));

@@ -16,7 +16,7 @@ class PostsByDescNCategoryNWebsiteRequest extends Equatable {
     return {
       'description': description,
       'category': category,
-      'subCategory': website,
+      'website': website,
     };
   }
 

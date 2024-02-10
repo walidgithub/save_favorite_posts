@@ -16,7 +16,7 @@ class PostsByCategoryNSubCategoryNWebsiteRequest extends Equatable {
     return {
       'category': category,
       'subCategory': subCategory,
-      'subCategory': website,
+      'website': website,
     };
   }
 

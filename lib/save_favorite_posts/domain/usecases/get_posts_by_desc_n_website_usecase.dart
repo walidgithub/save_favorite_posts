@@ -4,10 +4,10 @@ import 'package:dartz/dartz.dart';
 import '../../../core/error/failure.dart';
 import '../reposnses/posts_response.dart';
 
-class GetPostsByDesNWebsiteUseCase extends BaseUsecase {
+class GetPostsByDescNWebsiteUseCase extends BaseUsecase {
   final BaseRepository baseRepository;
 
-  GetPostsByDesNWebsiteUseCase(this.baseRepository);
+  GetPostsByDescNWebsiteUseCase(this.baseRepository);
 
   @override
   Future<Either<Failure, List<PostsReponse>>> call(parameters) async {

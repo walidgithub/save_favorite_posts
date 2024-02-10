@@ -13,7 +13,7 @@ class PostsBySubCategoryNWebsiteRequest extends Equatable {
   Map<String, dynamic> toJson() {
     return {
       'subCategory': subCategory,
-      'subCategory': website,
+      'website': website,
     };
   }
 

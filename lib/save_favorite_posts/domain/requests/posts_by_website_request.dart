@@ -10,7 +10,7 @@ class PostsByWebsiteRequest extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'subCategory': website,
+      'website': website,
     };
   }
 

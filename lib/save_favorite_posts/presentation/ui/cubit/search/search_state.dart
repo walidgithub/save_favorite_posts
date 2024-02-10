@@ -1,4 +1,7 @@
-part of 'search_bloc.dart';
+import 'package:equatable/equatable.dart';
+
+import '../../../../../core/utils/enums.dart';
+import '../../../../domain/reposnses/posts_response.dart';
 
 class SearchState extends Equatable {
   final List<PostsReponse> postsList;
@@ -26,5 +29,3 @@ class SearchState extends Equatable {
   @override
   List<Object?> get props => [postsList, postsState, postsMessage];
 }
-
-class Empty extends SearchState{}

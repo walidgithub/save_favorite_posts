@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/search/components/search_card.dart';
+import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/search/components/shimmer_card.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
 import '../../../../domain/reposnses/posts_response.dart';
 import '../../../ui_components/buttons/custom_icon_button.dart';
@@ -35,3 +36,10 @@ class SearchResultView extends StatelessWidget {
     );
   }
 }
+
+/*
+SearchCard(
+          index: index,
+          postsResponse: postsResponse,
+        )
+ */
