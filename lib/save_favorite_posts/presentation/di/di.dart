@@ -1,7 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/preferences/app_pref.dart';
-import '../../data/datasource/posts_remote_datasource.dart';
+import '../../data/datasource/posts_local_datasource.dart';
 import '../../data/repository/posts_repository.dart';
 import '../../domain/repository/base_repository.dart';
 import '../../domain/usecases/get_all_posts_usecases.dart';
@@ -90,9 +90,9 @@ class ServiceLocator {
     sl.registerLazySingleton<BaseRepository>(
             () => PostsRepository(sl()));
 
-    // Remote DataSource
-    sl.registerLazySingleton<BaseRemoteDataSource>(
-            () => PostsRemoteDataSource());
+    // Local DataSource
+    sl.registerLazySingleton<BaseLocalDataSource>(
+            () => PostsLocalDataSource());
 
   }
 }

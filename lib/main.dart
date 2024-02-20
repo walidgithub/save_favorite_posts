@@ -65,23 +65,10 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final AppPreferences _appPreferences = sl<AppPreferences>();
 
-  bool loggedIn = false;
-  goNext() {
-    _appPreferences.isUserLoggedIn().then((isUserLoggedIn) => {
-          if (isUserLoggedIn) {loggedIn = true} else {loggedIn = false}
-        });
-  }
-
   @override
   void didChangeDependencies() {
     _appPreferences.getLocal().then((local) => {context.setLocale(local)});
     super.didChangeDependencies();
-  }
-
-  @override
-  void initState() {
-    goNext();
-    super.initState();
   }
 
   @override
