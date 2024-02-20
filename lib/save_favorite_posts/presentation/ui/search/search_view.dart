@@ -27,7 +27,6 @@ import '../../../domain/requests/posts_by_subcategory_request.dart';
 import '../../../domain/requests/posts_by_website_request.dart';
 import '../../../shared/constant/strings_manager.dart';
 import '../../di/di.dart';
-import '../../spread_sheet/create_sheet_N_get_sheet_d.dart';
 import '../../ui_components/buttons/custom_icon_button.dart';
 import '../../ui_components/others/custom_animation.dart';
 import '../../ui_components/texts/heading_rich_text.dart';
@@ -61,13 +60,9 @@ class _SearchViewState extends State<SearchView> {
   int totalPages = 0;
   List<int> middlePages = [];
 
-  CreateSpreadSheet createSpreadSheet = CreateSpreadSheet();
-
   @override
   void initState() {
     super.initState();
-
-    // createSpreadSheet.create('waliddddd');
 
     totalPages = getPagesCount();
     _searchFocusNode.addListener(_onFocusChange);

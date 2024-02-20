@@ -1,6 +1,3 @@
-import '../../../core/network/api_constants.dart';
-import '../../../core/network/dio_manager.dart';
-import '../../domain/reposnses/posts_response.dart';
 import '../../domain/requests/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../domain/requests/posts_by_category_n_subcategory_request.dart';
 import '../../domain/requests/posts_by_category_n_website_request.dart';
@@ -47,8 +44,6 @@ abstract class BaseRemoteDataSource {
 }
 
 class PostsRemoteDataSource extends BaseRemoteDataSource {
-  final DioManager _dio;
-  PostsRemoteDataSource(this._dio);
 
   @override
   Future<List<PostsModel>> getAllPosts() async {
@@ -91,12 +86,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     // TODO: implement getPostsByCategoryNSubCategory
     List<PostsModel> res = <PostsModel>[];
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -107,12 +97,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     // TODO: implement getPostsByCategoryNSubCategoryNWebsite
     List<PostsModel> res = <PostsModel>[];
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -123,12 +108,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     // TODO: implement getPostsByCategoryNWebsite
     List<PostsModel> res = <PostsModel>[];
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -140,12 +120,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     List<PostsModel> res = <PostsModel>[];
 
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -157,13 +132,6 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     List<PostsModel> res = <PostsModel>[];
     var result = postsModel.where((element) => element.category == postsByDescNCategoryRequest.category && element.description == 'using LinkedIn with Flutter with Designs').toList();
     try {
-      // return await _dio.get(ApiConstants.test).then((response) {
-      //   res = (response.data['result'] as List).map((e) {
-      //     return PostsModel.fromJson(e);
-      //   }).toList();
-      //   return res;
-      // });
-
       return result;
     } catch (e) {
       throw e.toString();
@@ -175,12 +143,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     // TODO: implement getPostsByDescNCategoryNSubCategory
     List<PostsModel> res = <PostsModel>[];
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -191,12 +154,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     // TODO: implement getPostsByDescNCategoryNSubCategoryNWebsite
     List<PostsModel> res = <PostsModel>[];
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -207,12 +165,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     // TODO: implement getPostsByDescNSubCategory
     List<PostsModel> res = <PostsModel>[];
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -223,12 +176,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     // TODO: implement getPostsByDescNWebsite
     List<PostsModel> res = <PostsModel>[];
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -239,12 +187,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     // TODO: implement getPostsByDescNWebsiteNCategory
     List<PostsModel> res = <PostsModel>[];
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -255,12 +198,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     // TODO: implement getPostsByDescNWebsiteNSubCategory
     List<PostsModel> res = <PostsModel>[];
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -271,12 +209,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     // TODO: implement getPostsBySubCategory
     List<PostsModel> res = <PostsModel>[];
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -287,12 +220,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     // TODO: implement getPostsBySubCategoryNWebsite
     List<PostsModel> res = <PostsModel>[];
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -303,12 +231,7 @@ class PostsRemoteDataSource extends BaseRemoteDataSource {
     // TODO: implement getPostsByWebsite
     List<PostsModel> res = <PostsModel>[];
     try {
-      return await _dio.get(ApiConstants.test).then((response) {
-        res = (response.data['result'] as List).map((e) {
-          return PostsModel.fromJson(e);
-        }).toList();
-        return res;
-      });
+      return res;
     } catch (e) {
       throw e.toString();
     }

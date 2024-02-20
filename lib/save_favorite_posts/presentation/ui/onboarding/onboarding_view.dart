@@ -62,7 +62,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                   width: 130.w,
                   onTap: () {
                     if (currentIndex == (onBoardingList.length - 1)) {
-                      Navigator.of(context).pushReplacementNamed(Routes.signIn);
+                      Navigator.of(context).pushReplacementNamed(Routes.landing);
                     } else {
                       pageController.nextPage(
                         duration: const Duration(milliseconds: 500),

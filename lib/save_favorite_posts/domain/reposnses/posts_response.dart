@@ -9,7 +9,6 @@ class PostsReponse extends Equatable {
   final String description;
   final String link;
   final int seen;
-  final UserResponse user;
 
   const PostsReponse({
     required this.id,
@@ -19,9 +18,8 @@ class PostsReponse extends Equatable {
     required this.description,
     required this.link,
     required this.seen,
-    required this.user,
   });
 
   @override
-  List<Object?> get props => [id, category, subCategory, website, description, link, seen, user];
+  List<Object?> get props => [id, category, subCategory, website, description, link, seen];
 }

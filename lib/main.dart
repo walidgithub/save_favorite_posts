@@ -10,7 +10,6 @@ import 'package:save_favorite_posts/save_favorite_posts/shared/constant/app_them
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/language_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
-import 'package:save_favorite_posts/save_favorite_posts/shared/services/g_sheet_api.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 
 import 'core/preferences/app_pref.dart';
@@ -19,7 +18,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ServiceLocator().init();
   await EasyLocalization.ensureInitialized();
-  await UserSheetsApi.init();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
