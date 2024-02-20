@@ -30,8 +30,8 @@ class PostsRepository extends BaseRepository {
   @override
   Future<Either<Failure, List<PostsReponse>>> getAllPosts() async {
     try {
-      final remoteTest = await _baseLocalDataSource.getAllPosts();
-      return Right(remoteTest);
+      final result = await _baseLocalDataSource.getAllPosts();
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -41,9 +41,9 @@ class PostsRepository extends BaseRepository {
   Future<Either<Failure, List<PostsReponse>>> getPostsByCategory(
       PostsByCategoryRequest postsByCategoryRequest) async {
     try {
-      final remoteTest =
+      final result =
           await _baseLocalDataSource.getPostsByCategory(postsByCategoryRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -54,9 +54,9 @@ class PostsRepository extends BaseRepository {
       PostsByCategoryNSubCategoryRequest
           postsByCategoryNSubCategoryRequest) async {
     try {
-      final remoteTest = await _baseLocalDataSource
+      final result = await _baseLocalDataSource
           .getPostsByCategoryNSubCategory(postsByCategoryNSubCategoryRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -68,10 +68,10 @@ class PostsRepository extends BaseRepository {
           PostsByCategoryNSubCategoryNWebsiteRequest
               postsByCategoryNSubCategoryNWebsiteRequest) async {
     try {
-      final remoteTest =
+      final result =
           await _baseLocalDataSource.getPostsByCategoryNSubCategoryNWebsite(
               postsByCategoryNSubCategoryNWebsiteRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -81,9 +81,9 @@ class PostsRepository extends BaseRepository {
   Future<Either<Failure, List<PostsReponse>>> getPostsByCategoryNWebsite(
       PostsByCategoryNWebsiteRequest postsByCategoryNWebsiteRequest) async {
     try {
-      final remoteTest = await _baseLocalDataSource
+      final result = await _baseLocalDataSource
           .getPostsByCategoryNWebsite(postsByCategoryNWebsiteRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -93,9 +93,9 @@ class PostsRepository extends BaseRepository {
   Future<Either<Failure, List<PostsReponse>>> getPostsByDesc(
       PostsByDescRequest postsByDescRequest) async {
     try {
-      final remoteTest =
+      final result =
           await _baseLocalDataSource.getPostsByDesc(postsByDescRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -105,9 +105,9 @@ class PostsRepository extends BaseRepository {
   Future<Either<Failure, List<PostsReponse>>> getPostsByDescNCategory(
       PostsByDescNCategoryRequest postsByDescNCategoryRequest) async {
     try {
-      final remoteTest = await _baseLocalDataSource
+      final result = await _baseLocalDataSource
           .getPostsByDescNCategory(postsByDescNCategoryRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -119,10 +119,10 @@ class PostsRepository extends BaseRepository {
           PostsByDescNCategoryNSubCategoryRequest
               postsByDescNCategoryNSubCategoryRequest) async {
     try {
-      final remoteTest =
+      final result =
           await _baseLocalDataSource.getPostsByDescNCategoryNSubCategory(
               postsByDescNCategoryNSubCategoryRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -134,10 +134,10 @@ class PostsRepository extends BaseRepository {
           PostsByDescNCategoryNSubCategoryNWebsiteRequest
               postsByDescNCategoryNSubCategoryNWebsiteRequest) async {
     try {
-      final remoteTest = await _baseLocalDataSource
+      final result = await _baseLocalDataSource
           .getPostsByDescNCategoryNSubCategoryNWebsite(
               postsByDescNCategoryNSubCategoryNWebsiteRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -147,9 +147,9 @@ class PostsRepository extends BaseRepository {
   Future<Either<Failure, List<PostsReponse>>> getPostsByDescNSubCategory(
       PostsByDescNSubCategoryRequest postsByDescNSubCategoryRequest) async {
     try {
-      final remoteTest = await _baseLocalDataSource
+      final result = await _baseLocalDataSource
           .getPostsByDescNSubCategory(postsByDescNSubCategoryRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -159,9 +159,9 @@ class PostsRepository extends BaseRepository {
   Future<Either<Failure, List<PostsReponse>>> getPostsByDescNWebsite(
       PostsByDescNWebsiteRequest postsByDesNWebsiteRequest) async {
     try {
-      final remoteTest = await _baseLocalDataSource
+      final result = await _baseLocalDataSource
           .getPostsByDescNWebsite(postsByDesNWebsiteRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -172,9 +172,9 @@ class PostsRepository extends BaseRepository {
       PostsByDescNCategoryNWebsiteRequest
           postsByDescNCategoryNWebsiteRequest) async {
     try {
-      final remoteTest = await _baseLocalDataSource
+      final result = await _baseLocalDataSource
           .getPostsByDescNWebsiteNCategory(postsByDescNCategoryNWebsiteRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -186,10 +186,10 @@ class PostsRepository extends BaseRepository {
           PostsByDescNSubCategoryNWebsiteRequest
               postsByDescNSubCategoryNWebsiteRequest) async {
     try {
-      final remoteTest =
+      final result =
           await _baseLocalDataSource.getPostsByDescNWebsiteNSubCategory(
               postsByDescNSubCategoryNWebsiteRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -199,9 +199,9 @@ class PostsRepository extends BaseRepository {
   Future<Either<Failure, List<PostsReponse>>> getPostsBySubCategory(
       PostsBySubCategoryRequest postsBySubCategoryRequest) async {
     try {
-      final remoteTest = await _baseLocalDataSource
+      final result = await _baseLocalDataSource
           .getPostsBySubCategory(postsBySubCategoryRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -212,9 +212,9 @@ class PostsRepository extends BaseRepository {
       PostsBySubCategoryNWebsiteRequest
           postsBySubCategoryNWebsiteRequest) async {
     try {
-      final remoteTest = await _baseLocalDataSource
+      final result = await _baseLocalDataSource
           .getPostsBySubCategoryNWebsite(postsBySubCategoryNWebsiteRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
@@ -224,9 +224,9 @@ class PostsRepository extends BaseRepository {
   Future<Either<Failure, List<PostsReponse>>> getPostsByWebsite(
       PostsByWebsiteRequest postsByWebsiteRequest) async {
     try {
-      final remoteTest =
+      final result =
           await _baseLocalDataSource.getPostsByWebsite(postsByWebsiteRequest);
-      return Right(remoteTest);
+      return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
     }
