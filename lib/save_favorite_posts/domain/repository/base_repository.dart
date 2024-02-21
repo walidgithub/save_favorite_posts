@@ -1,46 +1,54 @@
 import 'package:dartz/dartz.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/insert_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
 import '../../../core/error/failure.dart';
 import '../reposnses/posts_response.dart';
-import '../requests/posts_by_category_n_subcategory_n_website_request.dart';
-import '../requests/posts_by_category_n_subcategory_request.dart';
-import '../requests/posts_by_category_n_website_request.dart';
-import '../requests/posts_by_category_request.dart';
-import '../requests/posts_by_desc_n_category_n_subcategory_n_website_request.dart';
-import '../requests/posts_by_desc_n_category_n_subcategory_request.dart';
-import '../requests/posts_by_desc_n_category_n_website_request.dart';
-import '../requests/posts_by_desc_n_category_request.dart';
-import '../requests/posts_by_desc_n_subcategory_n_website_request.dart';
-import '../requests/posts_by_desc_n_subcategory_request.dart';
-import '../requests/posts_by_desc_n_website_request.dart';
-import '../requests/posts_by_desc_request.dart';
-import '../requests/posts_by_subcategory_n_website_request.dart';
-import '../requests/posts_by_subcategory_request.dart';
-import '../requests/posts_by_website_request.dart';
+import '../requests/search/posts_by_category_n_subcategory_n_website_request.dart';
+import '../requests/search/posts_by_category_n_subcategory_request.dart';
+import '../requests/search/posts_by_category_n_website_request.dart';
+import '../requests/search/posts_by_category_request.dart';
+import '../requests/search/posts_by_desc_n_category_n_subcategory_n_website_request.dart';
+import '../requests/search/posts_by_desc_n_category_n_subcategory_request.dart';
+import '../requests/search/posts_by_desc_n_category_n_website_request.dart';
+import '../requests/search/posts_by_desc_n_category_request.dart';
+import '../requests/search/posts_by_desc_n_subcategory_n_website_request.dart';
+import '../requests/search/posts_by_desc_n_subcategory_request.dart';
+import '../requests/search/posts_by_desc_n_website_request.dart';
+import '../requests/search/posts_by_desc_request.dart';
+import '../requests/search/posts_by_subcategory_n_website_request.dart';
+import '../requests/search/posts_by_subcategory_request.dart';
+import '../requests/search/posts_by_website_request.dart';
 
 abstract class BaseRepository {
+  // IUD ----------------------------------------
+  Future<Either<Failure, int>> insertPostData(InsertPostRequest insertPostRequest);
+  Future<Either<Failure, int>> deletePostData(DeletePostRequest deletePostRequest);
+  Future<Either<Failure, int>> updatePostData(UpdatePostRequest updatePostRequest);
+
   // get all data ----------------------------------------
-  Future<Either<Failure, List<PostsReponse>>> getAllPosts();
+  Future<Either<Failure, List<PostsResponse>>> getAllPosts();
 
   // search with all fields ----------------------------------------
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNCategoryNSubCategoryNWebsite(PostsByDescNCategoryNSubCategoryNWebsiteRequest postsByDescNCategoryNSubCategoryNWebsiteRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsByDescNCategoryNSubCategoryNWebsite(PostsByDescNCategoryNSubCategoryNWebsiteRequest postsByDescNCategoryNSubCategoryNWebsiteRequest);
   
   // search with three fields -------------------------------------
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNCategoryNSubCategory(PostsByDescNCategoryNSubCategoryRequest postsByDescNCategoryNSubCategoryRequest);
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNWebsiteNCategory(PostsByDescNCategoryNWebsiteRequest postsByDescNCategoryNWebsiteRequest);
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNWebsiteNSubCategory(PostsByDescNSubCategoryNWebsiteRequest postsByDescNSubCategoryNWebsiteRequest);
-  Future<Either<Failure, List<PostsReponse>>> getPostsByCategoryNSubCategoryNWebsite(PostsByCategoryNSubCategoryNWebsiteRequest postsByCategoryNSubCategoryNWebsiteRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsByDescNCategoryNSubCategory(PostsByDescNCategoryNSubCategoryRequest postsByDescNCategoryNSubCategoryRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsByDescNWebsiteNCategory(PostsByDescNCategoryNWebsiteRequest postsByDescNCategoryNWebsiteRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsByDescNWebsiteNSubCategory(PostsByDescNSubCategoryNWebsiteRequest postsByDescNSubCategoryNWebsiteRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsByCategoryNSubCategoryNWebsite(PostsByCategoryNSubCategoryNWebsiteRequest postsByCategoryNSubCategoryNWebsiteRequest);
   
   // search with two fields ----------------------------------------
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNCategory(PostsByDescNCategoryRequest postsByDescNCategoryRequest);
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNSubCategory(PostsByDescNSubCategoryRequest postsByDescNSubCategoryRequest);
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNWebsite(PostsByDescNWebsiteRequest postsByDesNWebsiteRequest);
-  Future<Either<Failure, List<PostsReponse>>> getPostsByCategoryNSubCategory(PostsByCategoryNSubCategoryRequest postsByCategoryNSubCategoryRequest);
-  Future<Either<Failure, List<PostsReponse>>> getPostsByCategoryNWebsite(PostsByCategoryNWebsiteRequest postsByCategoryNWebsiteRequest);
-  Future<Either<Failure, List<PostsReponse>>> getPostsBySubCategoryNWebsite(PostsBySubCategoryNWebsiteRequest postsBySubCategoryNWebsiteRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsByDescNCategory(PostsByDescNCategoryRequest postsByDescNCategoryRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsByDescNSubCategory(PostsByDescNSubCategoryRequest postsByDescNSubCategoryRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsByDescNWebsite(PostsByDescNWebsiteRequest postsByDesNWebsiteRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsByCategoryNSubCategory(PostsByCategoryNSubCategoryRequest postsByCategoryNSubCategoryRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsByCategoryNWebsite(PostsByCategoryNWebsiteRequest postsByCategoryNWebsiteRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsBySubCategoryNWebsite(PostsBySubCategoryNWebsiteRequest postsBySubCategoryNWebsiteRequest);
   
   // search with one field ----------------------------------------
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDesc(PostsByDescRequest postsByDescRequest);
-  Future<Either<Failure, List<PostsReponse>>> getPostsByWebsite(PostsByWebsiteRequest postsByWebsiteRequest);
-  Future<Either<Failure, List<PostsReponse>>> getPostsByCategory(PostsByCategoryRequest postsByCategoryRequest);
-  Future<Either<Failure, List<PostsReponse>>> getPostsBySubCategory(PostsBySubCategoryRequest postsBySubCategoryRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsByDesc(PostsByDescRequest postsByDescRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsByWebsite(PostsByWebsiteRequest postsByWebsiteRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsByCategory(PostsByCategoryRequest postsByCategoryRequest);
+  Future<Either<Failure, List<PostsResponse>>> getPostsBySubCategory(PostsBySubCategoryRequest postsBySubCategoryRequest);
 }

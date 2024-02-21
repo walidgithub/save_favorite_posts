@@ -64,6 +64,7 @@ dependencies:
   readmore: ^2.2.0
   image_picker: ^0.8.9
   shimmer: ^3.0.0
+  sqflite: any
 
 dev_dependencies:
   flutter_test:

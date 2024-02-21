@@ -9,7 +9,7 @@ import '../../../ui_components/buttons/custom_icon_button.dart';
 
 
 class SearchResultView extends StatelessWidget {
-  final PostsReponse postsResponse;
+  final PostsResponse postsResponse;
   final int index;
   final VoidCallback removeCallback;
   const SearchResultView(

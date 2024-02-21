@@ -1,23 +1,26 @@
 import 'package:dartz/dartz.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_category_n_subcategory_n_website_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_category_n_subcategory_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_category_n_website_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_category_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_desc_n_category_n_subcategory_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_desc_n_category_n_website_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_desc_n_category_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_desc_n_subcategory_n_website_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_desc_n_subcategory_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_desc_n_website_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_desc_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_subcategory_n_website_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_subcategory_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_website_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/insert_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/search/posts_by_category_n_website_request.dart';
 import '../../../core/error/error_handler.dart';
 import '../../../core/error/failure.dart';
 import '../../domain/repository/base_repository.dart';
 import '../../domain/reposnses/posts_response.dart';
-import '../../domain/requests/posts_by_desc_n_category_n_subcategory_n_website_request.dart';
+import '../../domain/requests/search/posts_by_category_n_subcategory_request.dart';
+import '../../domain/requests/search/posts_by_category_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_category_n_subcategory_n_website_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_category_n_subcategory_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_category_n_website_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_category_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_subcategory_n_website_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_subcategory_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_website_request.dart';
+import '../../domain/requests/search/posts_by_desc_request.dart';
+import '../../domain/requests/search/posts_by_subcategory_n_website_request.dart';
+import '../../domain/requests/search/posts_by_subcategory_request.dart';
+import '../../domain/requests/search/posts_by_website_request.dart';
 import '../datasource/posts_local_datasource.dart';
 
 class PostsRepository extends BaseRepository {
@@ -28,7 +31,7 @@ class PostsRepository extends BaseRepository {
   );
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> getAllPosts() async {
+  Future<Either<Failure, List<PostsResponse>>> getAllPosts() async {
     try {
       final result = await _baseLocalDataSource.getAllPosts();
       return Right(result);
@@ -38,7 +41,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> getPostsByCategory(
+  Future<Either<Failure, List<PostsResponse>>> getPostsByCategory(
       PostsByCategoryRequest postsByCategoryRequest) async {
     try {
       final result =
@@ -50,7 +53,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> getPostsByCategoryNSubCategory(
+  Future<Either<Failure, List<PostsResponse>>> getPostsByCategoryNSubCategory(
       PostsByCategoryNSubCategoryRequest
           postsByCategoryNSubCategoryRequest) async {
     try {
@@ -63,7 +66,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>>
+  Future<Either<Failure, List<PostsResponse>>>
       getPostsByCategoryNSubCategoryNWebsite(
           PostsByCategoryNSubCategoryNWebsiteRequest
               postsByCategoryNSubCategoryNWebsiteRequest) async {
@@ -78,7 +81,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> getPostsByCategoryNWebsite(
+  Future<Either<Failure, List<PostsResponse>>> getPostsByCategoryNWebsite(
       PostsByCategoryNWebsiteRequest postsByCategoryNWebsiteRequest) async {
     try {
       final result = await _baseLocalDataSource
@@ -90,7 +93,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDesc(
+  Future<Either<Failure, List<PostsResponse>>> getPostsByDesc(
       PostsByDescRequest postsByDescRequest) async {
     try {
       final result =
@@ -102,7 +105,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNCategory(
+  Future<Either<Failure, List<PostsResponse>>> getPostsByDescNCategory(
       PostsByDescNCategoryRequest postsByDescNCategoryRequest) async {
     try {
       final result = await _baseLocalDataSource
@@ -114,7 +117,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>>
+  Future<Either<Failure, List<PostsResponse>>>
       getPostsByDescNCategoryNSubCategory(
           PostsByDescNCategoryNSubCategoryRequest
               postsByDescNCategoryNSubCategoryRequest) async {
@@ -129,7 +132,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>>
+  Future<Either<Failure, List<PostsResponse>>>
       getPostsByDescNCategoryNSubCategoryNWebsite(
           PostsByDescNCategoryNSubCategoryNWebsiteRequest
               postsByDescNCategoryNSubCategoryNWebsiteRequest) async {
@@ -144,7 +147,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNSubCategory(
+  Future<Either<Failure, List<PostsResponse>>> getPostsByDescNSubCategory(
       PostsByDescNSubCategoryRequest postsByDescNSubCategoryRequest) async {
     try {
       final result = await _baseLocalDataSource
@@ -156,7 +159,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNWebsite(
+  Future<Either<Failure, List<PostsResponse>>> getPostsByDescNWebsite(
       PostsByDescNWebsiteRequest postsByDesNWebsiteRequest) async {
     try {
       final result = await _baseLocalDataSource
@@ -168,7 +171,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> getPostsByDescNWebsiteNCategory(
+  Future<Either<Failure, List<PostsResponse>>> getPostsByDescNWebsiteNCategory(
       PostsByDescNCategoryNWebsiteRequest
           postsByDescNCategoryNWebsiteRequest) async {
     try {
@@ -181,7 +184,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>>
+  Future<Either<Failure, List<PostsResponse>>>
       getPostsByDescNWebsiteNSubCategory(
           PostsByDescNSubCategoryNWebsiteRequest
               postsByDescNSubCategoryNWebsiteRequest) async {
@@ -196,7 +199,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> getPostsBySubCategory(
+  Future<Either<Failure, List<PostsResponse>>> getPostsBySubCategory(
       PostsBySubCategoryRequest postsBySubCategoryRequest) async {
     try {
       final result = await _baseLocalDataSource
@@ -208,7 +211,7 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> getPostsBySubCategoryNWebsite(
+  Future<Either<Failure, List<PostsResponse>>> getPostsBySubCategoryNWebsite(
       PostsBySubCategoryNWebsiteRequest
           postsBySubCategoryNWebsiteRequest) async {
     try {
@@ -221,11 +224,44 @@ class PostsRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PostsReponse>>> getPostsByWebsite(
+  Future<Either<Failure, List<PostsResponse>>> getPostsByWebsite(
       PostsByWebsiteRequest postsByWebsiteRequest) async {
     try {
       final result =
           await _baseLocalDataSource.getPostsByWebsite(postsByWebsiteRequest);
+      return Right(result);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> deletePostData(DeletePostRequest deletePostRequest) async {
+    try {
+      final result =
+      await _baseLocalDataSource.deletePostData(deletePostRequest);
+      return Right(result);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> insertPostData(InsertPostRequest insertPostRequest) async {
+    try {
+      final result =
+      await _baseLocalDataSource.insertPostData(insertPostRequest);
+      return Right(result);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> updatePostData(UpdatePostRequest updatePostRequest) async {
+    try {
+      final result =
+      await _baseLocalDataSource.updatePostData(updatePostRequest);
       return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);

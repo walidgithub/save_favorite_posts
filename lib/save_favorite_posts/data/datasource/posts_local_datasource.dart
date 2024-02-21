@@ -1,21 +1,31 @@
-import '../../domain/requests/posts_by_category_n_subcategory_n_website_request.dart';
-import '../../domain/requests/posts_by_category_n_subcategory_request.dart';
-import '../../domain/requests/posts_by_category_n_website_request.dart';
-import '../../domain/requests/posts_by_category_request.dart';
-import '../../domain/requests/posts_by_desc_n_category_n_subcategory_n_website_request.dart';
-import '../../domain/requests/posts_by_desc_n_category_n_subcategory_request.dart';
-import '../../domain/requests/posts_by_desc_n_category_n_website_request.dart';
-import '../../domain/requests/posts_by_desc_n_category_request.dart';
-import '../../domain/requests/posts_by_desc_n_subcategory_n_website_request.dart';
-import '../../domain/requests/posts_by_desc_n_subcategory_request.dart';
-import '../../domain/requests/posts_by_desc_n_website_request.dart';
-import '../../domain/requests/posts_by_desc_request.dart';
-import '../../domain/requests/posts_by_subcategory_n_website_request.dart';
-import '../../domain/requests/posts_by_subcategory_request.dart';
-import '../../domain/requests/posts_by_website_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/insert_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
+
+import '../../../core/local_db/dbHelper.dart';
+import '../../domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
+import '../../domain/requests/search/posts_by_category_n_subcategory_request.dart';
+import '../../domain/requests/search/posts_by_category_n_website_request.dart';
+import '../../domain/requests/search/posts_by_category_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_category_n_subcategory_n_website_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_category_n_subcategory_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_category_n_website_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_category_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_subcategory_n_website_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_subcategory_request.dart';
+import '../../domain/requests/search/posts_by_desc_n_website_request.dart';
+import '../../domain/requests/search/posts_by_desc_request.dart';
+import '../../domain/requests/search/posts_by_subcategory_n_website_request.dart';
+import '../../domain/requests/search/posts_by_subcategory_request.dart';
+import '../../domain/requests/search/posts_by_website_request.dart';
 import '../models/posts_model.dart';
 
 abstract class BaseLocalDataSource {
+  // IUD -----------------------------
+  Future<int> insertPostData(InsertPostRequest insertPostRequest);
+  Future<int> deletePostData(DeletePostRequest deletePostRequest);
+  Future<int> updatePostData(UpdatePostRequest updatePostRequest);
+
   // get all data ----------------------------------------
   Future<List<PostsModel>> getAllPosts();
 
@@ -63,12 +73,47 @@ abstract class BaseLocalDataSource {
 }
 
 class PostsLocalDataSource extends BaseLocalDataSource {
+  final DbHelper _dbHelper;
+
+  PostsLocalDataSource(this._dbHelper) {
+    _dbHelper.database;
+  }
+
+  @override
+  Future<int> insertPostData(InsertPostRequest insertPostRequest) async {
+    final res = await _dbHelper.insertPostData(insertPostRequest);
+    try {
+      return res;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<int> deletePostData(DeletePostRequest deletePostRequest) async {
+    final res = await _dbHelper.deletePostData(deletePostRequest);
+    try {
+      return res;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<int> updatePostData(UpdatePostRequest updatePostRequest) async {
+    final res = await _dbHelper.updatePostData(updatePostRequest);
+    try {
+      return res;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
   @override
   Future<List<PostsModel>> getAllPosts() async {
-    List<PostsModel> res = <PostsModel>[];
-    var result = postsModel.toList();
+    final res = await _dbHelper.getAllSavedPosts();
     try {
-      return result;
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -77,12 +122,9 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   @override
   Future<List<PostsModel>> getPostsByCategory(
       PostsByCategoryRequest postsByCategoryRequest) async {
-    List<PostsModel> res = <PostsModel>[];
-    var result = postsModel
-        .where((element) => element.category == postsByCategoryRequest.category)
-        .toList();
+    final res = await _dbHelper.getSavedPostsByCategory(postsByCategoryRequest);
     try {
-      return result;
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -92,7 +134,7 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   Future<List<PostsModel>> getPostsByCategoryNSubCategory(
       PostsByCategoryNSubCategoryRequest
           postsByCategoryNSubCategoryRequest) async {
-    List<PostsModel> res = <PostsModel>[];
+    final res = await _dbHelper.getSavedPostsByCategoryAndSubCategory(postsByCategoryNSubCategoryRequest);
     try {
       return res;
     } catch (e) {
@@ -104,7 +146,7 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   Future<List<PostsModel>> getPostsByCategoryNSubCategoryNWebsite(
       PostsByCategoryNSubCategoryNWebsiteRequest
           postsByCategoryNSubCategoryNWebsiteRequest) async {
-    List<PostsModel> res = <PostsModel>[];
+    final res = await _dbHelper.getSavedPostsByCategoryAndSubCategoryAndWebsite(postsByCategoryNSubCategoryNWebsiteRequest);
     try {
       return res;
     } catch (e) {
@@ -115,7 +157,7 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   @override
   Future<List<PostsModel>> getPostsByCategoryNWebsite(
       PostsByCategoryNWebsiteRequest postsByCategoryNWebsiteRequest) async {
-    List<PostsModel> res = <PostsModel>[];
+    final res = await _dbHelper.getSavedPostsByCategoryAndWebsite(postsByCategoryNWebsiteRequest);
     try {
       return res;
     } catch (e) {
@@ -126,7 +168,7 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   @override
   Future<List<PostsModel>> getPostsByDesc(
       PostsByDescRequest postsByDescRequest) async {
-    List<PostsModel> res = <PostsModel>[];
+    final res = await _dbHelper.getSavedPostsByDesc(postsByDescRequest);
     try {
       return res;
     } catch (e) {
@@ -137,14 +179,9 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   @override
   Future<List<PostsModel>> getPostsByDescNCategory(
       PostsByDescNCategoryRequest postsByDescNCategoryRequest) async {
-    List<PostsModel> res = <PostsModel>[];
-    var result = postsModel
-        .where((element) =>
-            element.category == postsByDescNCategoryRequest.category &&
-            element.description == 'using LinkedIn with Flutter with Designs')
-        .toList();
+    final res = await _dbHelper.getSavedPostsByDescAndCategory(postsByDescNCategoryRequest);
     try {
-      return result;
+      return res;
     } catch (e) {
       throw e.toString();
     }
@@ -154,7 +191,7 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   Future<List<PostsModel>> getPostsByDescNCategoryNSubCategory(
       PostsByDescNCategoryNSubCategoryRequest
           postsByDescNCategoryNSubCategoryRequest) async {
-    List<PostsModel> res = <PostsModel>[];
+    final res = await _dbHelper.getSavedPostsByDescAndCategoryAndSubCategory(postsByDescNCategoryNSubCategoryRequest);
     try {
       return res;
     } catch (e) {
@@ -166,7 +203,7 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   Future<List<PostsModel>> getPostsByDescNCategoryNSubCategoryNWebsite(
       PostsByDescNCategoryNSubCategoryNWebsiteRequest
           postsByDescNCategoryNSubCategoryNWebsiteRequest) async {
-    List<PostsModel> res = <PostsModel>[];
+    final res = await _dbHelper.getSavedPostsByDescAndCategoryAndSubCategoryAndWebsite(postsByDescNCategoryNSubCategoryNWebsiteRequest);
     try {
       return res;
     } catch (e) {
@@ -177,7 +214,7 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   @override
   Future<List<PostsModel>> getPostsByDescNSubCategory(
       PostsByDescNSubCategoryRequest postsByDescNSubCategoryRequest) async {
-    List<PostsModel> res = <PostsModel>[];
+    final res = await _dbHelper.getSavedPostsByDescAndSubCategory(postsByDescNSubCategoryRequest);
     try {
       return res;
     } catch (e) {
@@ -187,8 +224,8 @@ class PostsLocalDataSource extends BaseLocalDataSource {
 
   @override
   Future<List<PostsModel>> getPostsByDescNWebsite(
-      PostsByDescNWebsiteRequest postsByDesNWebsiteRequest) async {
-    List<PostsModel> res = <PostsModel>[];
+      PostsByDescNWebsiteRequest postsByDescNWebsiteRequest) async {
+    final res = await _dbHelper.getSavedPostsByDescAndWebsite(postsByDescNWebsiteRequest);
     try {
       return res;
     } catch (e) {
@@ -200,7 +237,7 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   Future<List<PostsModel>> getPostsByDescNWebsiteNCategory(
       PostsByDescNCategoryNWebsiteRequest
           postsByDescNCategoryNWebsiteRequest) async {
-    List<PostsModel> res = <PostsModel>[];
+    final res = await _dbHelper.getSavedPostsByDescAndWebsiteAndCategory(postsByDescNCategoryNWebsiteRequest);
     try {
       return res;
     } catch (e) {
@@ -212,7 +249,7 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   Future<List<PostsModel>> getPostsByDescNWebsiteNSubCategory(
       PostsByDescNSubCategoryNWebsiteRequest
           postsByDescNSubCategoryNWebsiteRequest) async {
-    List<PostsModel> res = <PostsModel>[];
+    final res = await _dbHelper.getSavedPostsByDescAndWebsiteAndSubCategory(postsByDescNSubCategoryNWebsiteRequest);
     try {
       return res;
     } catch (e) {
@@ -223,7 +260,7 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   @override
   Future<List<PostsModel>> getPostsBySubCategory(
       PostsBySubCategoryRequest postsBySubCategoryRequest) async {
-    List<PostsModel> res = <PostsModel>[];
+    final res = await _dbHelper.getSavedPostsBySubCategory(postsBySubCategoryRequest);
     try {
       return res;
     } catch (e) {
@@ -235,7 +272,7 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   Future<List<PostsModel>> getPostsBySubCategoryNWebsite(
       PostsBySubCategoryNWebsiteRequest
           postsBySubCategoryNWebsiteRequest) async {
-    List<PostsModel> res = <PostsModel>[];
+    final res = await _dbHelper.getSavedPostsBySubCategoryAndWebsite(postsBySubCategoryNWebsiteRequest);
     try {
       return res;
     } catch (e) {
@@ -246,7 +283,7 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   @override
   Future<List<PostsModel>> getPostsByWebsite(
       PostsByWebsiteRequest postsByWebsiteRequest) async {
-    List<PostsModel> res = <PostsModel>[];
+    final res = await _dbHelper.getSavedPostsByWebsite(postsByWebsiteRequest);
     try {
       return res;
     } catch (e) {

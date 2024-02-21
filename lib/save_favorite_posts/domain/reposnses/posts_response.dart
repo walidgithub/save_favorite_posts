@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/user_response.dart';
 
-class PostsReponse extends Equatable {
+class PostsResponse extends Equatable {
   final int id;
   final String category;
   final String subCategory;
@@ -10,7 +10,7 @@ class PostsReponse extends Equatable {
   final String link;
   final int seen;
 
-  const PostsReponse({
+  const PostsResponse({
     required this.id,
     required this.category,
     required this.subCategory,

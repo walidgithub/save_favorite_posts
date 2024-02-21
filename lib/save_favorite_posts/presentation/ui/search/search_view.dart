@@ -2,29 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/posts_by_desc_n_category_n_subcategory_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/presentation/ui_components/dialogs/loading_dialog.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui_components/dividers/custom_dotted_divider.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/app_typography.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
-import 'package:shimmer/shimmer.dart';
 import '../../../../core/utils/enums.dart';
 import '../../../data/models/posts_model.dart';
 import '../../../domain/entities/search_filter.dart';
-import '../../../domain/requests/posts_by_category_n_subcategory_n_website_request.dart';
-import '../../../domain/requests/posts_by_category_n_website_request.dart';
-import '../../../domain/requests/posts_by_category_request.dart';
-import '../../../domain/requests/posts_by_desc_n_category_n_website_request.dart';
-import '../../../domain/requests/posts_by_desc_n_category_request.dart';
-import '../../../domain/requests/posts_by_desc_n_subcategory_n_website_request.dart';
-import '../../../domain/requests/posts_by_desc_n_subcategory_request.dart';
-import '../../../domain/requests/posts_by_desc_n_website_request.dart';
-import '../../../domain/requests/posts_by_desc_request.dart';
-import '../../../domain/requests/posts_by_subcategory_n_website_request.dart';
-import '../../../domain/requests/posts_by_subcategory_request.dart';
-import '../../../domain/requests/posts_by_website_request.dart';
+import '../../../domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
+import '../../../domain/requests/search/posts_by_category_n_website_request.dart';
+import '../../../domain/requests/search/posts_by_category_request.dart';
+import '../../../domain/requests/search/posts_by_desc_n_category_n_subcategory_request.dart';
+import '../../../domain/requests/search/posts_by_desc_n_category_n_website_request.dart';
+import '../../../domain/requests/search/posts_by_desc_n_category_request.dart';
+import '../../../domain/requests/search/posts_by_desc_n_subcategory_n_website_request.dart';
+import '../../../domain/requests/search/posts_by_desc_n_subcategory_request.dart';
+import '../../../domain/requests/search/posts_by_desc_n_website_request.dart';
+import '../../../domain/requests/search/posts_by_desc_request.dart';
+import '../../../domain/requests/search/posts_by_subcategory_n_website_request.dart';
+import '../../../domain/requests/search/posts_by_subcategory_request.dart';
+import '../../../domain/requests/search/posts_by_website_request.dart';
 import '../../../shared/constant/strings_manager.dart';
 import '../../di/di.dart';
 import '../../ui_components/buttons/custom_icon_button.dart';
@@ -307,6 +305,12 @@ class _SearchViewState extends State<SearchView> {
     String website = searchFilter[0].website!;
     String searchText = searchFilter[0].searchText!;
 
+    print('------------------------------------');
+    print(category);
+    print(subCategory);
+    print(website);
+    print(searchText);
+
     if (searchText != '' &&
         website == 'None' &&
         subCategory != 'None' &&
@@ -372,6 +376,7 @@ class _SearchViewState extends State<SearchView> {
         website != 'None' &&
         subCategory == 'None' &&
         category != 'None') {
+      print('hereeeeeeeee');
       await SearchCubit.get(context).getPostsByCategoryNWebsite(
           PostsByCategoryNWebsiteRequest(website: website, category: category));
     } else if (searchText == '' &&

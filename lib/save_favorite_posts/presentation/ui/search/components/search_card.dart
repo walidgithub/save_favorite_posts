@@ -13,7 +13,7 @@ import '../../../../shared/constant/strings_manager.dart';
 import '../../../ui_components/buttons/custom_icon_button.dart';
 
 class SearchCard extends StatefulWidget {
-  final PostsReponse postsResponse;
+  final PostsResponse postsResponse;
   final int index;
   const SearchCard({super.key, required this.postsResponse, required this.index});
 

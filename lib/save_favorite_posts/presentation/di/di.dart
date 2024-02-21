@@ -1,25 +1,29 @@
 import 'package:get_it/get_it.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/iud/delete_post_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/local_db/dbHelper.dart';
 import '../../../core/preferences/app_pref.dart';
 import '../../data/datasource/posts_local_datasource.dart';
 import '../../data/repository/posts_repository.dart';
 import '../../domain/repository/base_repository.dart';
-import '../../domain/usecases/get_all_posts_usecases.dart';
-import '../../domain/usecases/get_posts_by_category_n_subcategory_n_website_usecase.dart';
-import '../../domain/usecases/get_posts_by_category_n_subcategory_usecase.dart';
-import '../../domain/usecases/get_posts_by_category_n_website_usecase.dart';
-import '../../domain/usecases/get_posts_by_category_usecase.dart';
-import '../../domain/usecases/get_posts_by_desc_n_category_n_subcategory_n_website_usecases.dart';
-import '../../domain/usecases/get_posts_by_desc_n_category_n_subcategory_usecase.dart';
-import '../../domain/usecases/get_posts_by_desc_n_category_n_website_usecase.dart';
-import '../../domain/usecases/get_posts_by_desc_n_category_usecase.dart';
-import '../../domain/usecases/get_posts_by_desc_n_subcategory_n_website_usecase.dart';
-import '../../domain/usecases/get_posts_by_desc_n_subcategory_usecase.dart';
-import '../../domain/usecases/get_posts_by_desc_n_website_usecase.dart';
-import '../../domain/usecases/get_posts_by_desc_usecase.dart';
-import '../../domain/usecases/get_posts_by_subcategory_n_website_usecase.dart';
-import '../../domain/usecases/get_posts_by_subcategory_usecase.dart';
-import '../../domain/usecases/get_posts_by_website_usecase.dart';
+import '../../domain/usecases/iud/insert_new_post_usecase.dart';
+import '../../domain/usecases/iud/update_post_usecase.dart';
+import '../../domain/usecases/search/get_all_posts_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_category_n_subcategory_n_website_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_category_n_subcategory_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_category_n_website_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_category_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_desc_n_category_n_subcategory_n_website_usecases.dart';
+import '../../domain/usecases/search/get_posts_by_desc_n_category_n_subcategory_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_desc_n_category_n_website_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_desc_n_category_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_desc_n_subcategory_n_website_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_desc_n_subcategory_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_desc_n_website_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_desc_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_subcategory_n_website_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_subcategory_usecase.dart';
+import '../../domain/usecases/search/get_posts_by_website_usecase.dart';
 import '../ui/cubit/search/search_cubit.dart';
 final sl = GetIt.instance;
 
@@ -33,10 +37,22 @@ class ServiceLocator {
 
     sl.registerLazySingleton<AppPreferences>(() => AppPreferences(sl()));
 
-    // Bloc
-    sl.registerFactory(() => SearchCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+    // dbHelper
+    sl.registerLazySingleton<DbHelper>(() => DbHelper());
+
+    // Cubit
+    sl.registerFactory(() => SearchCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
     // Use Cases
+    sl.registerLazySingleton<InsertPostUseCase>(
+            () => InsertPostUseCase(sl()));
+
+    sl.registerLazySingleton<UpdatePostUseCase>(
+            () => UpdatePostUseCase(sl()));
+
+    sl.registerLazySingleton<DeletePostUseCase>(
+            () => DeletePostUseCase(sl()));
+
     sl.registerLazySingleton<GetAllPostsUseCase>(
             () => GetAllPostsUseCase(sl()));
 
@@ -92,7 +108,7 @@ class ServiceLocator {
 
     // Local DataSource
     sl.registerLazySingleton<BaseLocalDataSource>(
-            () => PostsLocalDataSource());
+            () => PostsLocalDataSource(sl()));
 
   }
 }

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-
-import '../../../../shared/constant/assets_manager.dart';
 import '../../../../shared/constant/constant_values_manager.dart';
 import '../../../../shared/style/colors_manager.dart';
-import '../../../ui_components/buttons/custom_icon_button.dart';
 
 class ShimmerCard extends StatefulWidget {
   const ShimmerCard({super.key});
