@@ -1,6 +1,3 @@
-
-import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/user_response.dart';
-
 import 'filter_response.dart';
 
 class WebsiteResponse extends FilterResponse {

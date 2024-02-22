@@ -16,8 +16,8 @@ class CategoryModel extends CategoryResponse {
 
 
 List<CategoryModel> categoryModel = [
-  CategoryModel(id: 1, title: 'None'),
-  CategoryModel(id: 2, title: 'Flutter'),
-  CategoryModel(id: 3, title: 'UI UX'),
-  CategoryModel(id: 4, title: 'SQL'),
+  // CategoryModel(id: 1, title: 'None'),
+  // CategoryModel(id: 2, title: 'Flutter'),
+  // CategoryModel(id: 3, title: 'UI UX'),
+  // CategoryModel(id: 4, title: 'SQL'),
 ];

@@ -24,6 +24,7 @@ import '../../domain/usecases/search/get_posts_by_desc_usecase.dart';
 import '../../domain/usecases/search/get_posts_by_subcategory_n_website_usecase.dart';
 import '../../domain/usecases/search/get_posts_by_subcategory_usecase.dart';
 import '../../domain/usecases/search/get_posts_by_website_usecase.dart';
+import '../ui/cubit/post/post_cubit.dart';
 import '../ui/cubit/search/search_cubit.dart';
 final sl = GetIt.instance;
 
@@ -41,7 +42,9 @@ class ServiceLocator {
     sl.registerLazySingleton<DbHelper>(() => DbHelper());
 
     // Cubit
-    sl.registerFactory(() => SearchCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+    sl.registerFactory(() => SearchCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+
+    sl.registerFactory(() => PostCubit(sl(), sl(), sl(), sl(), sl(), sl()));
 
     // Use Cases
     sl.registerLazySingleton<InsertPostUseCase>(

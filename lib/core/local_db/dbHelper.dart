@@ -1,9 +1,12 @@
 import 'package:path/path.dart';
+import 'package:save_favorite_posts/save_favorite_posts/data/models/website_model.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/insert_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
 import 'package:sqflite/sqflite.dart';
+import '../../save_favorite_posts/data/models/category_model.dart';
 import '../../save_favorite_posts/data/models/posts_model.dart';
+import '../../save_favorite_posts/data/models/sub_category_model.dart';
 import '../../save_favorite_posts/domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../save_favorite_posts/domain/requests/search/posts_by_category_n_subcategory_request.dart';
 import '../../save_favorite_posts/domain/requests/search/posts_by_category_n_website_request.dart';
@@ -124,6 +127,43 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final result = await db.rawQuery(
         'SELECT * FROM saved_posts where postId=(select max(postId) from saved_posts)');
     return result.map((map) => PostsModel.fromJson(map)).toList();
+  }
+
+  // get all categories and subcategories and websites----------------------------------------
+  Future<List<CategoryModel>> getAllCategories() async {
+    if (_db == null) {
+      await initDB(dbdName);
+    }
+
+    final db = _db!.database;
+
+    final result = await db.rawQuery(
+        'SELECT DISTINCT Category FROM saved_posts Order by id ASC');
+    return result.map((map) => CategoryModel.fromJson(map)).toList();
+  }
+
+  Future<List<SubCategoryModel>> getAllSubCategories() async {
+    if (_db == null) {
+      await initDB(dbdName);
+    }
+
+    final db = _db!.database;
+
+    final result = await db.rawQuery(
+        'SELECT DISTINCT SubCategory FROM saved_posts Order by id ASC');
+    return result.map((map) => SubCategoryModel.fromJson(map)).toList();
+  }
+
+  Future<List<WebsiteModel>> getAllWebSites() async {
+    if (_db == null) {
+      await initDB(dbdName);
+    }
+
+    final db = _db!.database;
+
+    final result = await db.rawQuery(
+        'SELECT DISTINCT Website FROM saved_posts Order by id ASC');
+    return result.map((map) => WebsiteModel.fromJson(map)).toList();
   }
   
   // get all data ----------------------------------------

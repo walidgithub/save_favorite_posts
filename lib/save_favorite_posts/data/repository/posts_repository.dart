@@ -1,4 +1,7 @@
 import 'package:dartz/dartz.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/category_response.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_category_response.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/insert_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
@@ -262,6 +265,39 @@ class PostsRepository extends BaseRepository {
     try {
       final result =
       await _baseLocalDataSource.updatePostData(updatePostRequest);
+      return Right(result);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<CategoryResponse>>> getAllCategories() async {
+    try {
+      final result =
+      await _baseLocalDataSource.getAllCategories();
+      return Right(result);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<SubCategoryResponse>>> getAllSubCategories() async {
+    try {
+      final result =
+      await _baseLocalDataSource.getAllSubCategories();
+      return Right(result);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<WebsiteResponse>>> getAllWebsites() async {
+    try {
+      final result =
+      await _baseLocalDataSource.getAllWebsites();
       return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);

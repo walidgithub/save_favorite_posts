@@ -4,32 +4,28 @@ import '../../../../../core/utils/enums.dart';
 import '../../../../domain/reposnses/posts_response.dart';
 
 class SearchState extends Equatable {
-  final List<PostsResponse> postsList;
-  final int postId;
-  final RequestState postsState;
-  final String postsMessage;
+  final List<PostsResponse> searchList;
+  final RequestState searchState;
+  final String searchMessage;
 
   const SearchState({
-    this.postsList = const [],
-    this.postId = 0,
-    this.postsState = RequestState.loading,
-    this.postsMessage = '',
+    this.searchList = const [],
+    this.searchState = RequestState.loading,
+    this.searchMessage = '',
   });
 
   SearchState copyWith({
-    List<PostsResponse>? postsList,
-    int? postId,
-    RequestState? postsState,
-    String? postsMessage,
+    List<PostsResponse>? searchList,
+    RequestState? searchState,
+    String? searchMessage,
   }) {
     return SearchState(
-      postsList: postsList ?? this.postsList,
-      postId: postId ?? this.postId,
-      postsState: postsState ?? this.postsState,
-      postsMessage: postsMessage ?? this.postsMessage,
+      searchList: searchList ?? this.searchList,
+      searchState: searchState ?? this.searchState,
+      searchMessage: searchMessage ?? this.searchMessage,
     );
   }
 
   @override
-  List<Object?> get props => [postsList, postId, postsState, postsMessage];
+  List<Object?> get props => [searchList, searchState, searchMessage];
 }

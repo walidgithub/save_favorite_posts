@@ -3,6 +3,9 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/inse
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
 
 import '../../../core/local_db/dbHelper.dart';
+import '../../domain/reposnses/category_response.dart';
+import '../../domain/reposnses/sub_category_response.dart';
+import '../../domain/reposnses/website_response.dart';
 import '../../domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../domain/requests/search/posts_by_category_n_subcategory_request.dart';
 import '../../domain/requests/search/posts_by_category_n_website_request.dart';
@@ -18,13 +21,21 @@ import '../../domain/requests/search/posts_by_desc_request.dart';
 import '../../domain/requests/search/posts_by_subcategory_n_website_request.dart';
 import '../../domain/requests/search/posts_by_subcategory_request.dart';
 import '../../domain/requests/search/posts_by_website_request.dart';
+import '../models/category_model.dart';
 import '../models/posts_model.dart';
+import '../models/sub_category_model.dart';
+import '../models/website_model.dart';
 
 abstract class BaseLocalDataSource {
   // IUD -----------------------------
   Future<int> insertPostData(InsertPostRequest insertPostRequest);
   Future<int> deletePostData(DeletePostRequest deletePostRequest);
   Future<int> updatePostData(UpdatePostRequest updatePostRequest);
+
+  // get websites and categories and subcategories ----------------------------------------
+  Future<List<CategoryModel>> getAllCategories();
+  Future<List<SubCategoryModel>> getAllSubCategories();
+  Future<List<WebsiteModel>> getAllWebsites();
 
   // get all data ----------------------------------------
   Future<List<PostsModel>> getAllPosts();
@@ -284,6 +295,36 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   Future<List<PostsModel>> getPostsByWebsite(
       PostsByWebsiteRequest postsByWebsiteRequest) async {
     final res = await _dbHelper.getSavedPostsByWebsite(postsByWebsiteRequest);
+    try {
+      return res;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<List<CategoryModel>> getAllCategories() async {
+    final res = await _dbHelper.getAllCategories();
+    try {
+      return res;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<List<SubCategoryModel>> getAllSubCategories() async {
+    final res = await _dbHelper.getAllSubCategories();
+    try {
+      return res;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<List<WebsiteModel>> getAllWebsites() async {
+    final res = await _dbHelper.getAllWebSites();
     try {
       return res;
     } catch (e) {

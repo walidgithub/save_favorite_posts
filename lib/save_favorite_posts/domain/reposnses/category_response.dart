@@ -1,5 +1,4 @@
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/filter_response.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/user_response.dart';
 
 class CategoryResponse extends FilterResponse {
   final int id;

@@ -114,13 +114,13 @@ class _SearchViewState extends State<SearchView> {
       create: (context) => sl<SearchCubit>()..getAllPosts(),
       child: BlocConsumer<SearchCubit, SearchState>(
         listener: (context, state) {
-          if (state.postsState == RequestState.loading) {
+          if (state.searchState == RequestState.loading) {
             loading = true;
             // showLoading();
-          } else if (state.postsState == RequestState.loaded) {
+          } else if (state.searchState == RequestState.loaded) {
             loading = false;
             // hideLoading();
-          } else if (state.postsState == RequestState.error) {
+          } else if (state.searchState == RequestState.error) {
             loading = false;
             // hideLoading();
           }
@@ -135,7 +135,7 @@ class _SearchViewState extends State<SearchView> {
                   child: Column(
                     children: [
                       SizedBox(height: 20.h),
-                      loading ? Expanded(child: shimmerBody()) : Expanded(child: _searchBody(state.postsList)),
+                      loading ? Expanded(child: shimmerBody()) : Expanded(child: _searchBody(state.searchList)),
                       SizedBox(
                         height: AppConstants.smallHeightBetweenElements,
                       ),
@@ -227,12 +227,12 @@ class _SearchViewState extends State<SearchView> {
     );
   }
 
-  Widget _searchBody(postsList) {
+  Widget _searchBody(searchList) {
     return SingleChildScrollView(
-      child: postsList.isNotEmpty
+      child: searchList.isNotEmpty
           ? AnimationLimiter(
               child: ListView.separated(
-                itemCount: postsList.length,
+                itemCount: searchList.length,
                 separatorBuilder: (context, index) => SizedBox(height: 15.h),
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -245,7 +245,7 @@ class _SearchViewState extends State<SearchView> {
                       child: FadeInAnimation(
                         child: SearchResultView(
                           index: index,
-                          postsResponse: postsList[index],
+                          postsResponse: searchList[index],
                           removeCallback: () {
                             // fc.removeFromFavorites(fc.favorite![index]);
                           },

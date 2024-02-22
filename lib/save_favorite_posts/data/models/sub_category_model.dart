@@ -15,10 +15,10 @@ class SubCategoryModel extends SubCategoryResponse {
 }
 
 List<SubCategoryModel> subCategoryModel = [
-  SubCategoryModel(id: 1, title: 'None'),
-  SubCategoryModel(id: 2, title: 'Designs'),
-  SubCategoryModel(id: 3, title: 'Animation'),
-  SubCategoryModel(id: 4, title: 'Examples'),
-  SubCategoryModel(id: 5, title: 'Projects'),
-  SubCategoryModel(id: 6, title: 'Packages'),
+  // SubCategoryModel(id: 1, title: 'None'),
+  // SubCategoryModel(id: 2, title: 'Designs'),
+  // SubCategoryModel(id: 3, title: 'Animation'),
+  // SubCategoryModel(id: 4, title: 'Examples'),
+  // SubCategoryModel(id: 5, title: 'Projects'),
+  // SubCategoryModel(id: 6, title: 'Packages'),
 ];

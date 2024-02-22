@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/user_response.dart';
 
 class PostsResponse extends Equatable {
   final int id;
