@@ -1,5 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/iud/delete_post_usecase.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_all_categories_usecase.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_all_subcategories_usecase.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_all_websites_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/local_db/dbHelper.dart';
 import '../../../core/preferences/app_pref.dart';
@@ -47,6 +50,15 @@ class ServiceLocator {
     sl.registerFactory(() => PostCubit(sl(), sl(), sl(), sl(), sl(), sl()));
 
     // Use Cases
+    sl.registerLazySingleton<GetAllCategoriesUseCase>(
+            () => GetAllCategoriesUseCase(sl()));
+
+    sl.registerLazySingleton<GetAllSubCategoriesUseCase>(
+            () => GetAllSubCategoriesUseCase(sl()));
+
+    sl.registerLazySingleton<GetAllWebsitesUseCase>(
+            () => GetAllWebsitesUseCase(sl()));
+
     sl.registerLazySingleton<InsertPostUseCase>(
             () => InsertPostUseCase(sl()));
 

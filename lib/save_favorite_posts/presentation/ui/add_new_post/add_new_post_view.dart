@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/category_response.dart';
@@ -6,11 +7,15 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_cat
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 
+import '../../../../core/utils/enums.dart';
 import '../../../data/models/category_model.dart';
 import '../../../data/models/sub_category_model.dart';
 import '../../../data/models/website_model.dart';
 import '../../../shared/style/colors_manager.dart';
+import '../../di/di.dart';
 import '../../router/app_router.dart';
+import '../cubit/post/post_cubit.dart';
+import '../cubit/post/post_state.dart';
 import 'components/add_new_item_arguments.dart';
 import '../../ui_components/buttons/primary_button.dart';
 import '../../ui_components/dialogs/loading_dialog.dart';
@@ -37,9 +42,19 @@ class _AddNewPostViewState extends State<AddNewPostView> {
   final TextEditingController _subCategoryEditingController =
       TextEditingController();
 
-  WebsiteResponse selectedWebSiteResponse = websiteModel[0];
-  CategoryResponse selectedCategoryResponse = categoryModel[0];
-  SubCategoryResponse selectedSubCategoryResponse = subCategoryModel[0];
+  bool loading = false;
+
+  WebsiteResponse? selectedWebSiteResponse;
+  CategoryResponse? selectedCategoryResponse;
+  SubCategoryResponse? selectedSubCategoryResponse;
+
+  @override
+  void initState() {
+    if (websiteModel.isEmpty) {
+      selectedWebSiteResponse = null;
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,165 +80,194 @@ class _AddNewPostViewState extends State<AddNewPostView> {
   }
 
   Widget _buildBody() {
-    return SingleChildScrollView(
-      child: FadeAnimation(
-        delay: 0.5,
-        child: Column(
-          children: [
-            TextField(
-                autofocus: true,
-                readOnly: true,
-                keyboardType: TextInputType.text,
-                spellCheckConfiguration: const SpellCheckConfiguration(),
-                controller: postLinkController,
-                decoration: InputDecoration(
-                    // hintText: '${list?.join("\n\n")}',
-                    hintText: AppStrings.link,
-                    hintStyle: TextStyle(fontSize: 15.sp),
-                    labelText: AppStrings.postLink,
-                    labelStyle: TextStyle(
-                        fontSize: 15.sp, color: ColorManager.kSecondary),
-                    border: InputBorder.none)),
-            SizedBox(
-              height: 20.h,
-            ),
-            SizedBox(
-                height: 60.h,
-                child: Stack(
-                  children: [
-                    FilterDropDown(
-                      filterEditingController: _websiteEditingController,
-                      selectedFilter: selectedWebSiteResponse,
-                      filterResponse: websiteModel,
-                      hintText: AppStrings.website,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 60.w),
-                      child: GestureDetector(
-                        onTap: () {
-                          AddNewItemDialog.show(context,  NewItemDialogData(
-                              dialogTitle: AppStrings.addNewWebsite,
-                              newItemName: AppStrings.website,
-                              returnName: (String newItem) {
-
-                                setState(() {});
-                              }));
-                        },
-                        child: const Align(
-                          alignment: Alignment.centerRight,
-                          child: Icon(
-                            Icons.add_circle_outline_rounded,
-                            color: ColorManager.kLightBrown,
+    return BlocProvider(
+      create: (context) => sl<PostCubit>()
+        ..getAllWebsites()
+        ..getAllCategories()
+        ..getAllSubCategories(),
+      child: BlocConsumer<PostCubit, PostState>(
+        listener: (context, state) {
+          if (state.postState == RequestState.loading) {
+            loading = true;
+            showLoading();
+          } else if (state.postState == RequestState.loaded) {
+            loading = false;
+            hideLoading();
+          } else if (state.postState == RequestState.error) {
+            loading = false;
+            hideLoading();
+          }
+        },
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: FadeAnimation(
+              delay: 0.5,
+              child: Column(
+                children: [
+                  TextField(
+                      autofocus: true,
+                      readOnly: true,
+                      keyboardType: TextInputType.text,
+                      spellCheckConfiguration: const SpellCheckConfiguration(),
+                      controller: postLinkController,
+                      decoration: InputDecoration(
+                          // hintText: '${list?.join("\n\n")}',
+                          hintText: AppStrings.link,
+                          hintStyle: TextStyle(fontSize: 15.sp),
+                          labelText: AppStrings.postLink,
+                          labelStyle: TextStyle(
+                              fontSize: 15.sp, color: ColorManager.kSecondary),
+                          border: InputBorder.none)),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  SizedBox(
+                      height: 60.h,
+                      child: Stack(
+                        children: [
+                          websiteModel.isEmpty ? Container() : FilterDropDown(
+                            filterEditingController: _websiteEditingController,
+                            selectedFilter: selectedWebSiteResponse!,
+                            filterResponse: websiteModel,
+                            hintText: AppStrings.website,
                           ),
-                        ),
-                      ),
-                    )
-                  ],
-                )),
-            SizedBox(
-              height: 20.h,
-            ),
-            SizedBox(
-                height: 60.h,
-                child: Stack(
-                  children: [
-                    FilterDropDown(
-                      filterEditingController: _categoryEditingController,
-                      selectedFilter: selectedCategoryResponse,
-                      filterResponse: categoryModel,
-                      hintText: AppStrings.category,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 60.w),
-                      child: GestureDetector(
-                        onTap: () {
-                          AddNewItemDialog.show(context,  NewItemDialogData(
-                              dialogTitle: AppStrings.addNewCategory,
-                              newItemName: AppStrings.category,
-                              returnName: (String newItem) {
-
-                                setState(() {});
-                              }));
-                        },
-                        child: const Align(
-                          alignment: Alignment.centerRight,
-                          child: Icon(
-                            Icons.add_circle_outline_rounded,
-                            color: ColorManager.kLightBrown,
+                          websiteModel.isEmpty ? Container() : Padding(
+                            padding: EdgeInsets.only(right: 60.w),
+                            child: GestureDetector(
+                              onTap: () {
+                                AddNewItemDialog.show(
+                                    context,
+                                    NewItemDialogData(
+                                        dialogTitle: AppStrings.addNewWebsite,
+                                        newItemName: AppStrings.website,
+                                        returnName: (String newItem) {
+                                          setState(() {});
+                                        }));
+                              },
+                              child: const Align(
+                                alignment: Alignment.centerRight,
+                                child: Icon(
+                                  Icons.add_circle_outline_rounded,
+                                  color: ColorManager.kLightBrown,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      )),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  SizedBox(
+                      height: 60.h,
+                      child: Stack(
+                        children: [
+                          categoryModel.isEmpty ? Container() : FilterDropDown(
+                            filterEditingController: _categoryEditingController,
+                            selectedFilter: selectedCategoryResponse!,
+                            filterResponse: categoryModel,
+                            hintText: AppStrings.category,
                           ),
-                        ),
-                      ),
-                    )
-                  ],
-                )),
-            SizedBox(
-              height: 20.h,
-            ),
-            SizedBox(
-                height: 60.h,
-                child: Stack(
-                  children: [
-                    FilterDropDown(
-                      filterEditingController: _subCategoryEditingController,
-                      selectedFilter: selectedSubCategoryResponse,
-                      filterResponse: subCategoryModel,
-                      hintText: AppStrings.subCategory,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 60.w),
-                      child: GestureDetector(
-                        onTap: () {
-                          AddNewItemDialog.show(context,  NewItemDialogData(
-                              dialogTitle: AppStrings.addNewSubCategory,
-                              newItemName: AppStrings.subCategory,
-                              returnName: (String newItem) {
-
-                                setState(() {});
-                              }));
+                          categoryModel.isEmpty ? Container() : Padding(
+                            padding: EdgeInsets.only(right: 60.w),
+                            child: GestureDetector(
+                              onTap: () {
+                                AddNewItemDialog.show(
+                                    context,
+                                    NewItemDialogData(
+                                        dialogTitle: AppStrings.addNewCategory,
+                                        newItemName: AppStrings.category,
+                                        returnName: (String newItem) {
+                                          setState(() {});
+                                        }));
+                              },
+                              child: const Align(
+                                alignment: Alignment.centerRight,
+                                child: Icon(
+                                  Icons.add_circle_outline_rounded,
+                                  color: ColorManager.kLightBrown,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      )),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  SizedBox(
+                      height: 60.h,
+                      child: Stack(
+                        children: [
+                          subCategoryModel.isEmpty ? Container() : FilterDropDown(
+                            filterEditingController:
+                                _subCategoryEditingController,
+                            selectedFilter: selectedSubCategoryResponse!,
+                            filterResponse: subCategoryModel,
+                            hintText: AppStrings.subCategory,
+                          ),
+                          subCategoryModel.isEmpty ? Container() : Padding(
+                            padding: EdgeInsets.only(right: 60.w),
+                            child: GestureDetector(
+                              onTap: () {
+                                AddNewItemDialog.show(
+                                    context,
+                                    NewItemDialogData(
+                                        dialogTitle:
+                                            AppStrings.addNewSubCategory,
+                                        newItemName: AppStrings.subCategory,
+                                        returnName: (String newItem) {
+                                          setState(() {});
+                                        }));
+                              },
+                              child: const Align(
+                                alignment: Alignment.centerRight,
+                                child: Icon(
+                                  Icons.add_circle_outline_rounded,
+                                  color: ColorManager.kLightBrown,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      )),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  // description -------------------------------------------------------------------------
+                  TextField(
+                    autofocus: false,
+                    controller: descriptionController,
+                    minLines: 3,
+                    // Set this
+                    maxLines: 6,
+                    // and this
+                    spellCheckConfiguration: const SpellCheckConfiguration(),
+                    keyboardType: TextInputType.multiline,
+                    decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(15),
+                        labelText: AppStrings.description,
+                        alignLabelWithHint: true,
+                        labelStyle: TextStyle(
+                            fontSize: 15.sp, color: ColorManager.kSecondary),
+                        border: InputBorder.none),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  PrimaryButton(
+                      onTap: () async {
+                        showLoading();
+                        await Future.delayed(const Duration(seconds: 3));
+                        hideLoading();
+                        // Navigator.of(context).pushReplacementNamed(Routes.landing);
                       },
-                        child: const Align(
-                          alignment: Alignment.centerRight,
-                          child: Icon(
-                            Icons.add_circle_outline_rounded,
-                            color: ColorManager.kLightBrown,
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                )),
-            SizedBox(
-              height: 20.h,
+                      text: AppStrings.save),
+                ],
+              ),
             ),
-            // description -------------------------------------------------------------------------
-            TextField(
-              autofocus: false,
-              controller: descriptionController,
-              minLines: 3, // Set this
-              maxLines: 6, // and this
-              spellCheckConfiguration: const SpellCheckConfiguration(),
-              keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.all(15),
-                  labelText: AppStrings.description,
-                  alignLabelWithHint: true,
-                  labelStyle: TextStyle(
-                      fontSize: 15.sp, color: ColorManager.kSecondary),
-                  border: InputBorder.none),
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            PrimaryButton(
-                onTap: () async {
-                  showLoading();
-                  await Future.delayed(const Duration(seconds: 3));
-                  hideLoading();
-                  // Navigator.of(context).pushReplacementNamed(Routes.landing);
-                },
-                text: AppStrings.save),
-          ],
-        ),
+          );
+        },
       ),
     );
   }

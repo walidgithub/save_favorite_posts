@@ -26,6 +26,7 @@ import '../../../domain/requests/search/posts_by_website_request.dart';
 import '../../../shared/constant/strings_manager.dart';
 import '../../di/di.dart';
 import '../../ui_components/buttons/custom_icon_button.dart';
+import '../../ui_components/dialogs/loading_dialog.dart';
 import '../../ui_components/others/custom_animation.dart';
 import '../../ui_components/texts/heading_rich_text.dart';
 import '../cubit/search/search_cubit.dart';
@@ -116,13 +117,13 @@ class _SearchViewState extends State<SearchView> {
         listener: (context, state) {
           if (state.searchState == RequestState.loading) {
             loading = true;
-            // showLoading();
+            showLoading();
           } else if (state.searchState == RequestState.loaded) {
             loading = false;
-            // hideLoading();
+            hideLoading();
           } else if (state.searchState == RequestState.error) {
             loading = false;
-            // hideLoading();
+            hideLoading();
           }
         },
         builder: (context, state) {

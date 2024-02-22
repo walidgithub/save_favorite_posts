@@ -38,16 +38,16 @@ class PostCubit extends Cubit<PostState> {
     await Future.delayed(const Duration(seconds: 2));
 
     emit(state.copyWith(
-        searchState: RequestState.loading, postMessage: '', filterList: []));
+        postState: RequestState.loading, postMessage: '', categoryList: []));
 
     final result = await getAllCategoriesUseCase(const NoParameters());
 
     result.fold(
             (l) => emit(state.copyWith(
-            searchState: RequestState.error, postMessage: l.message)),
+            postState: RequestState.error, postMessage: l.message)),
             (r) => emit(state.copyWith(
-          filterList: r,
-          searchState: RequestState.loaded,
+          categoryList: r,
+          postState: RequestState.loaded,
         )));
   }
 
@@ -55,16 +55,16 @@ class PostCubit extends Cubit<PostState> {
     await Future.delayed(const Duration(seconds: 2));
 
     emit(state.copyWith(
-        searchState: RequestState.loading, postMessage: '', filterList: []));
+        postState: RequestState.loading, postMessage: '', subCategoryList: []));
 
     final result = await getAllSubCategoriesUseCase(const NoParameters());
 
     result.fold(
             (l) => emit(state.copyWith(
-            searchState: RequestState.error, postMessage: l.message)),
+            postState: RequestState.error, postMessage: l.message)),
             (r) => emit(state.copyWith(
-          filterList: r,
-          searchState: RequestState.loaded,
+              subCategoryList: r,
+          postState: RequestState.loaded,
         )));
   }
 
@@ -72,22 +72,22 @@ class PostCubit extends Cubit<PostState> {
     await Future.delayed(const Duration(seconds: 2));
 
     emit(state.copyWith(
-        searchState: RequestState.loading, postMessage: '', filterList: []));
+        postState: RequestState.loading, postMessage: '', websiteList: []));
 
     final result = await getAllWebsitesUseCase(const NoParameters());
 
     result.fold(
             (l) => emit(state.copyWith(
-            searchState: RequestState.error, postMessage: l.message)),
+            postState: RequestState.error, postMessage: l.message)),
             (r) => emit(state.copyWith(
-          filterList: r,
-          searchState: RequestState.loaded,
+              websiteList: r,
+          postState: RequestState.loaded,
         )));
   }
 
   FutureOr<void> insertPost(InsertPostRequest insertPostRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, postMessage: '', postId: 0));
+        postState: RequestState.loading, postMessage: '', postId: 0));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -95,16 +95,16 @@ class PostCubit extends Cubit<PostState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, postMessage: l.message)),
+            postState: RequestState.error, postMessage: l.message)),
         (r) => emit(state.copyWith(
               postId: r,
-              searchState: RequestState.loaded,
+              postState: RequestState.loaded,
             )));
   }
 
   FutureOr<void> updatePost(UpdatePostRequest updatePostRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, postMessage: '', postId: 0));
+        postState: RequestState.loading, postMessage: '', postId: 0));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -112,16 +112,16 @@ class PostCubit extends Cubit<PostState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, postMessage: l.message)),
+            postState: RequestState.error, postMessage: l.message)),
         (r) => emit(state.copyWith(
               postId: r,
-              searchState: RequestState.loaded,
+              postState: RequestState.loaded,
             )));
   }
 
   FutureOr<void> deletePost(DeletePostRequest deletePostRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, postMessage: '', postId: 0));
+        postState: RequestState.loading, postMessage: '', postId: 0));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -129,10 +129,10 @@ class PostCubit extends Cubit<PostState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, postMessage: l.message)),
+            postState: RequestState.error, postMessage: l.message)),
         (r) => emit(state.copyWith(
               postId: r,
-              searchState: RequestState.loaded,
+              postState: RequestState.loaded,
             )));
   }
 }
