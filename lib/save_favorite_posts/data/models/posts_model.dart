@@ -25,13 +25,13 @@ class PostsModel extends PostsResponse {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'postId': id,
       'category': category,
       'subCategory': subCategory,
       'website': website,
       'seen': seen,
       'description': description,
-      'link': link,
+      'postLink': link,
     };
   }
 }

@@ -63,7 +63,7 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
 
     final db = _db!.database;
     return db.update('saved_posts', updatePostRequest.toJson(),
-        where: 'id = ?', whereArgs: [updatePostRequest.id]);
+        where: 'postId = ?', whereArgs: [updatePostRequest.id]);
   }
   
   // delete post ------------------------------------------
@@ -138,7 +138,7 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final db = _db!.database;
 
     final result = await db.rawQuery(
-        'SELECT DISTINCT Category FROM saved_posts Order by id ASC');
+        'SELECT DISTINCT Category FROM saved_posts Order by postId ASC');
     return result.map((map) => CategoryModel.fromJson(map)).toList();
   }
 
@@ -150,7 +150,7 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final db = _db!.database;
 
     final result = await db.rawQuery(
-        'SELECT DISTINCT SubCategory FROM saved_posts Order by id ASC');
+        'SELECT DISTINCT SubCategory FROM saved_posts Order by postId ASC');
     return result.map((map) => SubCategoryModel.fromJson(map)).toList();
   }
 
@@ -162,7 +162,7 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final db = _db!.database;
 
     final result = await db.rawQuery(
-        'SELECT DISTINCT Website FROM saved_posts Order by id ASC');
+        'SELECT DISTINCT Website FROM saved_posts Order by postId ASC');
     return result.map((map) => WebsiteModel.fromJson(map)).toList();
   }
   

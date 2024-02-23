@@ -5,6 +5,8 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/category_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_category_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website_response.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/insert_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/add_new_post/components/filter_textfield.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 
 import '../../../../core/utils/enums.dart';
@@ -42,7 +44,10 @@ class _AddNewPostViewState extends State<AddNewPostView> {
   final TextEditingController _subCategoryEditingController =
       TextEditingController();
 
-  bool loading = false;
+  final FocusNode _websiteFocusNode = FocusNode();
+  final FocusNode _categoryFocusNode = FocusNode();
+  final FocusNode _subCategoryFocusNode = FocusNode();
+  final FocusNode _descriptionFocusNode = FocusNode();
 
   WebsiteResponse? selectedWebSiteResponse;
   CategoryResponse? selectedCategoryResponse;
@@ -54,6 +59,18 @@ class _AddNewPostViewState extends State<AddNewPostView> {
       selectedWebSiteResponse = null;
     }
     super.initState();
+  }
+
+  void _onWebsiteSubmit(BuildContext context) {
+    FocusScope.of(context).requestFocus(_categoryFocusNode);
+  }
+
+  void _onCategorySubmit(BuildContext context) {
+    FocusScope.of(context).requestFocus(_subCategoryFocusNode);
+  }
+
+  void _onSubCategorySubmit(BuildContext context) {
+    FocusScope.of(context).requestFocus(_descriptionFocusNode);
   }
 
   @override
@@ -87,15 +104,54 @@ class _AddNewPostViewState extends State<AddNewPostView> {
         ..getAllSubCategories(),
       child: BlocConsumer<PostCubit, PostState>(
         listener: (context, state) {
-          if (state.postState == RequestState.loading) {
-            loading = true;
+          // loading ----------------------------------------------------------------
+          if (state.postState == RequestState.categoryLoading) {
             showLoading();
-          } else if (state.postState == RequestState.loaded) {
-            loading = false;
+            print('will done');
+          } else if (state.postState == RequestState.subCategoryLoading) {
+            showLoading();
+            print('will done');
+          } else if (state.postState == RequestState.webSiteLoading) {
+            showLoading();
+            print('will done');
+          } else if (state.postState == RequestState.insertLoading) {
+            showLoading();
+            print('will done');
+          } else if (state.postState == RequestState.updateLoading) {
+            showLoading();
+            print('will done');
+            // done ------------------------------------------------------------------
+          } else if (state.postState == RequestState.categoryLoaded) {
             hideLoading();
-          } else if (state.postState == RequestState.error) {
-            loading = false;
+            print('doneee');
+          } else if (state.postState == RequestState.subCategoryLoaded) {
             hideLoading();
+            print('doneee');
+          } else if (state.postState == RequestState.webSiteLoaded) {
+            hideLoading();
+            print('doneee');
+          } else if (state.postState == RequestState.insertDone) {
+            hideLoading();
+            print('doneee');
+          } else if (state.postState == RequestState.updateDone) {
+            hideLoading();
+            print('doneee');
+            // error -------------------------------------------------------
+          } else if (state.postState == RequestState.categoryError) {
+            hideLoading();
+            print('not done');
+          } else if (state.postState == RequestState.subCategoryError) {
+            hideLoading();
+            print('not done');
+          } else if (state.postState == RequestState.webSiteError) {
+            hideLoading();
+            print('not done');
+          } else if (state.postState == RequestState.insertError) {
+            hideLoading();
+            print('not done');
+          } else if (state.postState == RequestState.updateError) {
+            hideLoading();
+            print('not done');
           }
         },
         builder: (context, state) {
@@ -125,7 +181,8 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       height: 60.h,
                       child: Stack(
                         children: [
-                          websiteModel.isEmpty ? Container() : FilterDropDown(
+                          websiteModel.isEmpty ? FilterTextField(textEditingController: _websiteEditingController,hintName:AppStrings.website,focusNode: _websiteFocusNode,
+                            onSubmit: (v) => _onWebsiteSubmit(context),) : FilterDropDown(
                             filterEditingController: _websiteEditingController,
                             selectedFilter: selectedWebSiteResponse!,
                             filterResponse: websiteModel,
@@ -162,7 +219,8 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       height: 60.h,
                       child: Stack(
                         children: [
-                          categoryModel.isEmpty ? Container() : FilterDropDown(
+                          categoryModel.isEmpty ? FilterTextField(textEditingController: _categoryEditingController,hintName:AppStrings.category,focusNode: _categoryFocusNode,
+                        onSubmit: (v) => _onCategorySubmit(context),)  : FilterDropDown(
                             filterEditingController: _categoryEditingController,
                             selectedFilter: selectedCategoryResponse!,
                             filterResponse: categoryModel,
@@ -199,7 +257,8 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       height: 60.h,
                       child: Stack(
                         children: [
-                          subCategoryModel.isEmpty ? Container() : FilterDropDown(
+                          subCategoryModel.isEmpty ? FilterTextField(textEditingController: _subCategoryEditingController,hintName:AppStrings.subCategory,focusNode: _subCategoryFocusNode,
+                            onSubmit: (v) => _onSubCategorySubmit(context),)   : FilterDropDown(
                             filterEditingController:
                                 _subCategoryEditingController,
                             selectedFilter: selectedSubCategoryResponse!,
@@ -238,10 +297,9 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                   TextField(
                     autofocus: false,
                     controller: descriptionController,
+                    focusNode: _descriptionFocusNode,
                     minLines: 3,
-                    // Set this
                     maxLines: 6,
-                    // and this
                     spellCheckConfiguration: const SpellCheckConfiguration(),
                     keyboardType: TextInputType.multiline,
                     decoration: InputDecoration(
@@ -258,7 +316,8 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                   PrimaryButton(
                       onTap: () async {
                         showLoading();
-                        await Future.delayed(const Duration(seconds: 3));
+                        InsertPostRequest insertPostRequest = InsertPostRequest(website: _websiteEditingController.text,category: _categoryEditingController.text,subCategory: _subCategoryEditingController.text,description: descriptionController.text,link: 'www.google.com',id: null,seen: 0);
+                        await PostCubit.get(context).insertPost(insertPostRequest);
                         hideLoading();
                         // Navigator.of(context).pushReplacementNamed(Routes.landing);
                       },

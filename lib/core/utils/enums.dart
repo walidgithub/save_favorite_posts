@@ -1,5 +1,29 @@
 enum RequestState {
-  loading,
-  loaded,
-  error
+  initialState,
+  webSiteLoading,
+  categoryLoading,
+  subCategoryLoading,
+  searchLoading,
+  //-------------------
+  insertLoading,
+  updateLoading,
+  deleteLoading,
+  //-------------------
+  webSiteLoaded,
+  categoryLoaded,
+  subCategoryLoaded,
+  searchLoaded,
+  //-------------------
+  insertDone,
+  updateDone,
+  deleteDone,
+  //-------------------
+  webSiteError,
+  categoryError,
+  subCategoryError,
+  searchError,
+  //-------------------
+  insertError,
+  updateError,
+  deleteError
 }

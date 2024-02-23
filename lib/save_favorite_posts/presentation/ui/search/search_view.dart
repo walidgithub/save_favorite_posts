@@ -112,16 +112,17 @@ class _SearchViewState extends State<SearchView> {
 
   Widget bodyContent(BuildContext context) {
     return BlocProvider(
-      create: (context) => sl<SearchCubit>()..getAllPosts(),
+      create: (context) => sl<SearchCubit>(),
+      // create: (context) => sl<SearchCubit>()..getAllPosts(),
       child: BlocConsumer<SearchCubit, SearchState>(
         listener: (context, state) {
-          if (state.searchState == RequestState.loading) {
+          if (state.searchState == RequestState.searchLoading) {
             loading = true;
             showLoading();
-          } else if (state.searchState == RequestState.loaded) {
+          } else if (state.searchState == RequestState.searchLoaded) {
             loading = false;
             hideLoading();
-          } else if (state.searchState == RequestState.error) {
+          } else if (state.searchState == RequestState.searchError) {
             loading = false;
             hideLoading();
           }

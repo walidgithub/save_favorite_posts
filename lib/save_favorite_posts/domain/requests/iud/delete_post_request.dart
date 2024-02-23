@@ -10,7 +10,7 @@ class DeletePostRequest extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'postId': id,
     };
   }
 

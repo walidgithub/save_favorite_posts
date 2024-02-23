@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class InsertPostRequest extends Equatable {
-  final int id;
+  final int? id;
   final String category;
   final String subCategory;
   final String website;
@@ -22,13 +22,13 @@ class InsertPostRequest extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'postId': id,
       'category': category,
       'subCategory': subCategory,
       'website': website,
       'seen': seen,
       'description': description,
-      'link': link,
+      'postLink': link,
     };
   }
 

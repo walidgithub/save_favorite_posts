@@ -45,7 +45,7 @@ class ServiceLocator {
     sl.registerLazySingleton<DbHelper>(() => DbHelper());
 
     // Cubit
-    sl.registerFactory(() => SearchCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+    sl.registerFactory(() => SearchCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
     sl.registerFactory(() => PostCubit(sl(), sl(), sl(), sl(), sl(), sl()));
 

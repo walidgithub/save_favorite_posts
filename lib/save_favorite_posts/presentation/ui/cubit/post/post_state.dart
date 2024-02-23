@@ -20,7 +20,7 @@ class PostState extends Equatable {
     this.subCategoryList = const [],
     this.websiteList = const [],
     this.postId = 0,
-    this.postState = RequestState.loading,
+    this.postState = RequestState.initialState,
     this.postMessage = '',
   });
 

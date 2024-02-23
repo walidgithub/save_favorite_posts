@@ -66,6 +66,7 @@ class SearchCubit extends Cubit<SearchState> {
       getPostsByCategoryNSubCategoryUseCase;
   final GetPostsByCategoryNSubCategoryNWebsiteUseCase
       getPostsByCategoryNSubCategoryNWebsiteUseCase;
+  final DeletePostUseCase deletePostUseCase;
 
   SearchCubit(
       this.getAllPostsUseCase,
@@ -83,7 +84,9 @@ class SearchCubit extends Cubit<SearchState> {
       this.getPostsByCategoryUseCase,
       this.getPostsByCategoryNWebsiteUseCase,
       this.getPostsByCategoryNSubCategoryUseCase,
-      this.getPostsByCategoryNSubCategoryNWebsiteUseCase)
+      this.getPostsByCategoryNSubCategoryNWebsiteUseCase,
+      this.deletePostUseCase,
+      )
       : super(const SearchState());
 
   static SearchCubit get(context) => BlocProvider.of(context);
@@ -92,23 +95,23 @@ class SearchCubit extends Cubit<SearchState> {
     await Future.delayed(const Duration(seconds: 2));
 
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     final result = await getAllPostsUseCase(const NoParameters());
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
   FutureOr<void> getPostsByWebsite(
       PostsByWebsiteRequest postsByWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -116,17 +119,17 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
   FutureOr<void> getPostsBySubCategory(
       PostsBySubCategoryRequest postsBySubCategoryRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -135,10 +138,10 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
@@ -146,7 +149,7 @@ class SearchCubit extends Cubit<SearchState> {
       PostsBySubCategoryNWebsiteRequest
           postsBySubCategoryNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -155,16 +158,16 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
   FutureOr<void> getPostsByDesc(PostsByDescRequest postsByDescRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -172,17 +175,17 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
   FutureOr<void> getPostsByDescNWebsite(
       PostsByDescNWebsiteRequest postsByDescNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -191,17 +194,17 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
   FutureOr<void> getPostsByDescNSubCategory(
       PostsByDescNSubCategoryRequest postsByDescNSubCategoryRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -210,10 +213,10 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
@@ -221,7 +224,7 @@ class SearchCubit extends Cubit<SearchState> {
       PostsByDescNSubCategoryNWebsiteRequest
           postsByDescNSubCategoryNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -230,17 +233,17 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
   FutureOr<void> getPostsByDescNCategory(
       PostsByDescNCategoryRequest postsByDescNCategoryRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -249,10 +252,10 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
@@ -260,7 +263,7 @@ class SearchCubit extends Cubit<SearchState> {
       PostsByDescNCategoryNWebsiteRequest
           postsByDescNCategoryNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -269,10 +272,10 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
@@ -280,7 +283,7 @@ class SearchCubit extends Cubit<SearchState> {
       PostsByDescNCategoryNSubCategoryRequest
           postsByDescNCategoryNSubCategoryRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -289,10 +292,10 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
@@ -300,7 +303,7 @@ class SearchCubit extends Cubit<SearchState> {
       PostsByDescNCategoryNSubCategoryNWebsiteRequest
           postsByDescNCategoryNSubCategoryNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -309,34 +312,34 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
   FutureOr<void> getPostsByCategory(
       PostsByCategoryRequest postsByCategoryRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
     final result = await getPostsByCategoryUseCase(postsByCategoryRequest);
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
   FutureOr<void> getPostsByCategoryNWebsite(
       PostsByCategoryNWebsiteRequest postsByCategoryNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -345,10 +348,10 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
@@ -356,7 +359,7 @@ class SearchCubit extends Cubit<SearchState> {
       PostsByCategoryNSubCategoryRequest
           postsByCategoryNSubCategoryRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -365,10 +368,10 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
   }
 
@@ -376,7 +379,7 @@ class SearchCubit extends Cubit<SearchState> {
       PostsByCategoryNSubCategoryNWebsiteRequest
           postsByCategoryNSubCategoryNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.loading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
 
     await Future.delayed(const Duration(seconds: 2));
 
@@ -385,10 +388,27 @@ class SearchCubit extends Cubit<SearchState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            searchState: RequestState.error, searchMessage: l.message)),
+            searchState: RequestState.searchError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
               searchList: r,
-              searchState: RequestState.loaded,
+              searchState: RequestState.searchLoaded,
             )));
+  }
+
+  FutureOr<void> deletePost(DeletePostRequest deletePostRequest) async {
+    emit(state.copyWith(
+        searchState: RequestState.deleteLoading, searchMessage: '', postId: 0));
+
+    await Future.delayed(const Duration(seconds: 2));
+
+    final result = await deletePostUseCase(deletePostRequest);
+
+    result.fold(
+            (l) => emit(state.copyWith(
+                searchState: RequestState.deleteError, searchMessage: l.message)),
+            (r) => emit(state.copyWith(
+          postId: r,
+              searchState: RequestState.deleteDone,
+        )));
   }
 }

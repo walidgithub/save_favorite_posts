@@ -5,23 +5,24 @@ import '../../../../shared/constant/strings_manager.dart';
 import '../../../../shared/style/colors_manager.dart';
 
 class FilterTextField extends StatelessWidget {
-  TextEditingController textEditingController;
-  FilterTextField({required this.textEditingController,Key? key}) : super(key: key);
+  final String hintName;
+  final TextEditingController textEditingController;
+  final FocusNode? focusNode;
+  final void Function(String)? onSubmit;
+  const FilterTextField({required this.textEditingController,required this.hintName,required this.focusNode,required this.onSubmit,Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       autofocus: false,
       controller: textEditingController,
-      minLines: 3,
-      // Set this
-      maxLines: 6,
-      // and this
+      focusNode: focusNode,
+      onSubmitted: onSubmit,
       spellCheckConfiguration: const SpellCheckConfiguration(),
       keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(15),
-          labelText: AppStrings.description,
+          labelText: hintName,
           alignLabelWithHint: true,
           labelStyle: TextStyle(
               fontSize: 15.sp, color: ColorManager.kSecondary),
