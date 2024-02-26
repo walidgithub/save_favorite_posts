@@ -42,6 +42,9 @@ class AppStrings {
   static const save = "Save";
   static const add = "Add";
   static const close = "Close";
+  static const categoryRequired = "Category Field Required";
+  static const websiteRequired = "Website Field Required";
+  static const linkRequired = "Link Field Required";
 
   // error handler
   static const String unknownError = "unknown_error";

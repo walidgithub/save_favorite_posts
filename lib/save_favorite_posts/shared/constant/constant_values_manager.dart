@@ -5,5 +5,6 @@ class AppConstants {
   static double smallHeightBetweenElements = 10.h;
   static double smallWidthBetweenElements = 5.w;
   static int durationOfBounceable = 300;
+  static int durationOfSnackBar = 1000;
   static double radius = 10.h;
 }

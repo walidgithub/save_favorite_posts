@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
 class FilterResponse extends Equatable {
-  final int id;
-  final String title;
+  int? id;
+  String? title;
 
-  const FilterResponse({
-    required this.id,
-    required this.title,
+  FilterResponse({
+    this.id,
+    this.title,
   });
 
   @override

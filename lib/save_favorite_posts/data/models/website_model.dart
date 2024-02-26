@@ -1,20 +1,19 @@
 import '../../domain/reposnses/website_response.dart';
+import '../../domain/reposnses/website_response.dart';
 
 class WebsiteModel extends WebsiteResponse {
-  const WebsiteModel({
-    required super.id,
-    required super.title,
+  WebsiteModel({
+    super.id,
+    super.title,
   });
 
-  factory WebsiteModel.fromJson(Map<String, dynamic> json) {
-    return WebsiteModel(
-      id: (json['id'] as num).toInt(),
-      title: json['title'],
-    );
+  WebsiteModel.fromMap(Map<String, dynamic> map) {
+    id = map["postId"];
+    title = map["website"];
   }
 }
 
-List<WebsiteModel> websiteModel = [
+List<WebsiteResponse> websiteResponse = [
   // WebsiteModel(id: 1, title: 'None'),
   // WebsiteModel(id: 2, title: 'LinkedIn'),
   // WebsiteModel(id: 3, title: 'Facebook'),

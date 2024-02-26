@@ -1,21 +1,19 @@
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/category_response.dart';
 
 class CategoryModel extends CategoryResponse {
-  const CategoryModel({
+  CategoryModel({
     required super.id,
     required super.title,
   });
 
-  factory CategoryModel.fromJson(Map<String, dynamic> json) {
-    return CategoryModel(
-      id: (json['id'] as num).toInt(),
-      title: json['title'],
-    );
+  CategoryModel.fromMap(Map<String, dynamic> map) {
+    id = map["postId"];
+    title = map["category"];
   }
 }
 
 
-List<CategoryModel> categoryModel = [
+List<CategoryResponse> categoryResponse = [
   // CategoryModel(id: 1, title: 'None'),
   // CategoryModel(id: 2, title: 'Flutter'),
   // CategoryModel(id: 3, title: 'UI UX'),

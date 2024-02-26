@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/category_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_category_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website_response.dart';
@@ -13,9 +13,9 @@ import '../../../../core/utils/enums.dart';
 import '../../../data/models/category_model.dart';
 import '../../../data/models/sub_category_model.dart';
 import '../../../data/models/website_model.dart';
+import '../../../shared/constant/constant_values_manager.dart';
 import '../../../shared/style/colors_manager.dart';
 import '../../di/di.dart';
-import '../../router/app_router.dart';
 import '../cubit/post/post_cubit.dart';
 import '../cubit/post/post_state.dart';
 import 'components/add_new_item_arguments.dart';
@@ -34,8 +34,8 @@ class AddNewPostView extends StatefulWidget {
 }
 
 class _AddNewPostViewState extends State<AddNewPostView> {
-  final TextEditingController postLinkController = TextEditingController();
-  final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController _postLinkController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
   final TextEditingController _websiteEditingController =
       TextEditingController();
@@ -55,9 +55,9 @@ class _AddNewPostViewState extends State<AddNewPostView> {
 
   @override
   void initState() {
-    if (websiteModel.isEmpty) {
-      selectedWebSiteResponse = null;
-    }
+    categoryResponse = [];
+    subCategoryResponse = [];
+    websiteResponse = [];
     super.initState();
   }
 
@@ -107,51 +107,52 @@ class _AddNewPostViewState extends State<AddNewPostView> {
           // loading ----------------------------------------------------------------
           if (state.postState == RequestState.categoryLoading) {
             showLoading();
-            print('will done');
           } else if (state.postState == RequestState.subCategoryLoading) {
             showLoading();
-            print('will done');
           } else if (state.postState == RequestState.webSiteLoading) {
             showLoading();
-            print('will done');
           } else if (state.postState == RequestState.insertLoading) {
             showLoading();
-            print('will done');
           } else if (state.postState == RequestState.updateLoading) {
             showLoading();
-            print('will done');
             // done ------------------------------------------------------------------
           } else if (state.postState == RequestState.categoryLoaded) {
             hideLoading();
-            print('doneee');
+            for (var i in state.categoryList) {
+              categoryResponse.add(i);
+            }
+            categoryResponse.insert(0, CategoryModel(id: 0, title: 'None'));
+            selectedCategoryResponse = categoryResponse[0];
           } else if (state.postState == RequestState.subCategoryLoaded) {
             hideLoading();
-            print('doneee');
+            for (var i in state.subCategoryList) {
+              subCategoryResponse.add(i);
+            }
+            subCategoryResponse.insert(
+                0, SubCategoryModel(id: 0, title: 'None'));
+            selectedSubCategoryResponse = subCategoryResponse[0];
           } else if (state.postState == RequestState.webSiteLoaded) {
             hideLoading();
-            print('doneee');
+            for (var i in state.websiteList) {
+              websiteResponse.add(i);
+            }
+            websiteResponse.insert(0, WebsiteModel(id: 0, title: 'None'));
+            selectedWebSiteResponse = websiteResponse[0];
           } else if (state.postState == RequestState.insertDone) {
             hideLoading();
-            print('doneee');
           } else if (state.postState == RequestState.updateDone) {
             hideLoading();
-            print('doneee');
             // error -------------------------------------------------------
           } else if (state.postState == RequestState.categoryError) {
             hideLoading();
-            print('not done');
           } else if (state.postState == RequestState.subCategoryError) {
             hideLoading();
-            print('not done');
           } else if (state.postState == RequestState.webSiteError) {
             hideLoading();
-            print('not done');
           } else if (state.postState == RequestState.insertError) {
             hideLoading();
-            print('not done');
           } else if (state.postState == RequestState.updateError) {
             hideLoading();
-            print('not done');
           }
         },
         builder: (context, state) {
@@ -165,7 +166,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       readOnly: true,
                       keyboardType: TextInputType.text,
                       spellCheckConfiguration: const SpellCheckConfiguration(),
-                      controller: postLinkController,
+                      controller: _postLinkController,
                       decoration: InputDecoration(
                           // hintText: '${list?.join("\n\n")}',
                           hintText: AppStrings.link,
@@ -181,35 +182,62 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       height: 60.h,
                       child: Stack(
                         children: [
-                          websiteModel.isEmpty ? FilterTextField(textEditingController: _websiteEditingController,hintName:AppStrings.website,focusNode: _websiteFocusNode,
-                            onSubmit: (v) => _onWebsiteSubmit(context),) : FilterDropDown(
-                            filterEditingController: _websiteEditingController,
-                            selectedFilter: selectedWebSiteResponse!,
-                            filterResponse: websiteModel,
-                            hintText: AppStrings.website,
-                          ),
-                          websiteModel.isEmpty ? Container() : Padding(
-                            padding: EdgeInsets.only(right: 60.w),
-                            child: GestureDetector(
-                              onTap: () {
-                                AddNewItemDialog.show(
-                                    context,
-                                    NewItemDialogData(
-                                        dialogTitle: AppStrings.addNewWebsite,
-                                        newItemName: AppStrings.website,
-                                        returnName: (String newItem) {
-                                          setState(() {});
-                                        }));
-                              },
-                              child: const Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.add_circle_outline_rounded,
-                                  color: ColorManager.kLightBrown,
+                          websiteResponse.isEmpty
+                              ? FilterTextField(
+                                  textEditingController:
+                                      _websiteEditingController,
+                                  hintName: AppStrings.website,
+                                  focusNode: _websiteFocusNode,
+                                  onSubmit: (v) => _onWebsiteSubmit(context),
+                                )
+                              : FilterDropDown(
+                                  filterEditingController:
+                                      _websiteEditingController,
+                                  selectedFilter: selectedWebSiteResponse!,
+                                  filterResponse: websiteResponse,
+                                  hintText: AppStrings.website,
+                                  onChanged: (websiteResponse) {
+                                    setState(() {
+                                      selectedWebSiteResponse = websiteResponse;
+                                    });
+                                  },
                                 ),
-                              ),
-                            ),
-                          )
+                          websiteResponse.isEmpty
+                              ? Container()
+                              : Padding(
+                                  padding: EdgeInsets.only(right: 60.w),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      AddNewItemDialog.show(
+                                          context,
+                                          NewItemDialogData(
+                                              dialogTitle:
+                                                  AppStrings.addNewWebsite,
+                                              newItemName: AppStrings.website,
+                                              returnName: (String newItem) {
+                                                setState(() {
+                                                  websiteResponse.add(
+                                                      WebsiteModel(
+                                                          title: newItem,
+                                                          id: null));
+                                                  selectedWebSiteResponse =
+                                                      websiteResponse
+                                                          .where((element) =>
+                                                              element.title ==
+                                                              newItem)
+                                                          .first;
+                                                });
+                                              }));
+                                    },
+                                    child: const Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Icon(
+                                        Icons.add_circle_outline_rounded,
+                                        color: ColorManager.kLightBrown,
+                                      ),
+                                    ),
+                                  ),
+                                )
                         ],
                       )),
                   SizedBox(
@@ -219,35 +247,64 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       height: 60.h,
                       child: Stack(
                         children: [
-                          categoryModel.isEmpty ? FilterTextField(textEditingController: _categoryEditingController,hintName:AppStrings.category,focusNode: _categoryFocusNode,
-                        onSubmit: (v) => _onCategorySubmit(context),)  : FilterDropDown(
-                            filterEditingController: _categoryEditingController,
-                            selectedFilter: selectedCategoryResponse!,
-                            filterResponse: categoryModel,
-                            hintText: AppStrings.category,
-                          ),
-                          categoryModel.isEmpty ? Container() : Padding(
-                            padding: EdgeInsets.only(right: 60.w),
-                            child: GestureDetector(
-                              onTap: () {
-                                AddNewItemDialog.show(
-                                    context,
-                                    NewItemDialogData(
-                                        dialogTitle: AppStrings.addNewCategory,
-                                        newItemName: AppStrings.category,
-                                        returnName: (String newItem) {
-                                          setState(() {});
-                                        }));
-                              },
-                              child: const Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.add_circle_outline_rounded,
-                                  color: ColorManager.kLightBrown,
+                          categoryResponse.isEmpty
+                              ? FilterTextField(
+                                  textEditingController:
+                                      _categoryEditingController,
+                                  hintName: AppStrings.category,
+                                  focusNode: _categoryFocusNode,
+                                  onSubmit: (v) => _onCategorySubmit(context),
+                                )
+                              : FilterDropDown(
+                                  filterEditingController:
+                                      _categoryEditingController,
+                                  selectedFilter: selectedCategoryResponse!,
+                                  filterResponse: categoryResponse,
+                                  hintText: AppStrings.category,
+                                  onChanged: (categoryResponse) {
+                                    setState(() {
+                                      selectedCategoryResponse =
+                                          categoryResponse;
+                                    });
+                                  },
                                 ),
-                              ),
-                            ),
-                          )
+                          Container(),
+                          categoryResponse.isEmpty
+                              ? Container()
+                              : Padding(
+                                  padding: EdgeInsets.only(right: 60.w),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      AddNewItemDialog.show(
+                                          context,
+                                          NewItemDialogData(
+                                              dialogTitle:
+                                                  AppStrings.addNewCategory,
+                                              newItemName: AppStrings.category,
+                                              returnName: (String newItem) {
+                                                setState(() {
+                                                  categoryResponse.add(
+                                                      CategoryModel(
+                                                          title: newItem,
+                                                          id: null));
+                                                  selectedCategoryResponse =
+                                                      categoryResponse
+                                                          .where((element) =>
+                                                              element.title ==
+                                                              newItem)
+                                                          .first;
+                                                });
+                                              }));
+                                    },
+                                    child: const Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Icon(
+                                        Icons.add_circle_outline_rounded,
+                                        color: ColorManager.kLightBrown,
+                                      ),
+                                    ),
+                                  ),
+                                )
                         ],
                       )),
                   SizedBox(
@@ -257,37 +314,65 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       height: 60.h,
                       child: Stack(
                         children: [
-                          subCategoryModel.isEmpty ? FilterTextField(textEditingController: _subCategoryEditingController,hintName:AppStrings.subCategory,focusNode: _subCategoryFocusNode,
-                            onSubmit: (v) => _onSubCategorySubmit(context),)   : FilterDropDown(
-                            filterEditingController:
-                                _subCategoryEditingController,
-                            selectedFilter: selectedSubCategoryResponse!,
-                            filterResponse: subCategoryModel,
-                            hintText: AppStrings.subCategory,
-                          ),
-                          subCategoryModel.isEmpty ? Container() : Padding(
-                            padding: EdgeInsets.only(right: 60.w),
-                            child: GestureDetector(
-                              onTap: () {
-                                AddNewItemDialog.show(
-                                    context,
-                                    NewItemDialogData(
-                                        dialogTitle:
-                                            AppStrings.addNewSubCategory,
-                                        newItemName: AppStrings.subCategory,
-                                        returnName: (String newItem) {
-                                          setState(() {});
-                                        }));
-                              },
-                              child: const Align(
-                                alignment: Alignment.centerRight,
-                                child: Icon(
-                                  Icons.add_circle_outline_rounded,
-                                  color: ColorManager.kLightBrown,
+                          subCategoryResponse.isEmpty
+                              ? FilterTextField(
+                                  textEditingController:
+                                      _subCategoryEditingController,
+                                  hintName: AppStrings.subCategory,
+                                  focusNode: _subCategoryFocusNode,
+                                  onSubmit: (v) =>
+                                      _onSubCategorySubmit(context),
+                                )
+                              : FilterDropDown(
+                                  filterEditingController:
+                                      _subCategoryEditingController,
+                                  selectedFilter: selectedSubCategoryResponse!,
+                                  filterResponse: subCategoryResponse,
+                                  hintText: AppStrings.subCategory,
+                                  onChanged: (subCategoryResponse) {
+                                    setState(() {
+                                      selectedSubCategoryResponse =
+                                          subCategoryResponse;
+                                    });
+                                  },
                                 ),
-                              ),
-                            ),
-                          )
+                          subCategoryResponse.isEmpty
+                              ? Container()
+                              : Padding(
+                                  padding: EdgeInsets.only(right: 60.w),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      AddNewItemDialog.show(
+                                          context,
+                                          NewItemDialogData(
+                                              dialogTitle:
+                                                  AppStrings.addNewSubCategory,
+                                              newItemName:
+                                                  AppStrings.subCategory,
+                                              returnName: (String newItem) {
+                                                setState(() {
+                                                  subCategoryResponse.add(
+                                                      SubCategoryModel(
+                                                          title: newItem,
+                                                          id: null));
+                                                  selectedSubCategoryResponse =
+                                                      subCategoryResponse
+                                                          .where((element) =>
+                                                              element.title ==
+                                                              newItem)
+                                                          .first;
+                                                });
+                                              }));
+                                    },
+                                    child: const Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Icon(
+                                        Icons.add_circle_outline_rounded,
+                                        color: ColorManager.kLightBrown,
+                                      ),
+                                    ),
+                                  ),
+                                )
                         ],
                       )),
                   SizedBox(
@@ -296,7 +381,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                   // description -------------------------------------------------------------------------
                   TextField(
                     autofocus: false,
-                    controller: descriptionController,
+                    controller: _descriptionController,
                     focusNode: _descriptionFocusNode,
                     minLines: 3,
                     maxLines: 6,
@@ -315,9 +400,49 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                   ),
                   PrimaryButton(
                       onTap: () async {
+                        if (_postLinkController.text.trim() == "") {
+                          final snackBar = SnackBar(
+                            duration: Duration(
+                                milliseconds: AppConstants.durationOfSnackBar),
+                            content: const Text(AppStrings.linkRequired),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          return;
+                        } else if (_websiteEditingController.text.trim() ==
+                            "") {
+                          final snackBar = SnackBar(
+                            duration: Duration(
+                                milliseconds: AppConstants.durationOfSnackBar),
+                            content: const Text(AppStrings.categoryRequired),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          return;
+                        } else if (_categoryEditingController.text.trim() ==
+                            "") {
+                          final snackBar = SnackBar(
+                            duration: Duration(
+                                milliseconds: AppConstants.durationOfSnackBar),
+                            content: const Text(AppStrings.websiteRequired),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          return;
+                        }
                         showLoading();
-                        InsertPostRequest insertPostRequest = InsertPostRequest(website: _websiteEditingController.text,category: _categoryEditingController.text,subCategory: _subCategoryEditingController.text,description: descriptionController.text,link: 'www.google.com',id: null,seen: 0);
-                        await PostCubit.get(context).insertPost(insertPostRequest);
+                        InsertPostRequest insertPostRequest = InsertPostRequest(
+                            website: websiteResponse.isEmpty
+                                ? _websiteEditingController.text
+                                : selectedWebSiteResponse!.title,
+                            category: categoryResponse.isEmpty
+                                ? _categoryEditingController.text
+                                : selectedCategoryResponse!.title,
+                            subCategory: subCategoryResponse.isEmpty
+                                ? _subCategoryEditingController.text
+                                : selectedSubCategoryResponse!.title,
+                            description: _descriptionController.text,
+                            link: 'www.google.com',
+                            seen: 0);
+                        await PostCubit.get(context)
+                            .insertPost(insertPostRequest);
                         hideLoading();
                         // Navigator.of(context).pushReplacementNamed(Routes.landing);
                       },

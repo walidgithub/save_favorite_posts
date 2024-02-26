@@ -35,25 +35,21 @@ class PostCubit extends Cubit<PostState> {
   static PostCubit get(context) => BlocProvider.of(context);
 
   FutureOr<void> getAllCategories() async {
-    await Future.delayed(const Duration(seconds: 2));
-
     emit(state.copyWith(
         postState: RequestState.categoryLoading, postMessage: '', categoryList: []));
 
     final result = await getAllCategoriesUseCase(const NoParameters());
 
     result.fold(
-            (l) => emit(state.copyWith(
-            postState: RequestState.categoryError, postMessage: l.message)),
+            (l) =>emit(state.copyWith(
+                postState: RequestState.categoryError, postMessage: l.message)),
             (r) => emit(state.copyWith(
           categoryList: r,
-          postState: RequestState.categoryError,
+          postState: RequestState.categoryLoaded,
         )));
   }
 
   FutureOr<void> getAllSubCategories() async {
-    await Future.delayed(const Duration(seconds: 2));
-
     emit(state.copyWith(
         postState: RequestState.subCategoryLoading, postMessage: '', subCategoryList: []));
 
@@ -69,8 +65,6 @@ class PostCubit extends Cubit<PostState> {
   }
 
   FutureOr<void> getAllWebsites() async {
-    await Future.delayed(const Duration(seconds: 2));
-
     emit(state.copyWith(
         postState: RequestState.webSiteLoading, postMessage: '', websiteList: []));
 
@@ -89,8 +83,6 @@ class PostCubit extends Cubit<PostState> {
     emit(state.copyWith(
         postState: RequestState.insertLoading, postMessage: '', postId: 0));
 
-    await Future.delayed(const Duration(seconds: 2));
-
     final result = await insertPostUseCase(insertPostRequest);
 
     result.fold(
@@ -106,8 +98,6 @@ class PostCubit extends Cubit<PostState> {
     emit(state.copyWith(
         postState: RequestState.updateLoading, postMessage: '', postId: 0));
 
-    await Future.delayed(const Duration(seconds: 2));
-
     final result = await updatePostUseCase(updatePostRequest);
 
     result.fold(
@@ -122,8 +112,6 @@ class PostCubit extends Cubit<PostState> {
   FutureOr<void> deletePost(DeletePostRequest deletePostRequest) async {
     emit(state.copyWith(
         postState: RequestState.deleteLoading, postMessage: '', postId: 0));
-
-    await Future.delayed(const Duration(seconds: 2));
 
     final result = await deletePostUseCase(deletePostRequest);
 

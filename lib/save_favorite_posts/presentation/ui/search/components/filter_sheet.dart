@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/category_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_category_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
+import '../../../../../core/utils/enums.dart';
 import '../../../../data/models/category_model.dart';
 import '../../../../data/models/sub_category_model.dart';
 import '../../../../data/models/website_model.dart';
 import '../../../../domain/entities/search_filter.dart';
 import '../../../../shared/constant/app_typography.dart';
+import '../../../di/di.dart';
 import '../../../ui_components/buttons/primary_button.dart';
+import '../../../ui_components/dialogs/loading_dialog.dart';
+import '../../cubit/post/post_cubit.dart';
+import '../../cubit/post/post_state.dart';
 import 'category_chip.dart';
 
 class FilterSheet extends StatefulWidget {
@@ -31,122 +37,179 @@ class _FilterSheetState extends State<FilterSheet> {
   int selectedSubCategory = 0;
 
   @override
+  void initState() {
+    categoryResponse = [];
+    subCategoryResponse = [];
+    websiteResponse = [];
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20.h),
-      decoration: BoxDecoration(
-          color: ColorManager.kLightPink,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(30.r))),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const CustomDivider(),
-          SizedBox(height: 20.h),
-          Center(
-            child: Text(AppStrings.filters,
-                style: AppTypography.kBold24
-                    .copyWith(color: ColorManager.kSecondary)),
-          ),
-          SizedBox(height: 13.h),
-          Text(AppStrings.websites, style: AppTypography.kBold18),
-          SizedBox(height: 10.h),
-          SizedBox(
-            height: 100.h,
-            width: MediaQuery.sizeOf(context).width,
-            child: Scrollbar(
-              thumbVisibility: true,
-              thickness: 2.w,
-              controller: _webScrollController,
-              child: SingleChildScrollView(
-                controller: _webScrollController,
-                child: Wrap(
-                  runSpacing: 5.w,
-                  spacing: 10.h,
-                  children: List.generate(
-                      websiteModel.length,
-                      (index) => CategoryChip(
-                          onTap: () {
-                            selectedWebsite = index;
-                            setState(() {});
-                          },
-                          text: websiteModel[index].title,
-                          isSelected: selectedWebsite == index)),
+    return BlocProvider(
+      create: (context) => sl<PostCubit>()
+        ..getAllWebsites()
+        ..getAllCategories()
+        ..getAllSubCategories(),
+      child: BlocConsumer<PostCubit, PostState>(
+        listener: (context, state) {
+          // loading ----------------------------------------------------------------
+          if (state.postState == RequestState.categoryLoading) {
+            showLoading();
+          } else if (state.postState == RequestState.subCategoryLoading) {
+            showLoading();
+          } else if (state.postState == RequestState.webSiteLoading) {
+            showLoading();
+            // done ------------------------------------------------------------------
+          } else if (state.postState == RequestState.categoryLoaded) {
+            hideLoading();
+            for (var i in state.categoryList) {
+              categoryResponse.add(i);
+            }
+            categoryResponse.insert(0, CategoryModel(id: 0, title: 'None'));
+          } else if (state.postState == RequestState.subCategoryLoaded) {
+            hideLoading();
+            for (var i in state.subCategoryList) {
+              subCategoryResponse.add(i);
+            }
+            subCategoryResponse.insert(
+                0, SubCategoryModel(id: 0, title: 'None'));
+          } else if (state.postState == RequestState.webSiteLoaded) {
+            hideLoading();
+            for (var i in state.websiteList) {
+              websiteResponse.add(i);
+            }
+            websiteResponse.insert(0, WebsiteModel(id: 0, title: 'None'));
+            // error -------------------------------------------------------
+          } else if (state.postState == RequestState.categoryError) {
+            hideLoading();
+          } else if (state.postState == RequestState.subCategoryError) {
+            hideLoading();
+          } else if (state.postState == RequestState.webSiteError) {
+            hideLoading();
+          }
+        },
+        builder: (context, state) {
+          return Container(
+            padding: EdgeInsets.all(20.h),
+            decoration: BoxDecoration(
+                color: ColorManager.kLightPink,
+                borderRadius:
+                    BorderRadius.vertical(top: Radius.circular(30.r))),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const CustomDivider(),
+                SizedBox(height: 20.h),
+                Center(
+                  child: Text(AppStrings.filters,
+                      style: AppTypography.kBold24
+                          .copyWith(color: ColorManager.kSecondary)),
                 ),
-              ),
-            ),
-          ),
-          SizedBox(height: 20.h),
-          Text(AppStrings.categories, style: AppTypography.kBold18),
-          SizedBox(height: 10.h),
-          SizedBox(
-            height: 100.h,
-            width: MediaQuery.sizeOf(context).width,
-            child: Scrollbar(
-              thumbVisibility: true,
-              thickness: 2.w,
-              controller: _categoryScrollController,
-              child: SingleChildScrollView(
-                controller: _categoryScrollController,
-                child: Wrap(
-                  runSpacing: 5.w,
-                  spacing: 10.h,
-                  children: List.generate(
-                      categoryModel.length,
-                      (index) => CategoryChip(
-                          onTap: () {
-                            selectedCategory = index;
-                            setState(() {});
-                          },
-                          text: categoryModel[index].title,
-                          isSelected: selectedCategory == index)),
+                SizedBox(height: 13.h),
+                Text(AppStrings.websites, style: AppTypography.kBold18),
+                SizedBox(height: 10.h),
+                SizedBox(
+                  height: 100.h,
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Scrollbar(
+                    thumbVisibility: true,
+                    thickness: 2.w,
+                    controller: _webScrollController,
+                    child: SingleChildScrollView(
+                      controller: _webScrollController,
+                      child: Wrap(
+                        runSpacing: 5.w,
+                        spacing: 10.h,
+                        children: List.generate(
+                            websiteResponse.length,
+                            (index) => CategoryChip(
+                                onTap: () {
+                                  selectedWebsite = index;
+                                  setState(() {});
+                                },
+                                text: websiteResponse[index].title!,
+                                isSelected: selectedWebsite == index)),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-          SizedBox(height: 20.h),
-          Text(AppStrings.subCategories, style: AppTypography.kBold18),
-          SizedBox(height: 10.h),
-          SizedBox(
-            height: 100.h,
-            width: MediaQuery.sizeOf(context).width,
-            child: Scrollbar(
-              thumbVisibility: true,
-              thickness: 2.w,
-              controller: _subCategoryScrollController,
-              child: SingleChildScrollView(
-                controller: _subCategoryScrollController,
-                child: Wrap(
-                  runSpacing: 5.w,
-                  spacing: 10.h,
-                  children: List.generate(
-                      subCategoryModel.length,
-                      (index) => CategoryChip(
-                          onTap: () {
-                            selectedSubCategory = index;
-                            setState(() {});
-                          },
-                          text: subCategoryModel[index].title,
-                          isSelected: selectedSubCategory == index)),
+                SizedBox(height: 20.h),
+                Text(AppStrings.categories, style: AppTypography.kBold18),
+                SizedBox(height: 10.h),
+                SizedBox(
+                  height: 100.h,
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Scrollbar(
+                    thumbVisibility: true,
+                    thickness: 2.w,
+                    controller: _categoryScrollController,
+                    child: SingleChildScrollView(
+                      controller: _categoryScrollController,
+                      child: Wrap(
+                        runSpacing: 5.w,
+                        spacing: 10.h,
+                        children: List.generate(
+                            categoryResponse.length,
+                            (index) => CategoryChip(
+                                onTap: () {
+                                  selectedCategory = index;
+                                  setState(() {});
+                                },
+                                text: categoryResponse[index].title!,
+                                isSelected: selectedCategory == index)),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+                SizedBox(height: 20.h),
+                Text(AppStrings.subCategories, style: AppTypography.kBold18),
+                SizedBox(height: 10.h),
+                SizedBox(
+                  height: 100.h,
+                  width: MediaQuery.sizeOf(context).width,
+                  child: Scrollbar(
+                    thumbVisibility: true,
+                    thickness: 2.w,
+                    controller: _subCategoryScrollController,
+                    child: SingleChildScrollView(
+                      controller: _subCategoryScrollController,
+                      child: Wrap(
+                        runSpacing: 5.w,
+                        spacing: 10.h,
+                        children: List.generate(
+                            subCategoryResponse.length,
+                            (index) => CategoryChip(
+                                onTap: () {
+                                  selectedSubCategory = index;
+                                  setState(() {});
+                                },
+                                text: subCategoryResponse[index].title!,
+                                isSelected: selectedSubCategory == index)),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 30.h),
+                PrimaryButton(
+                  onTap: () {
+                    searchFilter[0].searchText = '';
+                    searchFilter[0].website =
+                        websiteResponse[selectedWebsite].title;
+                    searchFilter[0].category =
+                        categoryResponse[selectedCategory].title;
+                    searchFilter[0].subCategory =
+                        subCategoryResponse[selectedSubCategory].title;
+                    widget.search();
+                  },
+                  text: AppStrings.filter,
+                ),
+                SizedBox(height: 20.h),
+              ],
             ),
-          ),
-          SizedBox(height: 30.h),
-          PrimaryButton(
-            onTap: () {
-              searchFilter[0].searchText = '';
-              searchFilter[0].website = websiteModel[selectedWebsite].title;
-              searchFilter[0].category =
-                  categoryModel[selectedCategory].title;
-              searchFilter[0].subCategory =
-                  subCategoryModel[selectedSubCategory].title;
-              widget.search();
-            },
-            text: AppStrings.filter,
-          ),
-          SizedBox(height: 20.h),
-        ],
+          );
+        },
       ),
     );
   }

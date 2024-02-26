@@ -1,11 +1,11 @@
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/filter_response.dart';
 
 class SubCategoryResponse extends FilterResponse {
-  final int id;
-  final String title;
+  int? id;
+  String? title;
 
-  const SubCategoryResponse({
-    required this.id,
-    required this.title,
+  SubCategoryResponse({
+    this.id,
+    this.title,
   }) : super(id: id, title: title);
 }

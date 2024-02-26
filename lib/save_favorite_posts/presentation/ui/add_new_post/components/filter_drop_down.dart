@@ -13,11 +13,13 @@ class FilterDropDown extends StatefulWidget {
   FilterResponse selectedFilter;
   List<FilterResponse> filterResponse;
   String hintText;
+  Function onChanged;
   FilterDropDown(
       {required this.filterEditingController,
       required this.selectedFilter,
       required this.filterResponse,
       required this.hintText,
+      required this.onChanged,
       Key? key})
       : super(key: key);
 
@@ -41,14 +43,12 @@ class _FilterDropDownState extends State<FilterDropDown> {
                   children: [
                     Container(
                         constraints: BoxConstraints(maxWidth: 200.w),
-                        child: Text(item.title, style: AppTypography.kExtraLight15.copyWith(color: ColorManager.kSecondary))),
+                        child: Text(item.title!, style: AppTypography.kExtraLight15.copyWith(color: ColorManager.kSecondary))),
                   ],
                 ));
           }).toList(),
           onChanged: (selectedFilter) {
-            setState(() {
-              widget.selectedFilter = selectedFilter as FilterResponse;
-            });
+            widget.onChanged(selectedFilter);
           },
           dropdownSearchData: DropdownSearchData(
             searchController: widget.filterEditingController,
@@ -76,7 +76,7 @@ class _FilterDropDownState extends State<FilterDropDown> {
             ),
             searchMatchFn: (item, searchValue) {
               widget.selectedFilter = item.value as FilterResponse;
-              var choose = widget.selectedFilter.title.toLowerCase();
+              var choose = widget.selectedFilter.title!.toLowerCase();
               return choose.contains(searchValue.toLowerCase());
             },
           ),

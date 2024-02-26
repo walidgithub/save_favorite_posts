@@ -1,20 +1,18 @@
 import '../../domain/reposnses/sub_category_response.dart';
 
 class SubCategoryModel extends SubCategoryResponse {
-  const SubCategoryModel({
-    required super.id,
-    required super.title,
+  SubCategoryModel({
+    super.id,
+    super.title,
   });
 
-  factory SubCategoryModel.fromJson(Map<String, dynamic> json) {
-    return SubCategoryModel(
-      id: (json['id'] as num).toInt(),
-      title: json['title'],
-    );
+  SubCategoryModel.fromMap(Map<String, dynamic> map) {
+    id = map["postId"];
+    title = map["subCategory"];
   }
 }
 
-List<SubCategoryModel> subCategoryModel = [
+List<SubCategoryResponse> subCategoryResponse = [
   // SubCategoryModel(id: 1, title: 'None'),
   // SubCategoryModel(id: 2, title: 'Designs'),
   // SubCategoryModel(id: 3, title: 'Animation'),

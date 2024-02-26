@@ -378,7 +378,6 @@ class _SearchViewState extends State<SearchView> {
         website != 'None' &&
         subCategory == 'None' &&
         category != 'None') {
-      print('hereeeeeeeee');
       await SearchCubit.get(context).getPostsByCategoryNWebsite(
           PostsByCategoryNWebsiteRequest(website: website, category: category));
     } else if (searchText == '' &&

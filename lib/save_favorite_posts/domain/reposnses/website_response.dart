@@ -1,11 +1,11 @@
 import 'filter_response.dart';
 
 class WebsiteResponse extends FilterResponse {
-  final int id;
-  final String title;
+  int? id;
+  String? title;
 
-  const WebsiteResponse({
-    required this.id,
-    required this.title,
+  WebsiteResponse({
+    this.id,
+    this.title,
   }) : super(id: id, title: title);
 }
