@@ -13,13 +13,13 @@ class PostsModel extends PostsResponse {
 
   factory PostsModel.fromJson(Map<String, dynamic> json) {
     return PostsModel(
-      id: (json['id'] as num).toInt(),
+      id: json['postId'],
       category: json['category'],
       subCategory: json['subCategory'],
       website: json['website'],
       seen: json['seen'],
       description: json['description'],
-      link: json['link'],
+      link: json['postLink'],
     );
   }
 

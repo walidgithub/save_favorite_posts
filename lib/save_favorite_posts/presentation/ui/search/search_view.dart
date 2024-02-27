@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui_components/dividers/custom_dotted_divider.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/app_typography.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
@@ -137,33 +138,34 @@ class _SearchViewState extends State<SearchView> {
                   child: Column(
                     children: [
                       SizedBox(height: 20.h),
-                      loading ? Expanded(child: shimmerBody()) : Expanded(child: _searchBody(state.searchList)),
+                      loading
+                          ? Expanded(child: shimmerBody())
+                          : Expanded(child: _searchBody(state.searchList)),
                       SizedBox(
                         height: AppConstants.smallHeightBetweenElements,
                       ),
                       totalPages > 1
                           ? Column(
-                        children: [
-                          DottedDivider(
-                            color: ColorManager.kLine2,
-                            thickness: 1.0,
-                            dashLength: 3.w,
-                            dashSpacing: 2.w,
-                          ),
-                          SizedBox(
-                            height: AppConstants
-                                .smallHeightBetweenElements,
-                          ),
-                          SizedBox(
-                              height: 40.h,
-                              width:
-                              MediaQuery.of(context).size.width,
-                              child: PaginationView(
-                                totalPages: totalPages,
-                                middlePages: middlePages,
-                              ))
-                        ],
-                      )
+                              children: [
+                                DottedDivider(
+                                  color: ColorManager.kLine2,
+                                  thickness: 1.0,
+                                  dashLength: 3.w,
+                                  dashSpacing: 2.w,
+                                ),
+                                SizedBox(
+                                  height:
+                                      AppConstants.smallHeightBetweenElements,
+                                ),
+                                SizedBox(
+                                    height: 40.h,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: PaginationView(
+                                      totalPages: totalPages,
+                                      middlePages: middlePages,
+                                    ))
+                              ],
+                            )
                           : Container()
                     ],
                   ),
@@ -248,8 +250,8 @@ class _SearchViewState extends State<SearchView> {
                         child: SearchResultView(
                           index: index,
                           postsResponse: searchList[index],
-                          removeCallback: () {
-                            // fc.removeFromFavorites(fc.favorite![index]);
+                          removeCallback: () async {
+                            await SearchCubit.get(context).deletePost(DeletePostRequest(id: searchList[index].id));
                           },
                         ),
                       ),
@@ -306,12 +308,6 @@ class _SearchViewState extends State<SearchView> {
     String subCategory = searchFilter[0].subCategory!;
     String website = searchFilter[0].website!;
     String searchText = searchFilter[0].searchText!;
-
-    print('------------------------------------');
-    print(category);
-    print(subCategory);
-    print(website);
-    print(searchText);
 
     if (searchText != '' &&
         website == 'None' &&
@@ -406,6 +402,7 @@ class _SearchViewState extends State<SearchView> {
         category != 'None') {
       await SearchCubit.get(context)
           .getPostsByCategory(PostsByCategoryRequest(category: category));
+      setState(() {});
     } else if (searchText == '' &&
         website == 'None' &&
         subCategory != 'None' &&

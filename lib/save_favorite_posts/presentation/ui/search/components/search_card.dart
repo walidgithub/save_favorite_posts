@@ -31,17 +31,19 @@ class _SearchCardState extends State<SearchCard> {
       child: Container(
         padding: EdgeInsets.all(15.h),
         decoration: BoxDecoration(
-            color: ColorManager.kLightPink,
-            borderRadius: BorderRadius.circular(30.r)),
+            color: ColorManager.kBackground,
+            borderRadius: BorderRadius.circular(30.r),
+          border: Border.all(color: ColorManager.kLine,width: 1.5.w),
+        ),
         child: Row(
           children: [
             Column(
               children: [
                 Text('${widget.index + 1}',
-                    style: AppTypography.kBold14),
+                    style: AppTypography.kBold14.copyWith(color: ColorManager.kOrange)),
                 SizedBox(height: AppConstants.smallHeightBetweenElements,),
                 Text(widget.postsResponse.website,
-                    style: AppTypography.kExtraLight15),
+                    style: AppTypography.kExtraLight15.copyWith(color: ColorManager.kLightBrown)),
               ],
             ),
             SizedBox(width: 20.w),
@@ -56,7 +58,7 @@ class _SearchCardState extends State<SearchCard> {
                       Text(
                         widget.postsResponse.subCategory,
                         style: AppTypography.kMedium14
-                            .copyWith(color: ColorManager.kLightBrown),
+                            .copyWith(color: ColorManager.kPrimary),
                       ),
                       SizedBox(width: 20.w),
                     ],
