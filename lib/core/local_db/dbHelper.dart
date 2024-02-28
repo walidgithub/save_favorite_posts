@@ -7,6 +7,7 @@ import 'package:sqflite/sqflite.dart';
 import '../../save_favorite_posts/data/models/category_model.dart';
 import '../../save_favorite_posts/data/models/posts_model.dart';
 import '../../save_favorite_posts/data/models/sub_category_model.dart';
+import '../../save_favorite_posts/domain/requests/search/get_post_by_id_request.dart';
 import '../../save_favorite_posts/domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../save_favorite_posts/domain/requests/search/posts_by_category_n_subcategory_request.dart';
 import '../../save_favorite_posts/domain/requests/search/posts_by_category_n_website_request.dart';
@@ -349,6 +350,18 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
 
     final result = await db.rawQuery(
         'SELECT * FROM saved_posts where subCategory = ? Order by postId ASC',[postsBySubCategoryRequest.subCategory]);
+    return result.map((map) => PostsModel.fromJson(map)).toList();
+  }
+
+  Future<List<PostsModel>> getSavedPostById(GetPostByIdRequest getPostByIdRequest) async {
+    if (_db == null) {
+      await initDB(dbdName);
+    }
+
+    final db = _db!.database;
+
+    final result = await db.rawQuery(
+        'SELECT * FROM saved_posts where postId = ?',[getPostByIdRequest.id]);
     return result.map((map) => PostsModel.fromJson(map)).toList();
   }
 }

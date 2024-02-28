@@ -15,7 +15,8 @@ import '../../../ui_components/buttons/custom_icon_button.dart';
 class SearchCard extends StatefulWidget {
   final PostsResponse postsResponse;
   final int index;
-  const SearchCard({super.key, required this.postsResponse, required this.index});
+  final Function goToEdit;
+  const SearchCard({super.key, required this.postsResponse, required this.index, required this.goToEdit});
 
   @override
   State<SearchCard> createState() => _SearchCardState();
@@ -24,98 +25,93 @@ class SearchCard extends StatefulWidget {
 class _SearchCardState extends State<SearchCard> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        // Get.to(()=>FoodDishDetail(dish: dish));
-      },
-      child: Container(
-        padding: EdgeInsets.all(15.h),
-        decoration: BoxDecoration(
-            color: ColorManager.kBackground,
-            borderRadius: BorderRadius.circular(30.r),
-          border: Border.all(color: ColorManager.kLine,width: 1.5.w),
-        ),
-        child: Row(
-          children: [
-            Column(
+    return Container(
+      padding: EdgeInsets.all(15.h),
+      decoration: BoxDecoration(
+          color: ColorManager.kBackground,
+          borderRadius: BorderRadius.circular(30.r),
+        border: Border.all(color: ColorManager.kLine,width: 1.5.w),
+      ),
+      child: Row(
+        children: [
+          Column(
+            children: [
+              Text('${widget.index + 1}',
+                  style: AppTypography.kBold14.copyWith(color: ColorManager.kOrange)),
+              SizedBox(height: AppConstants.smallHeightBetweenElements,),
+              Text(widget.postsResponse.website,
+                  style: AppTypography.kExtraLight15.copyWith(color: ColorManager.kLightBrown)),
+            ],
+          ),
+          SizedBox(width: 20.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('${widget.index + 1}',
-                    style: AppTypography.kBold14.copyWith(color: ColorManager.kOrange)),
-                SizedBox(height: AppConstants.smallHeightBetweenElements,),
-                Text(widget.postsResponse.website,
-                    style: AppTypography.kExtraLight15.copyWith(color: ColorManager.kLightBrown)),
+                Text(widget.postsResponse.category,
+                    style: AppTypography.kExtraLight18),
+                Row(
+                  children: [
+                    Text(
+                      widget.postsResponse.subCategory,
+                      style: AppTypography.kMedium14
+                          .copyWith(color: ColorManager.kPrimary),
+                    ),
+                    SizedBox(width: 20.w),
+                  ],
+                ),
+                SizedBox(
+                  height: AppConstants.smallHeightBetweenElements,
+                ),
+                ReadMoreText(
+                  widget.postsResponse.description,
+                  style: AppTypography.kLight14,
+                  trimLines: 3,
+                  colorClickableText: ColorManager.kOrange,
+                  trimMode: TrimMode.Line,
+                  trimCollapsedText: AppStrings.readMore,
+                  trimExpandedText: AppStrings.less,
+                )
               ],
             ),
-            SizedBox(width: 20.w),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(widget.postsResponse.category,
-                      style: AppTypography.kExtraLight18),
-                  Row(
-                    children: [
-                      Text(
-                        widget.postsResponse.subCategory,
-                        style: AppTypography.kMedium14
-                            .copyWith(color: ColorManager.kPrimary),
-                      ),
-                      SizedBox(width: 20.w),
-                    ],
-                  ),
-                  SizedBox(
-                    height: AppConstants.smallHeightBetweenElements,
-                  ),
-                  ReadMoreText(
-                    widget.postsResponse.description,
-                    style: AppTypography.kLight14,
-                    trimLines: 3,
-                    colorClickableText: ColorManager.kOrange,
-                    trimMode: TrimMode.Line,
-                    trimCollapsedText: AppStrings.readMore,
-                    trimExpandedText: AppStrings.less,
-                  )
-                ],
-              ),
-            ),
-            Column(
-              children: [
-                Container(
-                  height: 50.h,
-                  alignment: Alignment.bottomRight,
-                  child: CustomIconButton(
-                    onTap: () {
-                      _launchURL(widget.postsResponse.link,context);
-                    },
-                    size: 40.w,
-                    icon: AssetsManager.goImg,
-                  ),
-                ),
-                Checkbox(
-                  checkColor: ColorManager.kWhite,
-                  activeColor: ColorManager.kPrimary,
-                  value: widget.postsResponse.seen == 1 ? true : false,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      // widget.postsResponse.seen = value!;
-                    });
+          ),
+          Column(
+            children: [
+              Container(
+                height: 50.h,
+                alignment: Alignment.bottomRight,
+                child: CustomIconButton(
+                  onTap: () {
+                    _launchURL(widget.postsResponse.link,context);
                   },
+                  size: 40.w,
+                  icon: AssetsManager.goImg,
                 ),
-                Container(
-                  height: 50.h,
-                  alignment: Alignment.bottomRight,
-                  child: CustomIconButton(
-                    onTap: () {
-
-                    },
-                    size: 40.w,
-                    icon: AssetsManager.editIcon,
-                  ),
+              ),
+              Checkbox(
+                checkColor: ColorManager.kWhite,
+                activeColor: ColorManager.kPrimary,
+                value: widget.postsResponse.seen == 1 ? true : false,
+                onChanged: (bool? value) {
+                  setState(() {
+                    // widget.postsResponse.seen = value!;
+                  });
+                },
+              ),
+              Container(
+                height: 50.h,
+                alignment: Alignment.bottomRight,
+                child: CustomIconButton(
+                  onTap: () {
+                    widget.goToEdit();
+                  },
+                  size: 40.w,
+                  icon: AssetsManager.editIcon,
                 ),
-              ],
-            )
-          ],
-        ),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }

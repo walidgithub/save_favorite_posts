@@ -11,9 +11,10 @@ import '../../../ui_components/buttons/custom_icon_button.dart';
 class SearchResultView extends StatelessWidget {
   final PostsResponse postsResponse;
   final int index;
+  final Function goToEdit;
   final VoidCallback removeCallback;
   const SearchResultView(
-      {super.key, required this.postsResponse, required this.removeCallback, required this.index});
+      {super.key, required this.postsResponse, required this.removeCallback, required this.index, required this.goToEdit});
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,7 @@ class SearchResultView extends StatelessWidget {
         ),
         child: SearchCard(
           index: index,
+          goToEdit: goToEdit,
           postsResponse: postsResponse,
         )
     );

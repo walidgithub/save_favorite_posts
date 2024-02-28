@@ -5,6 +5,7 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/inse
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/cubit/search/search_state.dart';
 import '../../../../../core/utils/enums.dart';
+import '../../../../domain/requests/search/get_post_by_id_request.dart';
 import '../../../../domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../../../domain/requests/search/posts_by_category_n_subcategory_request.dart';
 import '../../../../domain/requests/search/posts_by_category_n_website_request.dart';
@@ -25,6 +26,7 @@ import '../../../../domain/usecases/iud/delete_post_usecase.dart';
 import '../../../../domain/usecases/iud/insert_new_post_usecase.dart';
 import '../../../../domain/usecases/iud/update_post_usecase.dart';
 import '../../../../domain/usecases/search/get_all_posts_usecase.dart';
+import '../../../../domain/usecases/search/get_post_by_id_usecase.dart';
 import '../../../../domain/usecases/search/get_posts_by_category_n_subcategory_n_website_usecase.dart';
 import '../../../../domain/usecases/search/get_posts_by_category_n_subcategory_usecase.dart';
 import '../../../../domain/usecases/search/get_posts_by_category_n_website_usecase.dart';
@@ -43,6 +45,7 @@ import '../../../../domain/usecases/search/get_posts_by_subcategory_usecase.dart
 import '../../../../domain/usecases/search/get_posts_by_website_usecase.dart';
 
 class SearchCubit extends Cubit<SearchState> {
+  final GetPostByIdUseCase getPostByIdUseCase;
   final GetAllPostsUseCase getAllPostsUseCase;
   final GetPostsByWebsiteUseCase getPostsByWebsiteUseCase;
   final GetPostsBySubCategoryUseCase getPostsBySubCategoryUseCase;
@@ -69,31 +72,33 @@ class SearchCubit extends Cubit<SearchState> {
   final DeletePostUseCase deletePostUseCase;
 
   SearchCubit(
-      this.getAllPostsUseCase,
-      this.getPostsByWebsiteUseCase,
-      this.getPostsBySubCategoryUseCase,
-      this.getPostsBySubCategoryNWebsiteUseCase,
-      this.getPostsByDescUseCase,
-      this.getPostsByDescNWebsiteUseCase,
-      this.getPostsByDescNSubCategoryUseCase,
-      this.getPostsByDescNSubCategoryNWebsiteUseCase,
-      this.getPostsByDescNCategoryUseCase,
-      this.getPostsByDescNCategoryNWebsiteUseCase,
-      this.getPostsByDescNCategoryNSubCategoryUseCase,
-      this.getPostsByDescNCategoryNSubCategoryNWebsiteUseCase,
-      this.getPostsByCategoryUseCase,
-      this.getPostsByCategoryNWebsiteUseCase,
-      this.getPostsByCategoryNSubCategoryUseCase,
-      this.getPostsByCategoryNSubCategoryNWebsiteUseCase,
-      this.deletePostUseCase,
-      )
-      : super(const SearchState());
+    this.getPostByIdUseCase,
+    this.getAllPostsUseCase,
+    this.getPostsByWebsiteUseCase,
+    this.getPostsBySubCategoryUseCase,
+    this.getPostsBySubCategoryNWebsiteUseCase,
+    this.getPostsByDescUseCase,
+    this.getPostsByDescNWebsiteUseCase,
+    this.getPostsByDescNSubCategoryUseCase,
+    this.getPostsByDescNSubCategoryNWebsiteUseCase,
+    this.getPostsByDescNCategoryUseCase,
+    this.getPostsByDescNCategoryNWebsiteUseCase,
+    this.getPostsByDescNCategoryNSubCategoryUseCase,
+    this.getPostsByDescNCategoryNSubCategoryNWebsiteUseCase,
+    this.getPostsByCategoryUseCase,
+    this.getPostsByCategoryNWebsiteUseCase,
+    this.getPostsByCategoryNSubCategoryUseCase,
+    this.getPostsByCategoryNSubCategoryNWebsiteUseCase,
+    this.deletePostUseCase,
+  ) : super(const SearchState());
 
   static SearchCubit get(context) => BlocProvider.of(context);
 
   FutureOr<void> getAllPosts() async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result = await getAllPostsUseCase(const NoParameters());
 
@@ -109,7 +114,9 @@ class SearchCubit extends Cubit<SearchState> {
   FutureOr<void> getPostsByWebsite(
       PostsByWebsiteRequest postsByWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result = await getPostsByWebsiteUseCase(postsByWebsiteRequest);
 
@@ -125,7 +132,9 @@ class SearchCubit extends Cubit<SearchState> {
   FutureOr<void> getPostsBySubCategory(
       PostsBySubCategoryRequest postsBySubCategoryRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result =
         await getPostsBySubCategoryUseCase(postsBySubCategoryRequest);
@@ -143,7 +152,9 @@ class SearchCubit extends Cubit<SearchState> {
       PostsBySubCategoryNWebsiteRequest
           postsBySubCategoryNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result = await getPostsBySubCategoryNWebsiteUseCase(
         postsBySubCategoryNWebsiteRequest);
@@ -159,7 +170,9 @@ class SearchCubit extends Cubit<SearchState> {
 
   FutureOr<void> getPostsByDesc(PostsByDescRequest postsByDescRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result = await getPostsByDescUseCase(postsByDescRequest);
 
@@ -175,7 +188,9 @@ class SearchCubit extends Cubit<SearchState> {
   FutureOr<void> getPostsByDescNWebsite(
       PostsByDescNWebsiteRequest postsByDescNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result =
         await getPostsByDescNWebsiteUseCase(postsByDescNWebsiteRequest);
@@ -192,7 +207,9 @@ class SearchCubit extends Cubit<SearchState> {
   FutureOr<void> getPostsByDescNSubCategory(
       PostsByDescNSubCategoryRequest postsByDescNSubCategoryRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result =
         await getPostsByDescNSubCategoryUseCase(postsByDescNSubCategoryRequest);
@@ -210,7 +227,9 @@ class SearchCubit extends Cubit<SearchState> {
       PostsByDescNSubCategoryNWebsiteRequest
           postsByDescNSubCategoryNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result = await getPostsByDescNSubCategoryNWebsiteUseCase(
         postsByDescNSubCategoryNWebsiteRequest);
@@ -227,7 +246,9 @@ class SearchCubit extends Cubit<SearchState> {
   FutureOr<void> getPostsByDescNCategory(
       PostsByDescNCategoryRequest postsByDescNCategoryRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result =
         await getPostsByDescNCategoryUseCase(postsByDescNCategoryRequest);
@@ -245,7 +266,9 @@ class SearchCubit extends Cubit<SearchState> {
       PostsByDescNCategoryNWebsiteRequest
           postsByDescNCategoryNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result = await getPostsByDescNCategoryNWebsiteUseCase(
         postsByDescNCategoryNWebsiteRequest);
@@ -263,7 +286,9 @@ class SearchCubit extends Cubit<SearchState> {
       PostsByDescNCategoryNSubCategoryRequest
           postsByDescNCategoryNSubCategoryRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result = await getPostsByDescNCategoryNSubCategoryUseCase(
         postsByDescNCategoryNSubCategoryRequest);
@@ -281,7 +306,9 @@ class SearchCubit extends Cubit<SearchState> {
       PostsByDescNCategoryNSubCategoryNWebsiteRequest
           postsByDescNCategoryNSubCategoryNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result = await getPostsByDescNCategoryNSubCategoryNWebsiteUseCase(
         postsByDescNCategoryNSubCategoryNWebsiteRequest);
@@ -298,7 +325,9 @@ class SearchCubit extends Cubit<SearchState> {
   FutureOr<void> getPostsByCategory(
       PostsByCategoryRequest postsByCategoryRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result = await getPostsByCategoryUseCase(postsByCategoryRequest);
     result.fold(
@@ -313,7 +342,9 @@ class SearchCubit extends Cubit<SearchState> {
   FutureOr<void> getPostsByCategoryNWebsite(
       PostsByCategoryNWebsiteRequest postsByCategoryNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result =
         await getPostsByCategoryNWebsiteUseCase(postsByCategoryNWebsiteRequest);
@@ -331,7 +362,9 @@ class SearchCubit extends Cubit<SearchState> {
       PostsByCategoryNSubCategoryRequest
           postsByCategoryNSubCategoryRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result = await getPostsByCategoryNSubCategoryUseCase(
         postsByCategoryNSubCategoryRequest);
@@ -349,7 +382,9 @@ class SearchCubit extends Cubit<SearchState> {
       PostsByCategoryNSubCategoryNWebsiteRequest
           postsByCategoryNSubCategoryNWebsiteRequest) async {
     emit(state.copyWith(
-        searchState: RequestState.searchLoading, searchMessage: '', searchList: []));
+        searchState: RequestState.searchLoading,
+        searchMessage: '',
+        searchList: []));
 
     final result = await getPostsByCategoryNSubCategoryNWebsiteUseCase(
         postsByCategoryNSubCategoryNWebsiteRequest);
@@ -363,6 +398,23 @@ class SearchCubit extends Cubit<SearchState> {
             )));
   }
 
+  FutureOr<void> getPostById(GetPostByIdRequest getPostByIdRequest) async {
+    emit(state.copyWith(
+        searchState: RequestState.postLoading,
+        searchMessage: '',
+        searchList: []));
+
+    final result = await getPostByIdUseCase(getPostByIdRequest);
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            searchState: RequestState.postError, searchMessage: l.message)),
+        (r) => emit(state.copyWith(
+              searchList: r,
+              searchState: RequestState.postLoaded,
+            )));
+  }
+
   FutureOr<void> deletePost(DeletePostRequest deletePostRequest) async {
     emit(state.copyWith(
         searchState: RequestState.deleteLoading, searchMessage: '', postId: 0));
@@ -370,11 +422,11 @@ class SearchCubit extends Cubit<SearchState> {
     final result = await deletePostUseCase(deletePostRequest);
 
     result.fold(
-            (l) => emit(state.copyWith(
-                searchState: RequestState.deleteError, searchMessage: l.message)),
-            (r) => emit(state.copyWith(
-          postId: r,
+        (l) => emit(state.copyWith(
+            searchState: RequestState.deleteError, searchMessage: l.message)),
+        (r) => emit(state.copyWith(
+              postId: r,
               searchState: RequestState.deleteDone,
-        )));
+            )));
   }
 }

@@ -3,6 +3,7 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/iud/dele
 import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_all_categories_usecase.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_all_subcategories_usecase.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_all_websites_usecase.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_post_by_id_usecase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/local_db/dbHelper.dart';
 import '../../../core/preferences/app_pref.dart';
@@ -45,7 +46,7 @@ class ServiceLocator {
     sl.registerLazySingleton<DbHelper>(() => DbHelper());
 
     // Cubit
-    sl.registerFactory(() => SearchCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+    sl.registerFactory(() => SearchCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
     sl.registerFactory(() => PostCubit(sl(), sl(), sl(), sl(), sl(), sl()));
 
@@ -116,6 +117,8 @@ class ServiceLocator {
     sl.registerLazySingleton<GetPostsByWebsiteUseCase>(
             () => GetPostsByWebsiteUseCase(sl()));
 
+    sl.registerLazySingleton<GetPostByIdUseCase>(
+            () => GetPostByIdUseCase(sl()));
 
     // Repositories
     sl.registerLazySingleton<BaseRepository>(

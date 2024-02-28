@@ -16,19 +16,21 @@ class LandingView extends StatefulWidget {
 
 class _SearchViewState extends State<LandingView> {
   int _currentIndex = 0;
-  List<Widget> pages = [
-    const SearchView(),
-    const AddNewPostView(),
-  ];
+  int? editPostId;
+  List oldSearchList = [];
+  // List<Widget> pages = [
+  //   SearchView(goToEdit: () {}),
+  //   const AddNewPostView(),
+  // ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: pages[_currentIndex],
+      body: selectedPage(context,_currentIndex),
       bottomNavigationBar: SizedBox(
         height: 70.h,
         child: BottomNavigationBar(
-          // unselectedLabelStyle: const TextStyle(color: ColorManager.kSecondary),
           selectedItemColor: ColorManager.kSecondary,
           currentIndex: _currentIndex,
           onTap: (value) {
@@ -39,18 +41,39 @@ class _SearchViewState extends State<LandingView> {
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
-              icon: SvgPicture.asset(AssetsManager.homeSearch,width: 30.w),
+              icon: SvgPicture.asset(AssetsManager.homeSearch, width: 30.w),
               label: AppStrings.home,
-              activeIcon: SvgPicture.asset(AssetsManager.homeSearchSelected,width: 30.w),
+              activeIcon: SvgPicture.asset(AssetsManager.homeSearchSelected,
+                  width: 30.w),
             ),
             BottomNavigationBarItem(
               icon: SvgPicture.asset(AssetsManager.addNew),
               label: AppStrings.addNew,
-              activeIcon: SvgPicture.asset(AssetsManager.addNewSelected,width: 30.w),
+              activeIcon:
+                  SvgPicture.asset(AssetsManager.addNewSelected, width: 30.w),
             ),
           ],
         ),
       ),
     );
   }
+  Widget selectedPage(BuildContext context, int index) {
+    if (index == 0) {
+      return SearchView(goToEdit: (int postId, List searchList) {
+        setState(() {
+          oldSearchList = searchList;
+          editPostId = postId;
+          _currentIndex = 1;
+        });
+      });
+    } else if(index == 1) {
+      return AddNewPostView(goToSearch: () {
+        setState(() {
+          _currentIndex = 0;
+        });
+      }, searchList: oldSearchList,postId: editPostId!,);
+    }
+    return Container();
+  }
 }
+

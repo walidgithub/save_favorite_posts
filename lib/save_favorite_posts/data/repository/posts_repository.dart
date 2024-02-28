@@ -5,6 +5,7 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/insert_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/search/get_post_by_id_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/search/posts_by_category_n_website_request.dart';
 import '../../../core/error/error_handler.dart';
@@ -232,6 +233,17 @@ class PostsRepository extends BaseRepository {
     try {
       final result =
           await _baseLocalDataSource.getPostsByWebsite(postsByWebsiteRequest);
+      return Right(result);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<PostsResponse>>> getPostById(GetPostByIdRequest getPostByIdRequest) async {
+    try {
+      final result =
+      await _baseLocalDataSource.getPostById(getPostByIdRequest);
       return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);

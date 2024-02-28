@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/search/get_post_by_id_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_all_categories_usecase.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_all_subcategories_usecase.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_all_websites_usecase.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_post_by_id_usecase.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/cubit/post/post_state.dart';
 
 import '../../../../../core/utils/enums.dart';
@@ -14,6 +16,7 @@ import '../../../../domain/usecases/base_usecase/base_usecase.dart';
 import '../../../../domain/usecases/iud/delete_post_usecase.dart';
 import '../../../../domain/usecases/iud/insert_new_post_usecase.dart';
 import '../../../../domain/usecases/iud/update_post_usecase.dart';
+import '../../../../domain/usecases/search/get_post_by_id_usecase.dart';
 
 class PostCubit extends Cubit<PostState> {
   final GetAllCategoriesUseCase getAllCategoriesUseCase;
@@ -36,47 +39,53 @@ class PostCubit extends Cubit<PostState> {
 
   FutureOr<void> getAllCategories() async {
     emit(state.copyWith(
-        postState: RequestState.categoryLoading, postMessage: '', categoryList: []));
+        postState: RequestState.categoryLoading,
+        postMessage: '',
+        categoryList: []));
 
     final result = await getAllCategoriesUseCase(const NoParameters());
 
     result.fold(
-            (l) =>emit(state.copyWith(
-                postState: RequestState.categoryError, postMessage: l.message)),
-            (r) => emit(state.copyWith(
-          categoryList: r,
-          postState: RequestState.categoryLoaded,
-        )));
+        (l) => emit(state.copyWith(
+            postState: RequestState.categoryError, postMessage: l.message)),
+        (r) => emit(state.copyWith(
+              categoryList: r,
+              postState: RequestState.categoryLoaded,
+            )));
   }
 
   FutureOr<void> getAllSubCategories() async {
     emit(state.copyWith(
-        postState: RequestState.subCategoryLoading, postMessage: '', subCategoryList: []));
+        postState: RequestState.subCategoryLoading,
+        postMessage: '',
+        subCategoryList: []));
 
     final result = await getAllSubCategoriesUseCase(const NoParameters());
 
     result.fold(
-            (l) => emit(state.copyWith(
+        (l) => emit(state.copyWith(
             postState: RequestState.subCategoryError, postMessage: l.message)),
-            (r) => emit(state.copyWith(
+        (r) => emit(state.copyWith(
               subCategoryList: r,
-          postState: RequestState.subCategoryLoaded,
-        )));
+              postState: RequestState.subCategoryLoaded,
+            )));
   }
 
   FutureOr<void> getAllWebsites() async {
     emit(state.copyWith(
-        postState: RequestState.webSiteLoading, postMessage: '', websiteList: []));
+        postState: RequestState.webSiteLoading,
+        postMessage: '',
+        websiteList: []));
 
     final result = await getAllWebsitesUseCase(const NoParameters());
 
     result.fold(
-            (l) => emit(state.copyWith(
+        (l) => emit(state.copyWith(
             postState: RequestState.webSiteError, postMessage: l.message)),
-            (r) => emit(state.copyWith(
+        (r) => emit(state.copyWith(
               websiteList: r,
-          postState: RequestState.webSiteLoaded,
-        )));
+              postState: RequestState.webSiteLoaded,
+            )));
   }
 
   FutureOr<void> insertPost(InsertPostRequest insertPostRequest) async {

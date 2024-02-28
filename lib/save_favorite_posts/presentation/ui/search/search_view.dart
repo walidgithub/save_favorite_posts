@@ -11,6 +11,7 @@ import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_mana
 import '../../../../core/utils/enums.dart';
 import '../../../data/models/posts_model.dart';
 import '../../../domain/entities/search_filter.dart';
+import '../../../domain/requests/search/get_post_by_id_request.dart';
 import '../../../domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../../domain/requests/search/posts_by_category_n_website_request.dart';
 import '../../../domain/requests/search/posts_by_category_request.dart';
@@ -26,6 +27,7 @@ import '../../../domain/requests/search/posts_by_subcategory_request.dart';
 import '../../../domain/requests/search/posts_by_website_request.dart';
 import '../../../shared/constant/strings_manager.dart';
 import '../../di/di.dart';
+import '../../router/app_router.dart';
 import '../../ui_components/buttons/custom_icon_button.dart';
 import '../../ui_components/dialogs/loading_dialog.dart';
 import '../../ui_components/others/custom_animation.dart';
@@ -39,7 +41,8 @@ import 'components/search_result_card.dart';
 import 'components/shimmer_card.dart';
 
 class SearchView extends StatefulWidget {
-  const SearchView({Key? key}) : super(key: key);
+  final Function goToEdit;
+  const SearchView({required this.goToEdit, Key? key}) : super(key: key);
 
   @override
   State<SearchView> createState() => _SearchViewState();
@@ -124,6 +127,17 @@ class _SearchViewState extends State<SearchView> {
             loading = false;
             hideLoading();
           } else if (state.searchState == RequestState.searchError) {
+            loading = false;
+            hideLoading();
+          } else if (state.searchState == RequestState.deleteLoading) {
+            loading = true;
+            showLoading();
+          } else if (state.searchState == RequestState.deleteDone) {
+            loading = false;
+            hideLoading();
+            searchFilter[0].searchText = _searchController.text;
+            getMatchingEvent(context);
+          } else if (state.searchState == RequestState.deleteError) {
             loading = false;
             hideLoading();
           }
@@ -249,6 +263,12 @@ class _SearchViewState extends State<SearchView> {
                       child: FadeInAnimation(
                         child: SearchResultView(
                           index: index,
+                          goToEdit: () async {
+                            await SearchCubit.get(context).getPostById(
+                                GetPostByIdRequest(
+                                    id: searchList[index].id));
+                            widget.goToEdit(searchList[index].id, searchList);
+                          },
                           postsResponse: searchList[index],
                           removeCallback: () async {
                             await SearchCubit.get(context).deletePost(DeletePostRequest(id: searchList[index].id));

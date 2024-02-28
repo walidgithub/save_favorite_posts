@@ -10,6 +10,9 @@ class AppStrings {
   static const website = "Website";
   static const category = "Category";
   static const subCategory = "Sub Category";
+  static const searchForWebsite = "Search For Website";
+  static const searchForCategory = "Search For Category";
+  static const searchForSubCategory = "Search For Sub Category";
   static const less = " Less";
   static const noSearchResults = " No Search Results";
   static const addNewPost = "Add new post";
@@ -45,6 +48,7 @@ class AppStrings {
   static const categoryRequired = "Category Field Required";
   static const websiteRequired = "Website Field Required";
   static const linkRequired = "Link Field Required";
+  static const descriptionRequired = "Description Field Required";
 
   // error handler
   static const String unknownError = "unknown_error";

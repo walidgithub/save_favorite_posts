@@ -6,6 +6,7 @@ import '../../../core/local_db/dbHelper.dart';
 import '../../domain/reposnses/category_response.dart';
 import '../../domain/reposnses/sub_category_response.dart';
 import '../../domain/reposnses/website_response.dart';
+import '../../domain/requests/search/get_post_by_id_request.dart';
 import '../../domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../domain/requests/search/posts_by_category_n_subcategory_request.dart';
 import '../../domain/requests/search/posts_by_category_n_website_request.dart';
@@ -81,6 +82,10 @@ abstract class BaseLocalDataSource {
       PostsByCategoryRequest postsByCategoryRequest);
   Future<List<PostsModel>> getPostsBySubCategory(
       PostsBySubCategoryRequest postsBySubCategoryRequest);
+
+  // get post by Id
+  Future<List<PostsModel>> getPostById(
+      GetPostByIdRequest getPostByIdRequest);
 }
 
 class PostsLocalDataSource extends BaseLocalDataSource {
@@ -325,6 +330,16 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   @override
   Future<List<WebsiteModel>> getAllWebsites() async {
     final res = await _dbHelper.getAllWebSites();
+    try {
+      return res;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<List<PostsModel>> getPostById(GetPostByIdRequest getPostByIdRequest) async {
+    final res = await _dbHelper.getSavedPostById(getPostByIdRequest);
     try {
       return res;
     } catch (e) {

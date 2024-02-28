@@ -13,6 +13,7 @@ import '../../../../core/utils/enums.dart';
 import '../../../data/models/category_model.dart';
 import '../../../data/models/sub_category_model.dart';
 import '../../../data/models/website_model.dart';
+import '../../../shared/constant/app_typography.dart';
 import '../../../shared/constant/constant_values_manager.dart';
 import '../../../shared/style/colors_manager.dart';
 import '../../di/di.dart';
@@ -27,7 +28,10 @@ import 'components/add_new_item_to_filter.dart';
 import 'components/filter_drop_down.dart';
 
 class AddNewPostView extends StatefulWidget {
-  const AddNewPostView({Key? key}) : super(key: key);
+  final Function goToSearch;
+  final List searchList;
+  final int postId;
+  const AddNewPostView({required this.goToSearch, required this.searchList, required this.postId, Key? key}) : super(key: key);
 
   @override
   State<AddNewPostView> createState() => _AddNewPostViewState();
@@ -58,6 +62,9 @@ class _AddNewPostViewState extends State<AddNewPostView> {
     categoryResponse = [];
     subCategoryResponse = [];
     websiteResponse = [];
+    print('data from search');
+    print(widget.postId);
+    print(widget.searchList);
     super.initState();
   }
 
@@ -178,6 +185,9 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                   SizedBox(
                     height: 20.h,
                   ),
+                  websiteResponse.isNotEmpty ? Align(
+                    alignment: Alignment.bottomLeft,
+                      child: Text('${AppStrings.website}:', style: AppTypography.kExtraLight14,)) : Container(),
                   SizedBox(
                       height: 60.h,
                       child: Stack(
@@ -195,7 +205,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                       _websiteEditingController,
                                   selectedFilter: selectedWebSiteResponse!,
                                   filterResponse: websiteResponse,
-                                  hintText: AppStrings.website,
+                                  hintText: AppStrings.searchForWebsite,
                                   onChanged: (websiteResponse) {
                                     setState(() {
                                       selectedWebSiteResponse = websiteResponse;
@@ -243,6 +253,9 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                   SizedBox(
                     height: 20.h,
                   ),
+                  categoryResponse.isNotEmpty ? Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text('${AppStrings.category}:', style: AppTypography.kExtraLight14,)) : Container(),
                   SizedBox(
                       height: 60.h,
                       child: Stack(
@@ -260,7 +273,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                       _categoryEditingController,
                                   selectedFilter: selectedCategoryResponse!,
                                   filterResponse: categoryResponse,
-                                  hintText: AppStrings.category,
+                                  hintText: AppStrings.searchForCategory,
                                   onChanged: (categoryResponse) {
                                     setState(() {
                                       selectedCategoryResponse =
@@ -310,6 +323,9 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                   SizedBox(
                     height: 20.h,
                   ),
+                  subCategoryResponse.isNotEmpty ? Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Text('${AppStrings.subCategory}:', style: AppTypography.kExtraLight14,)) : Container(),
                   SizedBox(
                       height: 60.h,
                       child: Stack(
@@ -328,7 +344,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                       _subCategoryEditingController,
                                   selectedFilter: selectedSubCategoryResponse!,
                                   filterResponse: subCategoryResponse,
-                                  hintText: AppStrings.subCategory,
+                                  hintText: AppStrings.searchForSubCategory,
                                   onChanged: (subCategoryResponse) {
                                     setState(() {
                                       selectedSubCategoryResponse =
@@ -400,6 +416,17 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                   ),
                   PrimaryButton(
                       onTap: () async {
+                        _postLinkController.text = 'https://www.google.com/';
+                        if (websiteResponse.isNotEmpty) {
+                          _websiteEditingController.text = selectedWebSiteResponse!.title.toString();
+                        }
+                        if (categoryResponse.isNotEmpty) {
+                          _categoryEditingController.text = selectedCategoryResponse!.title.toString();
+                        }
+                        if (subCategoryResponse.isNotEmpty) {
+                          _subCategoryEditingController.text = selectedSubCategoryResponse!.title.toString();
+                        }
+
                         if (_postLinkController.text.trim() == "") {
                           final snackBar = SnackBar(
                             duration: Duration(
@@ -413,7 +440,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                           final snackBar = SnackBar(
                             duration: Duration(
                                 milliseconds: AppConstants.durationOfSnackBar),
-                            content: const Text(AppStrings.categoryRequired),
+                            content: const Text(AppStrings.websiteRequired),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           return;
@@ -422,7 +449,16 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                           final snackBar = SnackBar(
                             duration: Duration(
                                 milliseconds: AppConstants.durationOfSnackBar),
-                            content: const Text(AppStrings.websiteRequired),
+                            content: const Text(AppStrings.categoryRequired),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          return;
+                        } else if (_descriptionController.text.trim() ==
+                            "") {
+                          final snackBar = SnackBar(
+                            duration: Duration(
+                                milliseconds: AppConstants.durationOfSnackBar),
+                            content: const Text(AppStrings.descriptionRequired),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           return;

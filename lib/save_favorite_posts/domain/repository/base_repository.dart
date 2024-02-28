@@ -5,6 +5,7 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/insert_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/search/get_post_by_id_request.dart';
 import '../../../core/error/failure.dart';
 import '../reposnses/posts_response.dart';
 import '../requests/search/posts_by_category_n_subcategory_n_website_request.dart';
@@ -59,4 +60,7 @@ abstract class BaseRepository {
   Future<Either<Failure, List<PostsResponse>>> getPostsByWebsite(PostsByWebsiteRequest postsByWebsiteRequest);
   Future<Either<Failure, List<PostsResponse>>> getPostsByCategory(PostsByCategoryRequest postsByCategoryRequest);
   Future<Either<Failure, List<PostsResponse>>> getPostsBySubCategory(PostsBySubCategoryRequest postsBySubCategoryRequest);
+
+  // get post by id
+  Future<Either<Failure, List<PostsResponse>>> getPostById(GetPostByIdRequest getPostByIdRequest);
 }
