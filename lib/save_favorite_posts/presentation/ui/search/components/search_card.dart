@@ -94,7 +94,7 @@ class _SearchCardState extends State<SearchCard> {
                 value: widget.postsResponse.seen == 1 ? true : false,
                 onChanged: (bool? value) {
                   setState(() {
-                    // widget.postsResponse.seen = value!;
+                    // widget.postsResponse.seen = value;
                   });
                 },
               ),

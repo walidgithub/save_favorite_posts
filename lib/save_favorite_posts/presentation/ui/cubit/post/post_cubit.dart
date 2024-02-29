@@ -111,10 +111,10 @@ class PostCubit extends Cubit<PostState> {
 
     result.fold(
         (l) => emit(state.copyWith(
-            postState: RequestState.insertError, postMessage: l.message)),
+            postState: RequestState.updateError, postMessage: l.message)),
         (r) => emit(state.copyWith(
               postId: r,
-              postState: RequestState.insertDone,
+              postState: RequestState.updateDone,
             )));
   }
 

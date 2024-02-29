@@ -402,7 +402,7 @@ class SearchCubit extends Cubit<SearchState> {
     emit(state.copyWith(
         searchState: RequestState.postLoading,
         searchMessage: '',
-        searchList: []));
+        postData: []));
 
     final result = await getPostByIdUseCase(getPostByIdRequest);
 
@@ -410,7 +410,7 @@ class SearchCubit extends Cubit<SearchState> {
         (l) => emit(state.copyWith(
             searchState: RequestState.postError, searchMessage: l.message)),
         (r) => emit(state.copyWith(
-              searchList: r,
+              postData: r,
               searchState: RequestState.postLoaded,
             )));
   }

@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/di/di.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/router/app_router.dart';
+import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/cubit/search/search_cubit.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/app_theme.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/language_manager.dart';
@@ -18,7 +20,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ServiceLocator().init();
   await EasyLocalization.ensureInitialized();
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+  SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual, overlays: SystemUiOverlay.values);
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -30,7 +33,8 @@ void main() async {
       path: ASSET_PATH_LOCALISATIONS,
       child: Phoenix(child: const MyApp())));
 
-  ErrorWidget.builder = (FlutterErrorDetails details) => Scaffold(
+  ErrorWidget.builder = (FlutterErrorDetails details) =>
+      Scaffold(
         body: SafeArea(
           child: Scaffold(
             body: Center(
@@ -83,16 +87,19 @@ class _MyAppState extends State<MyApp> {
             onTap: () {
               FocusManager.instance.primaryFocus?.unfocus();
             },
-            child: MaterialApp(
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              debugShowCheckedModeBanner: false,
-              title: 'Posts',
-              builder: EasyLoading.init(),
-              onGenerateRoute: RouteGenerator.getRoute,
-              initialRoute: Routes.landing,
-              theme: AppTheme.lightTheme,
+            child: BlocProvider(
+              create: (context) => sl<SearchCubit>(),
+              child: MaterialApp(
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                debugShowCheckedModeBanner: false,
+                title: 'Posts',
+                builder: EasyLoading.init(),
+                onGenerateRoute: RouteGenerator.getRoute,
+                initialRoute: Routes.landing,
+                theme: AppTheme.lightTheme,
+              ),
             ));
       },
     );

@@ -16,12 +16,13 @@ class AppStrings {
   static const less = " Less";
   static const noSearchResults = " No Search Results";
   static const addNewPost = "Add new post";
+  static const editPost = "Edit post";
   static const addNewWebsite = "Add New Website";
   static const addNewCategory = "Add New Category";
   static const addNewSubCategory = "Add New SubCategory";
   static const searching = "Start Searching";
   static const external = "External";
-  static const internal = "Internal";
+  static const manual = "Manual";
   static const link = "link";
   static const postLink = "post link";
   static const description = "Description";

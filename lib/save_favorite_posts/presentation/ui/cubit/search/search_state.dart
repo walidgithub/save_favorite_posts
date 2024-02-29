@@ -5,12 +5,14 @@ import '../../../../domain/reposnses/posts_response.dart';
 
 class SearchState extends Equatable {
   final List<PostsResponse> searchList;
+  final List<PostsResponse> postData;
   final int postId;
   final RequestState searchState;
   final String searchMessage;
 
   const SearchState({
     this.searchList = const [],
+    this.postData = const [],
     this.postId = 0,
     this.searchState = RequestState.initialState,
     this.searchMessage = '',
@@ -18,12 +20,14 @@ class SearchState extends Equatable {
 
   SearchState copyWith({
     List<PostsResponse>? searchList,
+    List<PostsResponse>? postData,
     RequestState? searchState,
     int? postId,
     String? searchMessage,
   }) {
     return SearchState(
       searchList: searchList ?? this.searchList,
+      postData: postData ?? this.postData,
       searchState: searchState ?? this.searchState,
       postId: postId ?? this.postId,
       searchMessage: searchMessage ?? this.searchMessage,
@@ -31,5 +35,5 @@ class SearchState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [searchList, searchState, searchMessage, postId];
+  List<Object?> get props => [searchList, postData, searchState, searchMessage, postId];
 }

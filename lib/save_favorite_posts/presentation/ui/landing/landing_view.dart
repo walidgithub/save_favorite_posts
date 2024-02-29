@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/posts_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
@@ -16,12 +17,9 @@ class LandingView extends StatefulWidget {
 
 class _SearchViewState extends State<LandingView> {
   int _currentIndex = 0;
-  int? editPostId;
-  List oldSearchList = [];
-  // List<Widget> pages = [
-  //   SearchView(goToEdit: () {}),
-  //   const AddNewPostView(),
-  // ];
+  List searchFilter = [];
+  bool editPost = false;
+  List<PostsResponse> postData = [];
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +33,9 @@ class _SearchViewState extends State<LandingView> {
           currentIndex: _currentIndex,
           onTap: (value) {
             setState(() {
+              postData = [];
+              searchFilter = [];
+              editPost = false;
               _currentIndex = value;
             });
           },
@@ -57,12 +58,14 @@ class _SearchViewState extends State<LandingView> {
       ),
     );
   }
+
   Widget selectedPage(BuildContext context, int index) {
     if (index == 0) {
-      return SearchView(goToEdit: (int postId, List searchList) {
+      return SearchView(goToEdit: (List lastSearchFilter, List<PostsResponse> gotPostData) {
         setState(() {
-          oldSearchList = searchList;
-          editPostId = postId;
+          editPost = true;
+          searchFilter = lastSearchFilter;
+          postData = gotPostData;
           _currentIndex = 1;
         });
       });
@@ -71,7 +74,7 @@ class _SearchViewState extends State<LandingView> {
         setState(() {
           _currentIndex = 0;
         });
-      }, searchList: oldSearchList,postId: editPostId!,);
+      }, searchFilter: searchFilter,postData: postData,editPost: editPost,);
     }
     return Container();
   }

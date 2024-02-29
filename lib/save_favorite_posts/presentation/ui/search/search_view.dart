@@ -11,6 +11,7 @@ import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_mana
 import '../../../../core/utils/enums.dart';
 import '../../../data/models/posts_model.dart';
 import '../../../domain/entities/search_filter.dart';
+import '../../../domain/reposnses/posts_response.dart';
 import '../../../domain/requests/search/get_post_by_id_request.dart';
 import '../../../domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../../domain/requests/search/posts_by_category_n_website_request.dart';
@@ -63,6 +64,8 @@ class _SearchViewState extends State<SearchView> {
   int totalPages = 0;
   List<int> middlePages = [];
 
+  List<PostsResponse> postData = [];
+
   @override
   void initState() {
     super.initState();
@@ -84,6 +87,7 @@ class _SearchViewState extends State<SearchView> {
       currentPage = 0;
       middlePages = [];
     }
+
   }
 
   @override
@@ -115,80 +119,92 @@ class _SearchViewState extends State<SearchView> {
   }
 
   Widget bodyContent(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<SearchCubit>(),
-      // create: (context) => sl<SearchCubit>()..getAllPosts(),
-      child: BlocConsumer<SearchCubit, SearchState>(
-        listener: (context, state) {
-          if (state.searchState == RequestState.searchLoading) {
-            loading = true;
-            showLoading();
-          } else if (state.searchState == RequestState.searchLoaded) {
-            loading = false;
-            hideLoading();
-          } else if (state.searchState == RequestState.searchError) {
-            loading = false;
-            hideLoading();
-          } else if (state.searchState == RequestState.deleteLoading) {
-            loading = true;
-            showLoading();
-          } else if (state.searchState == RequestState.deleteDone) {
-            loading = false;
-            hideLoading();
-            searchFilter[0].searchText = _searchController.text;
-            getMatchingEvent(context);
-          } else if (state.searchState == RequestState.deleteError) {
-            loading = false;
-            hideLoading();
-          }
-        },
-        builder: (context, state) {
-          return Column(
-            children: [
-              headerBody(context),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20.h),
-                      loading
-                          ? Expanded(child: shimmerBody())
-                          : Expanded(child: _searchBody(state.searchList)),
-                      SizedBox(
-                        height: AppConstants.smallHeightBetweenElements,
-                      ),
-                      totalPages > 1
-                          ? Column(
-                              children: [
-                                DottedDivider(
-                                  color: ColorManager.kLine2,
-                                  thickness: 1.0,
-                                  dashLength: 3.w,
-                                  dashSpacing: 2.w,
-                                ),
-                                SizedBox(
-                                  height:
-                                      AppConstants.smallHeightBetweenElements,
-                                ),
-                                SizedBox(
-                                    height: 40.h,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: PaginationView(
-                                      totalPages: totalPages,
-                                      middlePages: middlePages,
-                                    ))
-                              ],
-                            )
-                          : Container()
-                    ],
-                  ),
+    if (!(searchFilter[0].category == 'None' &&
+        searchFilter[0].subCategory == 'None' &&
+        searchFilter[0].website == 'None' &&
+        searchFilter[0].searchText == '')) {
+      getMatchingEvent(context);
+    }
+    return BlocConsumer<SearchCubit, SearchState>(
+      listener: (context, state) {
+        if (state.searchState == RequestState.searchLoading) {
+          loading = true;
+          showLoading();
+        } else if (state.searchState == RequestState.searchLoaded) {
+          loading = false;
+          hideLoading();
+        } else if (state.searchState == RequestState.searchError) {
+          loading = false;
+          hideLoading();
+        } else if (state.searchState == RequestState.deleteLoading) {
+          loading = true;
+          showLoading();
+        } else if (state.searchState == RequestState.deleteDone) {
+          loading = false;
+          hideLoading();
+          searchFilter[0].searchText = _searchController.text;
+          getMatchingEvent(context);
+        } else if (state.searchState == RequestState.deleteError) {
+          loading = false;
+          hideLoading();
+        } else if (state.searchState == RequestState.postLoading) {
+          loading = true;
+          showLoading();
+        } else if (state.searchState == RequestState.postLoaded) {
+          loading = false;
+          hideLoading();
+          widget.goToEdit(state.searchList, state.postData);
+        } else if (state.searchState == RequestState.postError) {
+          loading = false;
+          hideLoading();
+        }
+      },
+      builder: (context, state) {
+        return Column(
+          children: [
+            headerBody(context),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                child: Column(
+                  children: [
+                    SizedBox(height: 20.h),
+                    loading
+                        ? Expanded(child: shimmerBody())
+                        : Expanded(child: _searchBody(state.searchList)),
+                    SizedBox(
+                      height: AppConstants.smallHeightBetweenElements,
+                    ),
+                    totalPages > 1
+                        ? Column(
+                            children: [
+                              DottedDivider(
+                                color: ColorManager.kLine2,
+                                thickness: 1.0,
+                                dashLength: 3.w,
+                                dashSpacing: 2.w,
+                              ),
+                              SizedBox(
+                                height:
+                                    AppConstants.smallHeightBetweenElements,
+                              ),
+                              SizedBox(
+                                  height: 40.h,
+                                  width: MediaQuery.of(context).size.width,
+                                  child: PaginationView(
+                                    totalPages: totalPages,
+                                    middlePages: middlePages,
+                                  ))
+                            ],
+                          )
+                        : Container()
+                  ],
                 ),
-              )
-            ],
-          );
-        },
-      ),
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 
@@ -265,13 +281,12 @@ class _SearchViewState extends State<SearchView> {
                           index: index,
                           goToEdit: () async {
                             await SearchCubit.get(context).getPostById(
-                                GetPostByIdRequest(
-                                    id: searchList[index].id));
-                            widget.goToEdit(searchList[index].id, searchList);
+                                GetPostByIdRequest(id: searchList[index].id));
                           },
                           postsResponse: searchList[index],
                           removeCallback: () async {
-                            await SearchCubit.get(context).deletePost(DeletePostRequest(id: searchList[index].id));
+                            await SearchCubit.get(context).deletePost(
+                                DeletePostRequest(id: searchList[index].id));
                           },
                         ),
                       ),
@@ -422,7 +437,6 @@ class _SearchViewState extends State<SearchView> {
         category != 'None') {
       await SearchCubit.get(context)
           .getPostsByCategory(PostsByCategoryRequest(category: category));
-      setState(() {});
     } else if (searchText == '' &&
         website == 'None' &&
         subCategory != 'None' &&

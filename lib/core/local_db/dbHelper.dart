@@ -200,7 +200,7 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final db = _db!.database;
 
     final result = await db.rawQuery(
-        'SELECT * FROM saved_posts where description like ? and category = ? and subCategory = ? Order by postId ASC',['%,${postsByDescNCategoryNSubCategoryRequest.description}%',postsByDescNCategoryNSubCategoryRequest.category,postsByDescNCategoryNSubCategoryRequest.subCategory]);
+        'SELECT * FROM saved_posts where description like ? and category = ? and subCategory = ? Order by postId ASC',['%${postsByDescNCategoryNSubCategoryRequest.description}%',postsByDescNCategoryNSubCategoryRequest.category,postsByDescNCategoryNSubCategoryRequest.subCategory]);
     return result.map((map) => PostsModel.fromJson(map)).toList();
   }
   Future<List<PostsModel>> getSavedPostsByDescAndWebsiteAndCategory(PostsByDescNCategoryNWebsiteRequest postsByDescNCategoryNWebsiteRequest) async {
@@ -211,7 +211,7 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final db = _db!.database;
 
     final result = await db.rawQuery(
-        'SELECT * FROM saved_posts where description like ? and category = ? and website = ? Order by postId ASC',['%,${postsByDescNCategoryNWebsiteRequest.description}%',postsByDescNCategoryNWebsiteRequest.category,postsByDescNCategoryNWebsiteRequest.website]);
+        'SELECT * FROM saved_posts where description like ? and category = ? and website = ? Order by postId ASC',['%${postsByDescNCategoryNWebsiteRequest.description}%',postsByDescNCategoryNWebsiteRequest.category,postsByDescNCategoryNWebsiteRequest.website]);
     return result.map((map) => PostsModel.fromJson(map)).toList();
   }
   Future<List<PostsModel>> getSavedPostsByDescAndWebsiteAndSubCategory(PostsByDescNSubCategoryNWebsiteRequest postsByDescNSubCategoryNWebsiteRequest) async {
@@ -222,7 +222,7 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final db = _db!.database;
 
     final result = await db.rawQuery(
-        'SELECT * FROM saved_posts where description like ? and subCategory = ? and website = ? Order by postId ASC',['%,${postsByDescNSubCategoryNWebsiteRequest.description}%',postsByDescNSubCategoryNWebsiteRequest.subCategory,postsByDescNSubCategoryNWebsiteRequest.website]);
+        'SELECT * FROM saved_posts where description like ? and subCategory = ? and website = ? Order by postId ASC',['%${postsByDescNSubCategoryNWebsiteRequest.description}%',postsByDescNSubCategoryNWebsiteRequest.subCategory,postsByDescNSubCategoryNWebsiteRequest.website]);
     return result.map((map) => PostsModel.fromJson(map)).toList();
   }
   Future<List<PostsModel>> getSavedPostsByCategoryAndSubCategoryAndWebsite(PostsByCategoryNSubCategoryNWebsiteRequest postsByCategoryNSubCategoryNWebsiteRequest) async {
@@ -245,7 +245,7 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final db = _db!.database;
 
     final result = await db.rawQuery(
-        'SELECT * FROM saved_posts where description like ? and category = ? Order by postId ASC',['%,${postsByDescNCategoryRequest.description}%',postsByDescNCategoryRequest.category]);
+        'SELECT * FROM saved_posts where description like ? and category = ? Order by postId ASC',['%${postsByDescNCategoryRequest.description}%',postsByDescNCategoryRequest.category]);
     return result.map((map) => PostsModel.fromJson(map)).toList();
   }
   Future<List<PostsModel>> getSavedPostsByDescAndSubCategory(PostsByDescNSubCategoryRequest postsByDescNSubCategoryRequest) async {
@@ -256,7 +256,7 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final db = _db!.database;
 
     final result = await db.rawQuery(
-        'SELECT * FROM saved_posts where description like ? and subCategory = ? Order by postId ASC',['%,${postsByDescNSubCategoryRequest.description}%',postsByDescNSubCategoryRequest.subCategory]);
+        'SELECT * FROM saved_posts where description like ? and subCategory = ? Order by postId ASC',['%${postsByDescNSubCategoryRequest.description}%',postsByDescNSubCategoryRequest.subCategory]);
     return result.map((map) => PostsModel.fromJson(map)).toList();
   }
   Future<List<PostsModel>> getSavedPostsByDescAndWebsite(PostsByDescNWebsiteRequest postsByDescNWebsiteRequest) async {
@@ -267,7 +267,7 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final db = _db!.database;
 
     final result = await db.rawQuery(
-        'SELECT * FROM saved_posts where description like ? and website = ? Order by postId ASC',['%,${postsByDescNWebsiteRequest.description}%',postsByDescNWebsiteRequest.website]);
+        'SELECT * FROM saved_posts where description like ? and website = ? Order by postId ASC',['%${postsByDescNWebsiteRequest.description}%',postsByDescNWebsiteRequest.website]);
     return result.map((map) => PostsModel.fromJson(map)).toList();
   }
   Future<List<PostsModel>> getSavedPostsByCategoryAndSubCategory(PostsByCategoryNSubCategoryRequest postsByCategoryNSubCategoryRequest) async {
@@ -313,7 +313,7 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final db = _db!.database;
 
     final result = await db.rawQuery(
-        'SELECT * FROM saved_posts where description like ? Order by postId ASC',['%,${postsByDescRequest.description}%']);
+        'SELECT * FROM saved_posts where description like ? Order by postId ASC',['%${postsByDescRequest.description}%']);
     return result.map((map) => PostsModel.fromJson(map)).toList();
   }
 

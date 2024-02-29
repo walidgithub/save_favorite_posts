@@ -14,8 +14,8 @@ class WebsiteModel extends WebsiteResponse {
 }
 
 List<WebsiteResponse> websiteResponse = [
-  // WebsiteModel(id: 1, title: 'None'),
-  // WebsiteModel(id: 2, title: 'LinkedIn'),
-  // WebsiteModel(id: 3, title: 'Facebook'),
-  // WebsiteModel(id: 4, title: 'YouTube'),
+  // websiteResponse(id: 1, title: 'None'),
+  // websiteResponse(id: 2, title: 'LinkedIn'),
+  // websiteResponse(id: 3, title: 'Facebook'),
+  // websiteResponse(id: 4, title: 'YouTube'),
 ];
