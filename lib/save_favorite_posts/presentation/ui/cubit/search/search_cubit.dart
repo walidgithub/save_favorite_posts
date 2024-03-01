@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/insert_post_request.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/toggle_seen_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/iud/toggle_seen_post_usecase.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/cubit/search/search_state.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../domain/requests/search/get_post_by_id_request.dart';
@@ -45,6 +45,7 @@ import '../../../../domain/usecases/search/get_posts_by_subcategory_usecase.dart
 import '../../../../domain/usecases/search/get_posts_by_website_usecase.dart';
 
 class SearchCubit extends Cubit<SearchState> {
+  final ToggleSeenPostUseCase toggleSeenPostUseCase;
   final GetPostByIdUseCase getPostByIdUseCase;
   final GetAllPostsUseCase getAllPostsUseCase;
   final GetPostsByWebsiteUseCase getPostsByWebsiteUseCase;
@@ -72,6 +73,7 @@ class SearchCubit extends Cubit<SearchState> {
   final DeletePostUseCase deletePostUseCase;
 
   SearchCubit(
+    this.toggleSeenPostUseCase,
     this.getPostByIdUseCase,
     this.getAllPostsUseCase,
     this.getPostsByWebsiteUseCase,
@@ -428,5 +430,20 @@ class SearchCubit extends Cubit<SearchState> {
               postId: r,
               searchState: RequestState.deleteDone,
             )));
+  }
+
+  FutureOr<void> toggleSeenPost(ToggleSeenPostRequest toggleSeenPostRequest) async {
+    emit(state.copyWith(
+        searchState: RequestState.toggleSeenLoading, searchMessage: '', postId: 0));
+
+    final result = await toggleSeenPostUseCase(toggleSeenPostRequest);
+
+    result.fold(
+            (l) => emit(state.copyWith(
+                searchState: RequestState.toggleSeenError, searchMessage: l.message)),
+            (r) => emit(state.copyWith(
+          postId: r,
+              searchState: RequestState.toggleSeenDone,
+        )));
   }
 }

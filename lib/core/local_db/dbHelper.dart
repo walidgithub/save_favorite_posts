@@ -2,6 +2,7 @@ import 'package:path/path.dart';
 import 'package:save_favorite_posts/save_favorite_posts/data/models/website_model.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/insert_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/toggle_seen_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../save_favorite_posts/data/models/category_model.dart';
@@ -65,6 +66,17 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final db = _db!.database;
     return db.update('saved_posts', updatePostRequest.toJson(),
         where: 'postId = ?', whereArgs: [updatePostRequest.id]);
+  }
+
+  // toggle seen post ------------------------------------------
+  Future<int> toggleSeenPost(ToggleSeenPostRequest toggleSeenPostRequest) async {
+    if (_db == null) {
+      await initDB(dbdName);
+    }
+
+    final db = _db!.database;
+    return db.update('saved_posts', toggleSeenPostRequest.toJson(),
+        where: 'postId = ?', whereArgs: [toggleSeenPostRequest.id]);
   }
   
   // delete post ------------------------------------------

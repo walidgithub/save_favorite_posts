@@ -9,6 +9,7 @@ enum RequestState {
   insertLoading,
   updateLoading,
   deleteLoading,
+  toggleSeenLoading,
   //-------------------
   webSiteLoaded,
   categoryLoaded,
@@ -19,6 +20,7 @@ enum RequestState {
   insertDone,
   updateDone,
   deleteDone,
+  toggleSeenDone,
   //-------------------
   webSiteError,
   categoryError,
@@ -28,5 +30,6 @@ enum RequestState {
   //-------------------
   insertError,
   updateError,
-  deleteError
+  deleteError,
+  toggleSeenError
 }

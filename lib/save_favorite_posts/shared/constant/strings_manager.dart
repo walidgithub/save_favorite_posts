@@ -17,9 +17,13 @@ class AppStrings {
   static const noSearchResults = " No Search Results";
   static const addNewPost = "Add new post";
   static const editPost = "Edit post";
+  static const edit = "Edit";
   static const addNewWebsite = "Add New Website";
+  static const editWebsite = "Edit Website";
   static const addNewCategory = "Add New Category";
+  static const editCategory = "Edit Category";
   static const addNewSubCategory = "Add New SubCategory";
+  static const editSubCategory = "Edit SubCategory";
   static const searching = "Start Searching";
   static const external = "External";
   static const manual = "Manual";
@@ -50,6 +54,8 @@ class AppStrings {
   static const websiteRequired = "Website Field Required";
   static const linkRequired = "Link Field Required";
   static const descriptionRequired = "Description Field Required";
+
+  static const seen = "Seen";
 
   // error handler
   static const String unknownError = "unknown_error";

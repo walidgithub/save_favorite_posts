@@ -3,9 +3,7 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/inse
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
 
 import '../../../core/local_db/dbHelper.dart';
-import '../../domain/reposnses/category_response.dart';
-import '../../domain/reposnses/sub_category_response.dart';
-import '../../domain/reposnses/website_response.dart';
+import '../../domain/requests/iud/toggle_seen_post_request.dart';
 import '../../domain/requests/search/get_post_by_id_request.dart';
 import '../../domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../domain/requests/search/posts_by_category_n_subcategory_request.dart';
@@ -32,6 +30,7 @@ abstract class BaseLocalDataSource {
   Future<int> insertPostData(InsertPostRequest insertPostRequest);
   Future<int> deletePostData(DeletePostRequest deletePostRequest);
   Future<int> updatePostData(UpdatePostRequest updatePostRequest);
+  Future<int> toggleSeenPost(ToggleSeenPostRequest toggleSeenPostRequest);
 
   // get websites and categories and subcategories ----------------------------------------
   Future<List<CategoryModel>> getAllCategories();
@@ -118,6 +117,16 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   @override
   Future<int> updatePostData(UpdatePostRequest updatePostRequest) async {
     final res = await _dbHelper.updatePostData(updatePostRequest);
+    try {
+      return res;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<int> toggleSeenPost(ToggleSeenPostRequest toggleSeenPostRequest) async {
+    final res = await _dbHelper.toggleSeenPost(toggleSeenPostRequest);
     try {
       return res;
     } catch (e) {

@@ -15,10 +15,13 @@ import '../../../data/models/category_model.dart';
 import '../../../data/models/sub_category_model.dart';
 import '../../../data/models/website_model.dart';
 import '../../../domain/reposnses/posts_response.dart';
+import '../../../domain/requests/iud/delete_post_request.dart';
 import '../../../shared/constant/app_typography.dart';
+import '../../../shared/constant/assets_manager.dart';
 import '../../../shared/constant/constant_values_manager.dart';
 import '../../../shared/style/colors_manager.dart';
 import '../../di/di.dart';
+import '../../ui_components/buttons/custom_icon_button.dart';
 import '../cubit/post/post_cubit.dart';
 import '../cubit/post/post_state.dart';
 import 'components/add_new_item_arguments.dart';
@@ -26,7 +29,9 @@ import '../../ui_components/buttons/primary_button.dart';
 import '../../ui_components/dialogs/loading_dialog.dart';
 import '../../ui_components/others/custom_animation.dart';
 import '../../ui_components/texts/heading_rich_text.dart';
-import 'components/add_new_item_to_filter.dart';
+import 'components/add_new_item_to_filter_dialog.dart';
+import 'components/edit_item_arguments.dart';
+import 'components/edit_item_in_filter_dialog.dart';
 import 'components/filter_drop_down.dart';
 
 class AddNewPostView extends StatefulWidget {
@@ -143,6 +148,8 @@ class _AddNewPostViewState extends State<AddNewPostView> {
             showLoading();
           } else if (state.postState == RequestState.updateLoading) {
             showLoading();
+          } else if (state.postState == RequestState.deleteLoading) {
+            showLoading();
             // done ------------------------------------------------------------------
           } else if (state.postState == RequestState.categoryLoaded) {
             hideLoading();
@@ -189,8 +196,13 @@ class _AddNewPostViewState extends State<AddNewPostView> {
             }
           } else if (state.postState == RequestState.insertDone) {
             hideLoading();
+            widget.goToSearch();
           } else if (state.postState == RequestState.updateDone) {
             hideLoading();
+            widget.goToSearch();
+          } else if (state.postState == RequestState.deleteDone) {
+            hideLoading();
+            widget.goToSearch();
             // error -------------------------------------------------------
           } else if (state.postState == RequestState.categoryError) {
             hideLoading();
@@ -201,6 +213,8 @@ class _AddNewPostViewState extends State<AddNewPostView> {
           } else if (state.postState == RequestState.insertError) {
             hideLoading();
           } else if (state.postState == RequestState.updateError) {
+            hideLoading();
+          } else if (state.postState == RequestState.deleteError) {
             hideLoading();
           }
         },
@@ -238,7 +252,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       ? Align(
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            '${AppStrings.website}:',
+                            '${AppStrings.website}: *',
                             style: AppTypography.kExtraLight14,
                           ))
                       : Container(),
@@ -277,7 +291,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                           NewItemDialogData(
                                               dialogTitle:
                                                   AppStrings.addNewWebsite,
-                                              newItemName: AppStrings.website,
+                                              textName: AppStrings.website,
                                               returnName: (String newItem) {
                                                 setState(() {
                                                   websiteResponse.add(
@@ -301,7 +315,45 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                       ),
                                     ),
                                   ),
-                                )
+                                ),
+                          widget.editPost ? Padding(
+                            padding: EdgeInsets.only(left: 210.w),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+    if (selectedWebSiteResponse!.title.toString() != 'None') {
+      EditItemDialog.show(
+          context,
+          EditItemDialogData(
+              dialogTitle: AppStrings.editWebsite,
+              oldItemName: selectedWebSiteResponse!.title.toString(),
+              textName: AppStrings.website,
+              returnName: (String updatedName) {
+                setState(() {
+                  int old = websiteResponse.indexWhere((element) => element.title == selectedWebSiteResponse!.title.toString());
+                  websiteResponse[old] = WebsiteModel(
+                      title: updatedName,
+                      id: null);
+                  selectedWebSiteResponse =
+                      websiteResponse
+                          .where((element) =>
+                      element.title ==
+                          updatedName)
+                          .first;
+                });
+              }));
+    }
+                                  },
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: ColorManager.kLightBrown,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ) : Container()
                         ],
                       )),
                   SizedBox(
@@ -311,7 +363,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       ? Align(
                           alignment: Alignment.bottomLeft,
                           child: Text(
-                            '${AppStrings.category}:',
+                            '${AppStrings.category}: *',
                             style: AppTypography.kExtraLight14,
                           ))
                       : Container(),
@@ -352,7 +404,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                           NewItemDialogData(
                                               dialogTitle:
                                                   AppStrings.addNewCategory,
-                                              newItemName: AppStrings.category,
+                                              textName: AppStrings.category,
                                               returnName: (String newItem) {
                                                 setState(() {
                                                   categoryResponse.add(
@@ -376,7 +428,45 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                       ),
                                     ),
                                   ),
-                                )
+                                ),
+                widget.editPost ? Padding(
+                padding: EdgeInsets.only(left: 210.w),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (selectedCategoryResponse!.title.toString() != 'None') {
+                      EditItemDialog.show(
+                          context,
+                          EditItemDialogData(
+                              dialogTitle: AppStrings.editCategory,
+                              oldItemName: selectedCategoryResponse!.title.toString(),
+                              textName: AppStrings.category,
+                              returnName: (String updatedName) {
+                                setState(() {
+                                  int old = categoryResponse.indexWhere((element) => element.title == selectedCategoryResponse!.title.toString());
+                                  categoryResponse[old] = CategoryModel(
+                                      title: updatedName,
+                                      id: null);
+                                  selectedCategoryResponse =
+                                      categoryResponse
+                                          .where((element) =>
+                                      element.title ==
+                                          updatedName)
+                                          .first;
+                                });
+                              }));
+                    }
+                  },
+                  child: const Icon(
+                    Icons.edit,
+                    color: ColorManager.kLightBrown,
+                  ),
+                ),
+              ],
+            ),
+          ) : Container()
                         ],
                       )),
                   SizedBox(
@@ -427,7 +517,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                           NewItemDialogData(
                                               dialogTitle:
                                                   AppStrings.addNewSubCategory,
-                                              newItemName:
+                                              textName:
                                                   AppStrings.subCategory,
                                               returnName: (String newItem) {
                                                 setState(() {
@@ -452,7 +542,46 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                       ),
                                     ),
                                   ),
-                                )
+                                ),
+                          widget.editPost ? Padding(
+                            padding: EdgeInsets.only(left: 210.w),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+    if (selectedSubCategoryResponse!.title.toString() != 'None') {
+      EditItemDialog.show(
+          context,
+          EditItemDialogData(
+              dialogTitle: AppStrings.editSubCategory,
+              oldItemName: selectedSubCategoryResponse!.title.toString(),
+              textName: AppStrings.subCategory,
+              returnName: (String updatedName) {
+                setState(() {
+                  int old = subCategoryResponse.indexWhere((element) => element.title == selectedSubCategoryResponse!.title.toString());
+                  subCategoryResponse[old] = SubCategoryModel(
+                      title: updatedName,
+                      id: null);
+                  selectedSubCategoryResponse =
+                      subCategoryResponse
+                          .where((element) =>
+                      element.title ==
+                          updatedName)
+                          .first;
+                });
+              }));
+    }
+
+                                  },
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: ColorManager.kLightBrown,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ) : Container()
                         ],
                       )),
                   SizedBox(
@@ -478,113 +607,128 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                   SizedBox(
                     height: 20.h,
                   ),
-                  PrimaryButton(
-                      onTap: () async {
-                        _postLinkController.text = 'https://www.google.com/';
-                        if (websiteResponse.isNotEmpty) {
-                          _websiteEditingController.text =
-                              selectedWebSiteResponse!.title.toString();
-                        }
-                        if (categoryResponse.isNotEmpty) {
-                          _categoryEditingController.text =
-                              selectedCategoryResponse!.title.toString();
-                        }
-                        if (subCategoryResponse.isNotEmpty) {
-                          _subCategoryEditingController.text =
-                              selectedSubCategoryResponse!.title.toString();
-                        }
-
-                        if (_postLinkController.text.trim() == "") {
-                          final snackBar = SnackBar(
-                            duration: Duration(
-                                milliseconds: AppConstants.durationOfSnackBar),
-                            content: const Text(AppStrings.linkRequired),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          return;
-                        } else if (_websiteEditingController.text.trim() ==
-                            "") {
-                          final snackBar = SnackBar(
-                            duration: Duration(
-                                milliseconds: AppConstants.durationOfSnackBar),
-                            content: const Text(AppStrings.websiteRequired),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          return;
-                        } else if (_categoryEditingController.text.trim() ==
-                            "") {
-                          final snackBar = SnackBar(
-                            duration: Duration(
-                                milliseconds: AppConstants.durationOfSnackBar),
-                            content: const Text(AppStrings.categoryRequired),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          return;
-                        } else if (_descriptionController.text.trim() == "") {
-                          final snackBar = SnackBar(
-                            duration: Duration(
-                                milliseconds: AppConstants.durationOfSnackBar),
-                            content: const Text(AppStrings.descriptionRequired),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                          return;
-                        }
-                        showLoading();
-                        if (widget.editPost) {
-                          UpdatePostRequest updatePostRequest =
-                              UpdatePostRequest(
-                                  id: widget.postData[0].id,
-                                  website:
-                                      websiteResponse
-                                              .isEmpty
-                                          ? _websiteEditingController.text
-                                          : selectedWebSiteResponse!.title,
-                                  category:
-                                      categoryResponse
-                                              .isEmpty
-                                          ? _categoryEditingController.text
-                                          : selectedCategoryResponse!.title,
-                                  subCategory:
-                                      subCategoryResponse
-                                              .isEmpty
-                                          ? _subCategoryEditingController.text
-                                          : selectedSubCategoryResponse!.title,
-                                  description:
-                                      _descriptionController.text.trim(),
-                                  link: _postLinkController.text.trim(),
-                                  seen: 0);
-
+                  Row(
+                    children: [
+                      Expanded(
+                        child: PrimaryButton(
+                            onTap: () async {
+                              _postLinkController.text = 'https://www.google.com/';
+                              if (websiteResponse.isNotEmpty) {
+                                _websiteEditingController.text =
+                                    selectedWebSiteResponse!.title.toString();
+                              }
+                              if (categoryResponse.isNotEmpty) {
+                                _categoryEditingController.text =
+                                    selectedCategoryResponse!.title.toString();
+                              }
+                              if (subCategoryResponse.isNotEmpty) {
+                                _subCategoryEditingController.text =
+                                    selectedSubCategoryResponse!.title.toString();
+                              }
+                        
+                              if (_postLinkController.text.trim() == "") {
+                                final snackBar = SnackBar(
+                                  duration: Duration(
+                                      milliseconds: AppConstants.durationOfSnackBar),
+                                  content: const Text(AppStrings.linkRequired),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                return;
+                              } else if (_websiteEditingController.text.trim() ==
+                                  "") {
+                                final snackBar = SnackBar(
+                                  duration: Duration(
+                                      milliseconds: AppConstants.durationOfSnackBar),
+                                  content: const Text(AppStrings.websiteRequired),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                return;
+                              } else if (_categoryEditingController.text.trim() ==
+                                  "") {
+                                final snackBar = SnackBar(
+                                  duration: Duration(
+                                      milliseconds: AppConstants.durationOfSnackBar),
+                                  content: const Text(AppStrings.categoryRequired),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                return;
+                              } else if (_descriptionController.text.trim() == "") {
+                                final snackBar = SnackBar(
+                                  duration: Duration(
+                                      milliseconds: AppConstants.durationOfSnackBar),
+                                  content: const Text(AppStrings.descriptionRequired),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                return;
+                              }
+                              showLoading();
+                              if (widget.editPost) {
+                                UpdatePostRequest updatePostRequest =
+                                UpdatePostRequest(
+                                    id: widget.postData[0].id,
+                                    website:
+                                    websiteResponse
+                                        .isEmpty
+                                        ? _websiteEditingController.text
+                                        : selectedWebSiteResponse!.title,
+                                    category:
+                                    categoryResponse
+                                        .isEmpty
+                                        ? _categoryEditingController.text
+                                        : selectedCategoryResponse!.title,
+                                    subCategory:
+                                    subCategoryResponse
+                                        .isEmpty
+                                        ? _subCategoryEditingController.text
+                                        : selectedSubCategoryResponse!.title,
+                                    description:
+                                    _descriptionController.text.trim(),
+                                    link: _postLinkController.text.trim(),
+                                    seen: 0);
+                        
+                                await PostCubit.get(context)
+                                    .updatePost(updatePostRequest);
+                              } else {
+                                InsertPostRequest insertPostRequest =
+                                InsertPostRequest(
+                                    website:
+                                    websiteResponse
+                                        .isEmpty
+                                        ? _websiteEditingController.text
+                                        : selectedWebSiteResponse!.title,
+                                    category:
+                                    categoryResponse
+                                        .isEmpty
+                                        ? _categoryEditingController.text
+                                        : selectedCategoryResponse!.title,
+                                    subCategory:
+                                    subCategoryResponse
+                                        .isEmpty
+                                        ? _subCategoryEditingController.text
+                                        : selectedSubCategoryResponse!.title,
+                                    description:
+                                    _descriptionController.text.trim(),
+                                    link: _postLinkController.text.trim(),
+                                    seen: 0);
+                        
+                                await PostCubit.get(context)
+                                    .insertPost(insertPostRequest);
+                              }
+                            },
+                            text: AppStrings.save),
+                      ),
+                      widget.editPost ? SizedBox(width: 10.w,) : Container(),
+                      widget.editPost ? CustomIconButton(
+                        icon: AssetsManager.deleteImg,
+                        iconColor: ColorManager.kOrange,
+                        onTap: () async {
+                          DeletePostRequest deletePostRequest = DeletePostRequest(id: widget.postData[0].id);
                           await PostCubit.get(context)
-                              .updatePost(updatePostRequest);
-                        } else {
-                          InsertPostRequest insertPostRequest =
-                              InsertPostRequest(
-                                  website:
-                                      websiteResponse
-                                              .isEmpty
-                                          ? _websiteEditingController.text
-                                          : selectedWebSiteResponse!.title,
-                                  category:
-                                      categoryResponse
-                                              .isEmpty
-                                          ? _categoryEditingController.text
-                                          : selectedCategoryResponse!.title,
-                                  subCategory:
-                                      subCategoryResponse
-                                              .isEmpty
-                                          ? _subCategoryEditingController.text
-                                          : selectedSubCategoryResponse!.title,
-                                  description:
-                                      _descriptionController.text.trim(),
-                                  link: _postLinkController.text.trim(),
-                                  seen: 0);
-
-                          await PostCubit.get(context)
-                              .insertPost(insertPostRequest);
-                        }
-                        widget.goToSearch();
-                      },
-                      text: AppStrings.save),
+                              .deletePost(deletePostRequest);
+                        },
+                      ) : Container()
+                    ],
+                  )
                 ],
               ),
             ),

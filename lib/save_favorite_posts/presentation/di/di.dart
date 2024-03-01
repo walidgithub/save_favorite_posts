@@ -11,6 +11,7 @@ import '../../data/datasource/posts_local_datasource.dart';
 import '../../data/repository/posts_repository.dart';
 import '../../domain/repository/base_repository.dart';
 import '../../domain/usecases/iud/insert_new_post_usecase.dart';
+import '../../domain/usecases/iud/toggle_seen_post_usecase.dart';
 import '../../domain/usecases/iud/update_post_usecase.dart';
 import '../../domain/usecases/search/get_all_posts_usecase.dart';
 import '../../domain/usecases/search/get_posts_by_category_n_subcategory_n_website_usecase.dart';
@@ -46,7 +47,7 @@ class ServiceLocator {
     sl.registerLazySingleton<DbHelper>(() => DbHelper());
 
     // Cubit
-    sl.registerFactory(() => SearchCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+    sl.registerFactory(() => SearchCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
     sl.registerFactory(() => PostCubit(sl(), sl(), sl(), sl(), sl(), sl()));
 
@@ -119,6 +120,9 @@ class ServiceLocator {
 
     sl.registerLazySingleton<GetPostByIdUseCase>(
             () => GetPostByIdUseCase(sl()));
+
+    sl.registerLazySingleton<ToggleSeenPostUseCase>(
+            () => ToggleSeenPostUseCase(sl()));
 
     // Repositories
     sl.registerLazySingleton<BaseRepository>(

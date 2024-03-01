@@ -8,31 +8,37 @@ import 'add_new_item_arguments.dart';
 import '../../../ui_components/buttons/custom_outlined_button.dart';
 import '../../../ui_components/buttons/primary_button.dart';
 import '../../../ui_components/dividers/custom_divider.dart';
+import 'edit_item_arguments.dart';
 
-class AddNewItemDialog extends StatefulWidget {
-  NewItemDialogData newItemDialogData;
+class EditItemDialog extends StatefulWidget {
+  EditItemDialogData editItemDialogData;
 
-  AddNewItemDialog({required this.newItemDialogData, super.key});
+  EditItemDialog({required this.editItemDialogData, super.key});
 
-  static void show(BuildContext context, NewItemDialogData newItemDialogData) =>
+  static void show(BuildContext context, EditItemDialogData editItemDialogData) =>
       showDialog<void>(
         context: context,
         useRootNavigator: false,
         barrierDismissible: false,
-        builder: (_) => AddNewItemDialog(
-          newItemDialogData: newItemDialogData,
+        builder: (_) => EditItemDialog(
+          editItemDialogData: editItemDialogData,
         ),
       ).then((_) => FocusScope.of(context).requestFocus(FocusNode()));
 
   static void hide(BuildContext context) => Navigator.of(context).pop();
 
   @override
-  State<AddNewItemDialog> createState() => _AddNewItemDialogState();
+  State<EditItemDialog> createState() => _EditItemDialogState();
 }
 
-class _AddNewItemDialogState extends State<AddNewItemDialog> {
+class _EditItemDialogState extends State<EditItemDialog> {
   TextEditingController itemEditingController = TextEditingController();
 
+  @override
+  void initState() {
+    itemEditingController.text = widget.editItemDialogData.oldItemName;
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -47,7 +53,7 @@ class _AddNewItemDialogState extends State<AddNewItemDialog> {
           children: [
             const CustomDivider(),
             SizedBox(height: 20.h),
-            Text(widget.newItemDialogData.dialogTitle, style: AppTypography.kBold24),
+            Text(widget.editItemDialogData.dialogTitle, style: AppTypography.kBold24),
             SizedBox(height: 20.h),
             Row(
               children: [
@@ -59,14 +65,13 @@ class _AddNewItemDialogState extends State<AddNewItemDialog> {
                         autofocus: true,
                         keyboardType: TextInputType.text,
                         controller: itemEditingController,
-
                         decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
                               borderSide: const BorderSide(color: ColorManager.kLine2),
                               borderRadius: BorderRadius.circular(AppConstants.radius),
                             ),
-                            hintText: widget.newItemDialogData.newItemName,
-                            labelText: widget.newItemDialogData.newItemName,
+                            hintText: widget.editItemDialogData.textName,
+                            labelText: widget.editItemDialogData.textName,
                             border: InputBorder.none)),
                   ),
                 )
@@ -77,7 +82,7 @@ class _AddNewItemDialogState extends State<AddNewItemDialog> {
               children: [
                 CustomOutlinedButton(
                   onTap: () {
-                    AddNewItemDialog.hide(context);
+                    EditItemDialog.hide(context);
                   },
                   text: AppStrings.close,
                   width: 110.w,
@@ -86,10 +91,10 @@ class _AddNewItemDialogState extends State<AddNewItemDialog> {
                 const Spacer(),
                 PrimaryButton(
                   onTap: () {
-                    widget.newItemDialogData.returnName(itemEditingController.text);
-                    AddNewItemDialog.hide(context);
+                    widget.editItemDialogData.returnName(itemEditingController.text);
+                    EditItemDialog.hide(context);
                   },
-                  text: AppStrings.add,
+                  text: AppStrings.edit,
                   width: 160.w,
                 )
               ],

@@ -12,9 +12,10 @@ class SearchResultView extends StatelessWidget {
   final PostsResponse postsResponse;
   final int index;
   final Function goToEdit;
+  final Function toggleSeen;
   final VoidCallback removeCallback;
   const SearchResultView(
-      {super.key, required this.postsResponse, required this.removeCallback, required this.index, required this.goToEdit});
+      {super.key, required this.postsResponse, required this.removeCallback, required this.index, required this.goToEdit, required this.toggleSeen});
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +34,7 @@ class SearchResultView extends StatelessWidget {
         child: SearchCard(
           index: index,
           goToEdit: goToEdit,
+          toggleSeen: toggleSeen,
           postsResponse: postsResponse,
         )
     );

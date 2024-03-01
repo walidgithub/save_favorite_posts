@@ -4,6 +4,7 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_cat
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/insert_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/toggle_seen_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/search/get_post_by_id_request.dart';
 import '../../../core/error/failure.dart';
@@ -29,6 +30,7 @@ abstract class BaseRepository {
   Future<Either<Failure, int>> insertPostData(InsertPostRequest insertPostRequest);
   Future<Either<Failure, int>> deletePostData(DeletePostRequest deletePostRequest);
   Future<Either<Failure, int>> updatePostData(UpdatePostRequest updatePostRequest);
+  Future<Either<Failure, int>> toggleSeenPost(ToggleSeenPostRequest toggleSeenPostRequest);
 
   // get websites and categories and subcategories
   Future<Either<Failure, List<CategoryResponse>>> getAllCategories();

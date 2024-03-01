@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/toggle_seen_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui_components/dividers/custom_dotted_divider.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/app_typography.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
@@ -157,6 +158,15 @@ class _SearchViewState extends State<SearchView> {
         } else if (state.searchState == RequestState.postError) {
           loading = false;
           hideLoading();
+        } else if (state.searchState == RequestState.toggleSeenLoading) {
+          loading = true;
+          showLoading();
+        } else if (state.searchState == RequestState.toggleSeenDone) {
+          loading = false;
+          hideLoading();
+        } else if (state.searchState == RequestState.toggleSeenError) {
+          loading = false;
+          hideLoading();
         }
       },
       builder: (context, state) {
@@ -282,6 +292,17 @@ class _SearchViewState extends State<SearchView> {
                           goToEdit: () async {
                             await SearchCubit.get(context).getPostById(
                                 GetPostByIdRequest(id: searchList[index].id));
+                          },
+                          toggleSeen: () async {
+                            int toggleSeen = 0;
+                            if (searchList[index].seen == 1) {
+                              toggleSeen = 0;
+                            } else {
+                              toggleSeen = 1;
+                            }
+                            await SearchCubit.get(context).toggleSeenPostUseCase(
+                                ToggleSeenPostRequest(id: searchList[index].id,seen: toggleSeen));
+                            setState(() {});
                           },
                           postsResponse: searchList[index],
                           removeCallback: () async {
