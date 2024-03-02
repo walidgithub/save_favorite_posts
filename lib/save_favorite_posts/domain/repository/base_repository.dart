@@ -9,6 +9,9 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/upda
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/search/get_post_by_id_request.dart';
 import '../../../core/error/failure.dart';
 import '../reposnses/posts_response.dart';
+import '../requests/iud/update_category_name_request.dart';
+import '../requests/iud/update_sub_category_name_request.dart';
+import '../requests/iud/update_website_name_request.dart';
 import '../requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../requests/search/posts_by_category_n_subcategory_request.dart';
 import '../requests/search/posts_by_category_n_website_request.dart';
@@ -31,6 +34,9 @@ abstract class BaseRepository {
   Future<Either<Failure, int>> deletePostData(DeletePostRequest deletePostRequest);
   Future<Either<Failure, int>> updatePostData(UpdatePostRequest updatePostRequest);
   Future<Either<Failure, int>> toggleSeenPost(ToggleSeenPostRequest toggleSeenPostRequest);
+  Future<Either<Failure, int>> updateWebsiteName(UpdateWebsiteNameRequest updateWebsiteNameRequest);
+  Future<Either<Failure, int>> updateCategoryName(UpdateCategoryNameRequest updateCategoryNameRequest);
+  Future<Either<Failure, int>> updateSubCategoryName(UpdateSubCategoryNameRequest updateSubCategoryNameRequest);
 
   // get websites and categories and subcategories
   Future<Either<Failure, List<CategoryResponse>>> getAllCategories();

@@ -54,8 +54,9 @@ class AppStrings {
   static const websiteRequired = "Website Field Required";
   static const linkRequired = "Link Field Required";
   static const descriptionRequired = "Description Field Required";
-
   static const seen = "Seen";
+  static const showSeen = "Show Seen";
+  static const lastPost = "Show Last Post";
 
   // error handler
   static const String unknownError = "unknown_error";

@@ -316,44 +316,62 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                     ),
                                   ),
                                 ),
-                          widget.editPost ? Padding(
-                            padding: EdgeInsets.only(left: 210.w),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-    if (selectedWebSiteResponse!.title.toString() != 'None') {
-      EditItemDialog.show(
-          context,
-          EditItemDialogData(
-              dialogTitle: AppStrings.editWebsite,
-              oldItemName: selectedWebSiteResponse!.title.toString(),
-              textName: AppStrings.website,
-              returnName: (String updatedName) {
-                setState(() {
-                  int old = websiteResponse.indexWhere((element) => element.title == selectedWebSiteResponse!.title.toString());
-                  websiteResponse[old] = WebsiteModel(
-                      title: updatedName,
-                      id: null);
-                  selectedWebSiteResponse =
-                      websiteResponse
-                          .where((element) =>
-                      element.title ==
-                          updatedName)
-                          .first;
-                });
-              }));
-    }
-                                  },
-                                  child: const Icon(
-                                    Icons.edit,
-                                    color: ColorManager.kLightBrown,
+                          widget.editPost
+                              ? Padding(
+                                  padding: EdgeInsets.only(left: 210.w),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (selectedWebSiteResponse!.title
+                                                  .toString() !=
+                                              'None') {
+                                            EditItemDialog.show(
+                                                context,
+                                                EditItemDialogData(
+                                                    dialogTitle:
+                                                        AppStrings.editWebsite,
+                                                    oldItemName:
+                                                        selectedWebSiteResponse!
+                                                            .title
+                                                            .toString(),
+                                                    textName:
+                                                        AppStrings.website,
+                                                    returnName:
+                                                        (String updatedName) {
+                                                      setState(() {
+                                                        int old = websiteResponse
+                                                            .indexWhere((element) =>
+                                                                element.title ==
+                                                                selectedWebSiteResponse!
+                                                                    .title
+                                                                    .toString());
+                                                        websiteResponse[old] =
+                                                            WebsiteModel(
+                                                                title:
+                                                                    updatedName,
+                                                                id: null);
+                                                        selectedWebSiteResponse =
+                                                            websiteResponse
+                                                                .where((element) =>
+                                                                    element
+                                                                        .title ==
+                                                                    updatedName)
+                                                                .first;
+                                                      });
+                                                    }));
+                                          }
+                                        },
+                                        child: const Icon(
+                                          Icons.edit,
+                                          color: ColorManager.kLightBrown,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          ) : Container()
+                                )
+                              : Container()
                         ],
                       )),
                   SizedBox(
@@ -429,44 +447,62 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                     ),
                                   ),
                                 ),
-                widget.editPost ? Padding(
-                padding: EdgeInsets.only(left: 210.w),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    if (selectedCategoryResponse!.title.toString() != 'None') {
-                      EditItemDialog.show(
-                          context,
-                          EditItemDialogData(
-                              dialogTitle: AppStrings.editCategory,
-                              oldItemName: selectedCategoryResponse!.title.toString(),
-                              textName: AppStrings.category,
-                              returnName: (String updatedName) {
-                                setState(() {
-                                  int old = categoryResponse.indexWhere((element) => element.title == selectedCategoryResponse!.title.toString());
-                                  categoryResponse[old] = CategoryModel(
-                                      title: updatedName,
-                                      id: null);
-                                  selectedCategoryResponse =
-                                      categoryResponse
-                                          .where((element) =>
-                                      element.title ==
-                                          updatedName)
-                                          .first;
-                                });
-                              }));
-                    }
-                  },
-                  child: const Icon(
-                    Icons.edit,
-                    color: ColorManager.kLightBrown,
-                  ),
-                ),
-              ],
-            ),
-          ) : Container()
+                          widget.editPost
+                              ? Padding(
+                                  padding: EdgeInsets.only(left: 210.w),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (selectedCategoryResponse!.title
+                                                  .toString() !=
+                                              'None') {
+                                            EditItemDialog.show(
+                                                context,
+                                                EditItemDialogData(
+                                                    dialogTitle:
+                                                        AppStrings.editCategory,
+                                                    oldItemName:
+                                                        selectedCategoryResponse!
+                                                            .title
+                                                            .toString(),
+                                                    textName:
+                                                        AppStrings.category,
+                                                    returnName:
+                                                        (String updatedName) {
+                                                      setState(() {
+                                                        int old = categoryResponse
+                                                            .indexWhere((element) =>
+                                                                element.title ==
+                                                                selectedCategoryResponse!
+                                                                    .title
+                                                                    .toString());
+                                                        categoryResponse[old] =
+                                                            CategoryModel(
+                                                                title:
+                                                                    updatedName,
+                                                                id: null);
+                                                        selectedCategoryResponse =
+                                                            categoryResponse
+                                                                .where((element) =>
+                                                                    element
+                                                                        .title ==
+                                                                    updatedName)
+                                                                .first;
+                                                      });
+                                                    }));
+                                          }
+                                        },
+                                        child: const Icon(
+                                          Icons.edit,
+                                          color: ColorManager.kLightBrown,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : Container()
                         ],
                       )),
                   SizedBox(
@@ -517,8 +553,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                           NewItemDialogData(
                                               dialogTitle:
                                                   AppStrings.addNewSubCategory,
-                                              textName:
-                                                  AppStrings.subCategory,
+                                              textName: AppStrings.subCategory,
                                               returnName: (String newItem) {
                                                 setState(() {
                                                   subCategoryResponse.add(
@@ -543,45 +578,63 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                     ),
                                   ),
                                 ),
-                          widget.editPost ? Padding(
-                            padding: EdgeInsets.only(left: 210.w),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-    if (selectedSubCategoryResponse!.title.toString() != 'None') {
-      EditItemDialog.show(
-          context,
-          EditItemDialogData(
-              dialogTitle: AppStrings.editSubCategory,
-              oldItemName: selectedSubCategoryResponse!.title.toString(),
-              textName: AppStrings.subCategory,
-              returnName: (String updatedName) {
-                setState(() {
-                  int old = subCategoryResponse.indexWhere((element) => element.title == selectedSubCategoryResponse!.title.toString());
-                  subCategoryResponse[old] = SubCategoryModel(
-                      title: updatedName,
-                      id: null);
-                  selectedSubCategoryResponse =
-                      subCategoryResponse
-                          .where((element) =>
-                      element.title ==
-                          updatedName)
-                          .first;
-                });
-              }));
-    }
-
-                                  },
-                                  child: const Icon(
-                                    Icons.edit,
-                                    color: ColorManager.kLightBrown,
+                          widget.editPost
+                              ? Padding(
+                                  padding: EdgeInsets.only(left: 210.w),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (selectedSubCategoryResponse!.title
+                                                  .toString() !=
+                                              'None') {
+                                            EditItemDialog.show(
+                                                context,
+                                                EditItemDialogData(
+                                                    dialogTitle: AppStrings
+                                                        .editSubCategory,
+                                                    oldItemName:
+                                                        selectedSubCategoryResponse!
+                                                            .title
+                                                            .toString(),
+                                                    textName:
+                                                        AppStrings.subCategory,
+                                                    returnName:
+                                                        (String updatedName) {
+                                                      setState(() {
+                                                        int old = subCategoryResponse
+                                                            .indexWhere((element) =>
+                                                                element.title ==
+                                                                selectedSubCategoryResponse!
+                                                                    .title
+                                                                    .toString());
+                                                        subCategoryResponse[
+                                                                old] =
+                                                            SubCategoryModel(
+                                                                title:
+                                                                    updatedName,
+                                                                id: null);
+                                                        selectedSubCategoryResponse =
+                                                            subCategoryResponse
+                                                                .where((element) =>
+                                                                    element
+                                                                        .title ==
+                                                                    updatedName)
+                                                                .first;
+                                                      });
+                                                    }));
+                                          }
+                                        },
+                                        child: const Icon(
+                                          Icons.edit,
+                                          color: ColorManager.kLightBrown,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ],
-                            ),
-                          ) : Container()
+                                )
+                              : Container()
                         ],
                       )),
                   SizedBox(
@@ -612,121 +665,160 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       Expanded(
                         child: PrimaryButton(
                             onTap: () async {
-                              _postLinkController.text = 'https://www.google.com/';
+                              _postLinkController.text =
+                                  'https://www.google.com/';
                               if (websiteResponse.isNotEmpty) {
                                 _websiteEditingController.text =
                                     selectedWebSiteResponse!.title.toString();
+                                if (selectedWebSiteResponse!.title.toString() ==
+                                    'None') {
+                                  _websiteEditingController.text = '';
+                                }
                               }
                               if (categoryResponse.isNotEmpty) {
                                 _categoryEditingController.text =
                                     selectedCategoryResponse!.title.toString();
+                                if (selectedCategoryResponse!.title
+                                        .toString() ==
+                                    'None') {
+                                  _categoryEditingController.text = '';
+                                }
                               }
                               if (subCategoryResponse.isNotEmpty) {
                                 _subCategoryEditingController.text =
-                                    selectedSubCategoryResponse!.title.toString();
+                                    selectedSubCategoryResponse!.title
+                                        .toString();
                               }
-                        
+
                               if (_postLinkController.text.trim() == "") {
                                 final snackBar = SnackBar(
                                   duration: Duration(
-                                      milliseconds: AppConstants.durationOfSnackBar),
+                                      milliseconds:
+                                          AppConstants.durationOfSnackBar),
                                   content: const Text(AppStrings.linkRequired),
                                 );
-                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                                 return;
-                              } else if (_websiteEditingController.text.trim() ==
+                              } else if (_websiteEditingController.text
+                                      .trim() ==
                                   "") {
                                 final snackBar = SnackBar(
                                   duration: Duration(
-                                      milliseconds: AppConstants.durationOfSnackBar),
-                                  content: const Text(AppStrings.websiteRequired),
+                                      milliseconds:
+                                          AppConstants.durationOfSnackBar),
+                                  content:
+                                      const Text(AppStrings.websiteRequired),
                                 );
-                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                                 return;
-                              } else if (_categoryEditingController.text.trim() ==
+                              } else if (_categoryEditingController.text
+                                      .trim() ==
                                   "") {
                                 final snackBar = SnackBar(
                                   duration: Duration(
-                                      milliseconds: AppConstants.durationOfSnackBar),
-                                  content: const Text(AppStrings.categoryRequired),
+                                      milliseconds:
+                                          AppConstants.durationOfSnackBar),
+                                  content:
+                                      const Text(AppStrings.categoryRequired),
                                 );
-                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                                 return;
-                              } else if (_descriptionController.text.trim() == "") {
+                              } else if (_descriptionController.text.trim() ==
+                                  "") {
                                 final snackBar = SnackBar(
                                   duration: Duration(
-                                      milliseconds: AppConstants.durationOfSnackBar),
-                                  content: const Text(AppStrings.descriptionRequired),
+                                      milliseconds:
+                                          AppConstants.durationOfSnackBar),
+                                  content: const Text(
+                                      AppStrings.descriptionRequired),
                                 );
-                                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                                 return;
                               }
                               showLoading();
                               if (widget.editPost) {
                                 UpdatePostRequest updatePostRequest =
-                                UpdatePostRequest(
-                                    id: widget.postData[0].id,
-                                    website:
-                                    websiteResponse
-                                        .isEmpty
-                                        ? _websiteEditingController.text
-                                        : selectedWebSiteResponse!.title,
-                                    category:
-                                    categoryResponse
-                                        .isEmpty
-                                        ? _categoryEditingController.text
-                                        : selectedCategoryResponse!.title,
-                                    subCategory:
-                                    subCategoryResponse
-                                        .isEmpty
-                                        ? _subCategoryEditingController.text
-                                        : selectedSubCategoryResponse!.title,
-                                    description:
-                                    _descriptionController.text.trim(),
-                                    link: _postLinkController.text.trim(),
-                                    seen: 0);
-                        
+                                    UpdatePostRequest(
+                                        id: widget.postData[0].id,
+                                        website:
+                                            websiteResponse.isEmpty
+                                                ? _websiteEditingController.text
+                                                : selectedWebSiteResponse!
+                                                    .title,
+                                        category:
+                                            categoryResponse.isEmpty
+                                                ? _categoryEditingController
+                                                    .text
+                                                : selectedCategoryResponse!
+                                                    .title,
+                                        subCategory:
+                                            subCategoryResponse
+                                                    .isEmpty
+                                                ? _subCategoryEditingController
+                                                    .text
+                                                : selectedSubCategoryResponse!
+                                                    .title,
+                                        description:
+                                            _descriptionController.text.trim(),
+                                        link: _postLinkController.text.trim(),
+                                        seen: 0);
+
                                 await PostCubit.get(context)
                                     .updatePost(updatePostRequest);
                               } else {
                                 InsertPostRequest insertPostRequest =
-                                InsertPostRequest(
-                                    website:
-                                    websiteResponse
-                                        .isEmpty
-                                        ? _websiteEditingController.text
-                                        : selectedWebSiteResponse!.title,
-                                    category:
-                                    categoryResponse
-                                        .isEmpty
-                                        ? _categoryEditingController.text
-                                        : selectedCategoryResponse!.title,
-                                    subCategory:
-                                    subCategoryResponse
-                                        .isEmpty
-                                        ? _subCategoryEditingController.text
-                                        : selectedSubCategoryResponse!.title,
-                                    description:
-                                    _descriptionController.text.trim(),
-                                    link: _postLinkController.text.trim(),
-                                    seen: 0);
-                        
+                                    InsertPostRequest(
+                                        website:
+                                            websiteResponse.isEmpty
+                                                ? _websiteEditingController.text
+                                                : selectedWebSiteResponse!
+                                                    .title,
+                                        category:
+                                            categoryResponse.isEmpty
+                                                ? _categoryEditingController
+                                                    .text
+                                                : selectedCategoryResponse!
+                                                    .title,
+                                        subCategory:
+                                            subCategoryResponse
+                                                    .isEmpty
+                                                ? _subCategoryEditingController
+                                                    .text
+                                                : selectedSubCategoryResponse!
+                                                    .title,
+                                        description:
+                                            _descriptionController.text.trim(),
+                                        link: _postLinkController.text.trim(),
+                                        seen: 0);
+
                                 await PostCubit.get(context)
                                     .insertPost(insertPostRequest);
                               }
                             },
                             text: AppStrings.save),
                       ),
-                      widget.editPost ? SizedBox(width: 10.w,) : Container(),
-                      widget.editPost ? CustomIconButton(
-                        icon: AssetsManager.deleteImg,
-                        iconColor: ColorManager.kOrange,
-                        onTap: () async {
-                          DeletePostRequest deletePostRequest = DeletePostRequest(id: widget.postData[0].id);
-                          await PostCubit.get(context)
-                              .deletePost(deletePostRequest);
-                        },
-                      ) : Container()
+                      widget.editPost
+                          ? SizedBox(
+                              width: 10.w,
+                            )
+                          : Container(),
+                      widget.editPost
+                          ? CustomIconButton(
+                              icon: AssetsManager.deleteImg,
+                              iconColor: ColorManager.kOrange,
+                              onTap: () async {
+                                DeletePostRequest deletePostRequest =
+                                    DeletePostRequest(
+                                        id: widget.postData[0].id);
+                                await PostCubit.get(context)
+                                    .deletePost(deletePostRequest);
+                              },
+                            )
+                          : Container()
                     ],
                   )
                 ],

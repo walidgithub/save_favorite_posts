@@ -13,6 +13,9 @@ import '../../../core/error/error_handler.dart';
 import '../../../core/error/failure.dart';
 import '../../domain/repository/base_repository.dart';
 import '../../domain/reposnses/posts_response.dart';
+import '../../domain/requests/iud/update_category_name_request.dart';
+import '../../domain/requests/iud/update_sub_category_name_request.dart';
+import '../../domain/requests/iud/update_website_name_request.dart';
 import '../../domain/requests/search/posts_by_category_n_subcategory_request.dart';
 import '../../domain/requests/search/posts_by_category_request.dart';
 import '../../domain/requests/search/posts_by_desc_n_category_n_subcategory_n_website_request.dart';
@@ -278,6 +281,39 @@ class PostsRepository extends BaseRepository {
     try {
       final result =
       await _baseLocalDataSource.updatePostData(updatePostRequest);
+      return Right(result);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> updateCategoryName(UpdateCategoryNameRequest updateCategoryNameRequest) async {
+    try {
+      final result =
+      await _baseLocalDataSource.updateCategoryName(updateCategoryNameRequest);
+      return Right(result);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> updateSubCategoryName(UpdateSubCategoryNameRequest updateSubCategoryNameRequest) async {
+    try {
+      final result =
+      await _baseLocalDataSource.updateSubCategoryName(updateSubCategoryNameRequest);
+      return Right(result);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, int>> updateWebsiteName(UpdateWebsiteNameRequest updateWebsiteNameRequest) async {
+    try {
+      final result =
+      await _baseLocalDataSource.updateWebsiteName(updateWebsiteNameRequest);
       return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);

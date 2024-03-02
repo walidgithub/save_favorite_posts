@@ -4,6 +4,9 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/upda
 
 import '../../../core/local_db/dbHelper.dart';
 import '../../domain/requests/iud/toggle_seen_post_request.dart';
+import '../../domain/requests/iud/update_category_name_request.dart';
+import '../../domain/requests/iud/update_sub_category_name_request.dart';
+import '../../domain/requests/iud/update_website_name_request.dart';
 import '../../domain/requests/search/get_post_by_id_request.dart';
 import '../../domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../domain/requests/search/posts_by_category_n_subcategory_request.dart';
@@ -31,6 +34,9 @@ abstract class BaseLocalDataSource {
   Future<int> deletePostData(DeletePostRequest deletePostRequest);
   Future<int> updatePostData(UpdatePostRequest updatePostRequest);
   Future<int> toggleSeenPost(ToggleSeenPostRequest toggleSeenPostRequest);
+  Future<int> updateWebsiteName(UpdateWebsiteNameRequest updateWebsiteNameRequest);
+  Future<int> updateCategoryName(UpdateCategoryNameRequest updateCategoryNameRequest);
+  Future<int> updateSubCategoryName(UpdateSubCategoryNameRequest updateSubCategoryNameRequest);
 
   // get websites and categories and subcategories ----------------------------------------
   Future<List<CategoryModel>> getAllCategories();
@@ -117,6 +123,36 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   @override
   Future<int> updatePostData(UpdatePostRequest updatePostRequest) async {
     final res = await _dbHelper.updatePostData(updatePostRequest);
+    try {
+      return res;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<int> updateCategoryName(UpdateCategoryNameRequest updateCategoryNameRequest) async {
+    final res = await _dbHelper.updateCategoryName(updateCategoryNameRequest);
+    try {
+      return res;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<int> updateSubCategoryName(UpdateSubCategoryNameRequest updateSubCategoryNameRequest) async {
+    final res = await _dbHelper.updateSubCategoryName(updateSubCategoryNameRequest);
+    try {
+      return res;
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<int> updateWebsiteName(UpdateWebsiteNameRequest updateWebsiteNameRequest) async {
+    final res = await _dbHelper.updateWebsiteName(updateWebsiteNameRequest);
     try {
       return res;
     } catch (e) {

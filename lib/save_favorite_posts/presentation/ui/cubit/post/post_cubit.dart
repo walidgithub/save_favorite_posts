@@ -11,11 +11,17 @@ import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/cubit/po
 import '../../../../../core/utils/enums.dart';
 import '../../../../domain/requests/iud/delete_post_request.dart';
 import '../../../../domain/requests/iud/insert_post_request.dart';
+import '../../../../domain/requests/iud/update_category_name_request.dart';
 import '../../../../domain/requests/iud/update_post_request.dart';
+import '../../../../domain/requests/iud/update_sub_category_name_request.dart';
+import '../../../../domain/requests/iud/update_website_name_request.dart';
 import '../../../../domain/usecases/base_usecase/base_usecase.dart';
 import '../../../../domain/usecases/iud/delete_post_usecase.dart';
 import '../../../../domain/usecases/iud/insert_new_post_usecase.dart';
+import '../../../../domain/usecases/iud/update_category_name_usecase.dart';
 import '../../../../domain/usecases/iud/update_post_usecase.dart';
+import '../../../../domain/usecases/iud/update_sub_category_name_usecase.dart';
+import '../../../../domain/usecases/iud/update_website_name_usecase.dart';
 import '../../../../domain/usecases/search/get_post_by_id_usecase.dart';
 
 class PostCubit extends Cubit<PostState> {
@@ -24,6 +30,9 @@ class PostCubit extends Cubit<PostState> {
   final GetAllWebsitesUseCase getAllWebsitesUseCase;
   final InsertPostUseCase insertPostUseCase;
   final UpdatePostUseCase updatePostUseCase;
+  final UpdateWebsiteNameUseCase updateWebsiteNameUseCase;
+  final UpdateCategoryNameUseCase updateCategoryNameUseCase;
+  final UpdateSubCategoryNameUseCase updateSubCategoryNameUseCase;
   final DeletePostUseCase deletePostUseCase;
 
   PostCubit(
@@ -32,6 +41,9 @@ class PostCubit extends Cubit<PostState> {
     this.getAllWebsitesUseCase,
     this.insertPostUseCase,
     this.updatePostUseCase,
+    this.updateWebsiteNameUseCase,
+    this.updateCategoryNameUseCase,
+    this.updateSubCategoryNameUseCase,
     this.deletePostUseCase,
   ) : super(const PostState());
 
@@ -116,6 +128,51 @@ class PostCubit extends Cubit<PostState> {
               postId: r,
               postState: RequestState.updateDone,
             )));
+  }
+
+  FutureOr<void> updateWebsiteName(UpdateWebsiteNameRequest updateWebsiteNameRequest) async {
+    emit(state.copyWith(
+        postState: RequestState.updateFilterNameLoading, postMessage: '', postId: 0));
+
+    final result = await updateWebsiteNameUseCase(updateWebsiteNameRequest);
+
+    result.fold(
+            (l) => emit(state.copyWith(
+            postState: RequestState.updateFilterNameError, postMessage: l.message)),
+            (r) => emit(state.copyWith(
+          postId: r,
+          postState: RequestState.updateFilterNameDone,
+        )));
+  }
+
+  FutureOr<void> updateCategoryName(UpdateCategoryNameRequest updateCategoryNameRequest) async {
+    emit(state.copyWith(
+        postState: RequestState.updateFilterNameLoading, postMessage: '', postId: 0));
+
+    final result = await updateCategoryNameUseCase(updateCategoryNameRequest);
+
+    result.fold(
+            (l) => emit(state.copyWith(
+            postState: RequestState.updateFilterNameError, postMessage: l.message)),
+            (r) => emit(state.copyWith(
+          postId: r,
+          postState: RequestState.updateFilterNameDone,
+        )));
+  }
+
+  FutureOr<void> updateSubCategoryName(UpdateSubCategoryNameRequest updateSubCategoryNameRequest) async {
+    emit(state.copyWith(
+        postState: RequestState.updateFilterNameLoading, postMessage: '', postId: 0));
+
+    final result = await updateSubCategoryNameUseCase(updateSubCategoryNameRequest);
+
+    result.fold(
+            (l) => emit(state.copyWith(
+            postState: RequestState.updateFilterNameError, postMessage: l.message)),
+            (r) => emit(state.copyWith(
+          postId: r,
+          postState: RequestState.updateFilterNameDone,
+        )));
   }
 
   FutureOr<void> deletePost(DeletePostRequest deletePostRequest) async {

@@ -4,10 +4,13 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/dele
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/insert_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/toggle_seen_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/update_website_name_request.dart';
 import 'package:sqflite/sqflite.dart';
 import '../../save_favorite_posts/data/models/category_model.dart';
 import '../../save_favorite_posts/data/models/posts_model.dart';
 import '../../save_favorite_posts/data/models/sub_category_model.dart';
+import '../../save_favorite_posts/domain/requests/iud/update_category_name_request.dart';
+import '../../save_favorite_posts/domain/requests/iud/update_sub_category_name_request.dart';
 import '../../save_favorite_posts/domain/requests/search/get_post_by_id_request.dart';
 import '../../save_favorite_posts/domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../save_favorite_posts/domain/requests/search/posts_by_category_n_subcategory_request.dart';
@@ -68,6 +71,39 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
         where: 'postId = ?', whereArgs: [updatePostRequest.id]);
   }
 
+  // update website name ------------------------------------------
+  Future<int> updateWebsiteName(UpdateWebsiteNameRequest updateWebsiteNameRequest) async {
+    if (_db == null) {
+      await initDB(dbdName);
+    }
+
+    final db = _db!.database;
+    return db.update('saved_posts', updateWebsiteNameRequest.toJson(),
+        where: 'website = ?', whereArgs: [updateWebsiteNameRequest.website]);
+  }
+
+  // update category name ------------------------------------------
+  Future<int> updateCategoryName(UpdateCategoryNameRequest updateCategoryNameRequest) async {
+    if (_db == null) {
+      await initDB(dbdName);
+    }
+
+    final db = _db!.database;
+    return db.update('saved_posts', updateCategoryNameRequest.toJson(),
+        where: 'category = ?', whereArgs: [updateCategoryNameRequest.category]);
+  }
+
+  // update subCategory name ------------------------------------------
+  Future<int> updateSubCategoryName(UpdateSubCategoryNameRequest updateSubCategoryNameRequest) async {
+    if (_db == null) {
+      await initDB(dbdName);
+    }
+
+    final db = _db!.database;
+    return db.update('saved_posts', updateSubCategoryNameRequest.toJson(),
+        where: 'subCategory = ?', whereArgs: [updateSubCategoryNameRequest.subCategory]);
+  }
+
   // toggle seen post ------------------------------------------
   Future<int> toggleSeenPost(ToggleSeenPostRequest toggleSeenPostRequest) async {
     if (_db == null) {
@@ -88,45 +124,6 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final db = _db!.database;
 
     return db.delete('saved_posts', where: 'postId = ?', whereArgs: [deletePostRequest.id]);
-  }
-  
-  // get first post --------------------------
-  Future<List<PostsModel>> getFirstSavedPost() async {
-    if (_db == null) {
-      await initDB(dbdName);
-    }
-
-    final db = _db!.database;
-
-    final result = await db.rawQuery(
-        'SELECT * FROM saved_posts Order by postId ASC LIMIT 1');
-    return result.map((map) => PostsModel.fromJson(map)).toList();
-  }
-  
-  // get next post --------------------------
-  Future<List<PostsModel>> getNextSavedPost(int postId) async {
-    if (_db == null) {
-      await initDB(dbdName);
-    }
-
-    final db = _db!.database;
-
-    final result = await db.rawQuery(
-        'SELECT * FROM saved_posts where postId > ? Order by postId ASC LIMIT 1',[postId]);
-    return result.map((map) => PostsModel.fromJson(map)).toList();
-  }
-  
-  // get prev post --------------------------
-  Future<List<PostsModel>> getPrevSavedPost(int postId) async {
-    if (_db == null) {
-      await initDB(dbdName);
-    }
-
-    final db = _db!.database;
-
-    final result = await db.rawQuery(
-        'SELECT * FROM saved_posts where postId < ? Order by postId DESC LIMIT 1',[postId]);
-    return result.map((map) => PostsModel.fromJson(map)).toList();
   }
   
   // get last post --------------------------

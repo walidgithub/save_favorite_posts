@@ -12,7 +12,10 @@ import '../../data/repository/posts_repository.dart';
 import '../../domain/repository/base_repository.dart';
 import '../../domain/usecases/iud/insert_new_post_usecase.dart';
 import '../../domain/usecases/iud/toggle_seen_post_usecase.dart';
+import '../../domain/usecases/iud/update_category_name_usecase.dart';
 import '../../domain/usecases/iud/update_post_usecase.dart';
+import '../../domain/usecases/iud/update_sub_category_name_usecase.dart';
+import '../../domain/usecases/iud/update_website_name_usecase.dart';
 import '../../domain/usecases/search/get_all_posts_usecase.dart';
 import '../../domain/usecases/search/get_posts_by_category_n_subcategory_n_website_usecase.dart';
 import '../../domain/usecases/search/get_posts_by_category_n_subcategory_usecase.dart';
@@ -49,7 +52,7 @@ class ServiceLocator {
     // Cubit
     sl.registerFactory(() => SearchCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
-    sl.registerFactory(() => PostCubit(sl(), sl(), sl(), sl(), sl(), sl()));
+    sl.registerFactory(() => PostCubit(sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
     // Use Cases
     sl.registerLazySingleton<GetAllCategoriesUseCase>(
@@ -63,6 +66,15 @@ class ServiceLocator {
 
     sl.registerLazySingleton<InsertPostUseCase>(
             () => InsertPostUseCase(sl()));
+
+    sl.registerLazySingleton<UpdateWebsiteNameUseCase>(
+            () => UpdateWebsiteNameUseCase(sl()));
+
+    sl.registerLazySingleton<UpdateCategoryNameUseCase>(
+            () => UpdateCategoryNameUseCase(sl()));
+
+    sl.registerLazySingleton<UpdateSubCategoryNameUseCase>(
+            () => UpdateSubCategoryNameUseCase(sl()));
 
     sl.registerLazySingleton<UpdatePostUseCase>(
             () => UpdatePostUseCase(sl()));

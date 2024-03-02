@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/category_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_category_response.dart';
@@ -35,6 +36,8 @@ class _FilterSheetState extends State<FilterSheet> {
   int selectedWebsite = 0;
   int selectedCategory = 0;
   int selectedSubCategory = 0;
+
+  bool showSeen = false;
 
   @override
   void initState() {
@@ -192,18 +195,67 @@ class _FilterSheetState extends State<FilterSheet> {
                   ),
                 ),
                 SizedBox(height: 30.h),
-                PrimaryButton(
-                  onTap: () {
-                    searchFilter[0].searchText = '';
-                    searchFilter[0].website =
-                        websiteResponse[selectedWebsite].title;
-                    searchFilter[0].category =
-                        categoryResponse[selectedCategory].title;
-                    searchFilter[0].subCategory =
-                        subCategoryResponse[selectedSubCategory].title;
-                    widget.search();
-                  },
-                  text: AppStrings.filter,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Bounceable(
+                      onTap: () {
+                      },
+                      duration: const Duration(seconds: 1),
+                      child: Text(
+                        AppStrings.lastPost,
+                        style: AppTypography.kExtraLight15.copyWith(
+                            color: ColorManager.kPrimary),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 20.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: PrimaryButton(
+                        onTap: () {
+                          searchFilter[0].searchText = '';
+                          searchFilter[0].website =
+                              websiteResponse[selectedWebsite].title;
+                          searchFilter[0].category =
+                              categoryResponse[selectedCategory].title;
+                          searchFilter[0].subCategory =
+                              subCategoryResponse[selectedSubCategory].title;
+                          widget.search();
+                        },
+                        text: AppStrings.filter,
+                      ),
+                    ),
+                    SizedBox(width: 10.w,),
+                    Bounceable(
+                      onTap: () {
+                        setState(() {
+                          if (showSeen) {
+                            showSeen = false;
+                          } else {
+                            showSeen = true;
+                          }
+                        });
+                      },
+                      duration: const Duration(seconds: 1),
+                      child: Row(
+                        children: [
+                          Text(
+                            AppStrings.showSeen,
+                            style: AppTypography.kExtraLight15.copyWith(
+                                color: showSeen
+                                    ? ColorManager.kPrimary
+                                    : ColorManager.kOrange),
+                          ),
+                          showSeen
+                              ? const Icon(Icons.done)
+                              : const Icon(Icons.close)
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 20.h),
               ],
