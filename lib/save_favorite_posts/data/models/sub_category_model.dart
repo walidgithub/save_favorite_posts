@@ -13,7 +13,7 @@ class SubCategoryModel extends SubCategoryResponse {
 }
 
 List<SubCategoryResponse> subCategoryResponse = [
-  // SubCategoryModel(id: 1, title: 'None'),
+  // SubCategoryModel(id: 1, title: 'All'),
   // SubCategoryModel(id: 2, title: 'Designs'),
   // SubCategoryModel(id: 3, title: 'Animation'),
   // SubCategoryModel(id: 4, title: 'Examples'),

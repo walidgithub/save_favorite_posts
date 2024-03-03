@@ -7,6 +7,7 @@ import '../../domain/requests/iud/toggle_seen_post_request.dart';
 import '../../domain/requests/iud/update_category_name_request.dart';
 import '../../domain/requests/iud/update_sub_category_name_request.dart';
 import '../../domain/requests/iud/update_website_name_request.dart';
+import '../../domain/requests/search/get_all_posts_request.dart';
 import '../../domain/requests/search/get_post_by_id_request.dart';
 import '../../domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../domain/requests/search/posts_by_category_n_subcategory_request.dart';
@@ -44,7 +45,7 @@ abstract class BaseLocalDataSource {
   Future<List<WebsiteModel>> getAllWebsites();
 
   // get all data ----------------------------------------
-  Future<List<PostsModel>> getAllPosts();
+  Future<List<PostsModel>> getAllPosts(GetAllPostsRequest getAllPostsRequest);
 
   // search with all fields ----------------------------------------
   Future<List<PostsModel>> getPostsByDescNCategoryNSubCategoryNWebsite(
@@ -171,8 +172,8 @@ class PostsLocalDataSource extends BaseLocalDataSource {
   }
 
   @override
-  Future<List<PostsModel>> getAllPosts() async {
-    final res = await _dbHelper.getAllSavedPosts();
+  Future<List<PostsModel>> getAllPosts(GetAllPostsRequest getAllPostsRequest) async {
+    final res = await _dbHelper.getAllSavedPosts(getAllPostsRequest);
     try {
       return res;
     } catch (e) {

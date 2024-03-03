@@ -37,13 +37,14 @@ class _FilterSheetState extends State<FilterSheet> {
   int selectedCategory = 0;
   int selectedSubCategory = 0;
 
-  bool showSeen = false;
+  bool hideSeen = false;
 
   @override
   void initState() {
     categoryResponse = [];
     subCategoryResponse = [];
     websiteResponse = [];
+    if (searchFilter[0].seen == 0 ? hideSeen = false : hideSeen = true);
     super.initState();
   }
 
@@ -69,20 +70,20 @@ class _FilterSheetState extends State<FilterSheet> {
             for (var i in state.categoryList) {
               categoryResponse.add(i);
             }
-            categoryResponse.insert(0, CategoryModel(id: 0, title: 'None'));
+            categoryResponse.insert(0, CategoryModel(id: 0, title: 'All'));
           } else if (state.postState == RequestState.subCategoryLoaded) {
             hideLoading();
             for (var i in state.subCategoryList) {
               subCategoryResponse.add(i);
             }
             subCategoryResponse.insert(
-                0, SubCategoryModel(id: 0, title: 'None'));
+                0, SubCategoryModel(id: 0, title: 'All'));
           } else if (state.postState == RequestState.webSiteLoaded) {
             hideLoading();
             for (var i in state.websiteList) {
               websiteResponse.add(i);
             }
-            websiteResponse.insert(0, WebsiteModel(id: 0, title: 'None'));
+            websiteResponse.insert(0, WebsiteModel(id: 0, title: 'All'));
             // error -------------------------------------------------------
           } else if (state.postState == RequestState.categoryError) {
             hideLoading();
@@ -196,22 +197,6 @@ class _FilterSheetState extends State<FilterSheet> {
                 ),
                 SizedBox(height: 30.h),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Bounceable(
-                      onTap: () {
-                      },
-                      duration: const Duration(seconds: 1),
-                      child: Text(
-                        AppStrings.lastPost,
-                        style: AppTypography.kExtraLight15.copyWith(
-                            color: ColorManager.kPrimary),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20.h),
-                Row(
                   children: [
                     Expanded(
                       child: PrimaryButton(
@@ -223,6 +208,7 @@ class _FilterSheetState extends State<FilterSheet> {
                               categoryResponse[selectedCategory].title;
                           searchFilter[0].subCategory =
                               subCategoryResponse[selectedSubCategory].title;
+                          searchFilter[0].seen = hideSeen ? 1 : 0;
                           widget.search();
                         },
                         text: AppStrings.filter,
@@ -232,10 +218,12 @@ class _FilterSheetState extends State<FilterSheet> {
                     Bounceable(
                       onTap: () {
                         setState(() {
-                          if (showSeen) {
-                            showSeen = false;
+                          if (hideSeen) {
+                            hideSeen = false;
+                            searchFilter[0].seen == 0;
                           } else {
-                            showSeen = true;
+                            hideSeen = true;
+                            searchFilter[0].seen == 1;
                           }
                         });
                       },
@@ -243,13 +231,13 @@ class _FilterSheetState extends State<FilterSheet> {
                       child: Row(
                         children: [
                           Text(
-                            AppStrings.showSeen,
+                            AppStrings.hideSeen,
                             style: AppTypography.kExtraLight15.copyWith(
-                                color: showSeen
+                                color: hideSeen
                                     ? ColorManager.kPrimary
                                     : ColorManager.kOrange),
                           ),
-                          showSeen
+                          hideSeen
                               ? const Icon(Icons.done)
                               : const Icon(Icons.close)
                         ],

@@ -156,7 +156,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
             for (var i in state.categoryList) {
               categoryResponse.add(i);
             }
-            categoryResponse.insert(0, CategoryModel(id: 0, title: 'None'));
+            categoryResponse.insert(0, CategoryModel(id: 0, title: 'All'));
             if (widget.postData.isNotEmpty) {
               selectedCategoryResponse = categoryResponse
                   .where(
@@ -171,7 +171,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
               subCategoryResponse.add(i);
             }
             subCategoryResponse.insert(
-                0, SubCategoryModel(id: 0, title: 'None'));
+                0, SubCategoryModel(id: 0, title: 'All'));
             if (widget.postData.isNotEmpty) {
               selectedSubCategoryResponse = subCategoryResponse
                   .where((element) =>
@@ -185,7 +185,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
             for (var i in state.websiteList) {
               websiteResponse.add(i);
             }
-            websiteResponse.insert(0, WebsiteModel(id: 0, title: 'None'));
+            websiteResponse.insert(0, WebsiteModel(id: 0, title: 'All'));
             if (widget.postData.isNotEmpty) {
               selectedWebSiteResponse = websiteResponse
                   .where(
@@ -326,7 +326,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                         onTap: () {
                                           if (selectedWebSiteResponse!.title
                                                   .toString() !=
-                                              'None') {
+                                              'All') {
                                             EditItemDialog.show(
                                                 context,
                                                 EditItemDialogData(
@@ -457,7 +457,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                         onTap: () {
                                           if (selectedCategoryResponse!.title
                                                   .toString() !=
-                                              'None') {
+                                              'All') {
                                             EditItemDialog.show(
                                                 context,
                                                 EditItemDialogData(
@@ -588,7 +588,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                         onTap: () {
                                           if (selectedSubCategoryResponse!.title
                                                   .toString() !=
-                                              'None') {
+                                              'All') {
                                             EditItemDialog.show(
                                                 context,
                                                 EditItemDialogData(
@@ -671,7 +671,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                 _websiteEditingController.text =
                                     selectedWebSiteResponse!.title.toString();
                                 if (selectedWebSiteResponse!.title.toString() ==
-                                    'None') {
+                                    'All') {
                                   _websiteEditingController.text = '';
                                 }
                               }
@@ -680,7 +680,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                     selectedCategoryResponse!.title.toString();
                                 if (selectedCategoryResponse!.title
                                         .toString() ==
-                                    'None') {
+                                    'All') {
                                   _categoryEditingController.text = '';
                                 }
                               }

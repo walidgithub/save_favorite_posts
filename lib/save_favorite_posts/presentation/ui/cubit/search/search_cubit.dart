@@ -5,6 +5,7 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/togg
 import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/iud/toggle_seen_post_usecase.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/cubit/search/search_state.dart';
 import '../../../../../core/utils/enums.dart';
+import '../../../../domain/requests/search/get_all_posts_request.dart';
 import '../../../../domain/requests/search/get_post_by_id_request.dart';
 import '../../../../domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../../../../domain/requests/search/posts_by_category_n_subcategory_request.dart';
@@ -23,8 +24,6 @@ import '../../../../domain/requests/search/posts_by_subcategory_request.dart';
 import '../../../../domain/requests/search/posts_by_website_request.dart';
 import '../../../../domain/usecases/base_usecase/base_usecase.dart';
 import '../../../../domain/usecases/iud/delete_post_usecase.dart';
-import '../../../../domain/usecases/iud/insert_new_post_usecase.dart';
-import '../../../../domain/usecases/iud/update_post_usecase.dart';
 import '../../../../domain/usecases/search/get_all_posts_usecase.dart';
 import '../../../../domain/usecases/search/get_post_by_id_usecase.dart';
 import '../../../../domain/usecases/search/get_posts_by_category_n_subcategory_n_website_usecase.dart';
@@ -96,13 +95,13 @@ class SearchCubit extends Cubit<SearchState> {
 
   static SearchCubit get(context) => BlocProvider.of(context);
 
-  FutureOr<void> getAllPosts() async {
+  FutureOr<void> getAllPosts(GetAllPostsRequest getAllPostsRequest) async {
     emit(state.copyWith(
         searchState: RequestState.searchLoading,
         searchMessage: '',
         searchList: []));
 
-    final result = await getAllPostsUseCase(const NoParameters());
+    final result = await getAllPostsUseCase(getAllPostsRequest);
 
     result.fold(
         (l) => emit(state.copyWith(

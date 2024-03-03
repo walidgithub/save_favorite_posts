@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/toggle_seen_post_request.dart';
+import 'package:save_favorite_posts/save_favorite_posts/domain/requests/search/get_all_posts_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui_components/dividers/custom_dotted_divider.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/app_typography.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
@@ -70,7 +71,7 @@ class _SearchViewState extends State<SearchView> {
   @override
   void initState() {
     super.initState();
-
+    _searchController.text = '';
     totalPages = getPagesCount();
     _searchFocusNode.addListener(_onFocusChange);
     if (totalPages != 0) {
@@ -88,7 +89,6 @@ class _SearchViewState extends State<SearchView> {
       currentPage = 0;
       middlePages = [];
     }
-
   }
 
   @override
@@ -120,12 +120,9 @@ class _SearchViewState extends State<SearchView> {
   }
 
   Widget bodyContent(BuildContext context) {
-    if (!(searchFilter[0].category == 'None' &&
-        searchFilter[0].subCategory == 'None' &&
-        searchFilter[0].website == 'None' &&
-        searchFilter[0].searchText == '')) {
-      getMatchingEvent(context);
-    }
+
+    getMatchingEvent(context);
+
     return BlocConsumer<SearchCubit, SearchState>(
       listener: (context, state) {
         if (state.searchState == RequestState.searchLoading) {
@@ -195,8 +192,7 @@ class _SearchViewState extends State<SearchView> {
                                 dashSpacing: 2.w,
                               ),
                               SizedBox(
-                                height:
-                                    AppConstants.smallHeightBetweenElements,
+                                height: AppConstants.smallHeightBetweenElements,
                               ),
                               SizedBox(
                                   height: 40.h,
@@ -300,14 +296,19 @@ class _SearchViewState extends State<SearchView> {
                             } else {
                               toggleSeen = 1;
                             }
-                            await SearchCubit.get(context).toggleSeenPostUseCase(
-                                ToggleSeenPostRequest(id: searchList[index].id,seen: toggleSeen));
+                            await SearchCubit.get(context)
+                                .toggleSeenPostUseCase(ToggleSeenPostRequest(
+                                    id: searchList[index].id,
+                                    seen: toggleSeen));
                             setState(() {});
                           },
                           postsResponse: searchList[index],
                           removeCallback: () async {
                             await SearchCubit.get(context).deletePost(
                                 DeletePostRequest(id: searchList[index].id));
+                          },
+                          shareCallback: () async {
+                            // share content
                           },
                         ),
                       ),
@@ -363,107 +364,123 @@ class _SearchViewState extends State<SearchView> {
     String category = searchFilter[0].category!;
     String subCategory = searchFilter[0].subCategory!;
     String website = searchFilter[0].website!;
+    int seen = searchFilter[0].seen!;
     String searchText = searchFilter[0].searchText!;
 
-    if (searchText != '' &&
-        website == 'None' &&
-        subCategory != 'None' &&
-        category != 'None') {
+    if (searchText == '' &&
+        website == 'All' &&
+        subCategory == 'All' &&
+        category == 'All') {
+      await SearchCubit.get(context)
+          .getAllPosts(GetAllPostsRequest(seen: seen));
+    } else if (searchText != '' &&
+        website == 'All' &&
+        subCategory != 'All' &&
+        category != 'All') {
       await SearchCubit.get(context).getPostsByDescNCategoryNSubCategory(
           PostsByDescNCategoryNSubCategoryRequest(
               description: searchText,
               category: category,
-              subCategory: subCategory));
+              subCategory: subCategory,
+              seen: seen));
     } else if (searchText != '' &&
-        website != 'None' &&
-        subCategory == 'None' &&
-        category != 'None') {
+        website != 'All' &&
+        subCategory == 'All' &&
+        category != 'All') {
       await SearchCubit.get(context).getPostsByDescNCategoryNWebsite(
           PostsByDescNCategoryNWebsiteRequest(
-              description: searchText, category: category, website: website));
+              description: searchText,
+              category: category,
+              website: website,
+              seen: seen));
     } else if (searchText != '' &&
-        website != 'None' &&
-        subCategory != 'None' &&
-        category == 'None') {
+        website != 'All' &&
+        subCategory != 'All' &&
+        category == 'All') {
       await SearchCubit.get(context).getPostsByDescNSubCategoryNWebsite(
           PostsByDescNSubCategoryNWebsiteRequest(
               subCategory: subCategory,
               description: searchText,
-              website: website));
+              website: website,
+              seen: seen));
     } else if (searchText == '' &&
-        website != 'None' &&
-        subCategory != 'None' &&
-        category != 'None') {
+        website != 'All' &&
+        subCategory != 'All' &&
+        category != 'All') {
       await SearchCubit.get(context).getPostsByCategoryNSubCategoryNWebsite(
           PostsByCategoryNSubCategoryNWebsiteRequest(
-              website: website, subCategory: subCategory, category: category));
+              website: website,
+              subCategory: subCategory,
+              category: category,
+              seen: seen));
       // search with two fields ----------------------------------------
     } else if (searchText != '' &&
-        website == 'None' &&
-        subCategory == 'None' &&
-        category != 'None') {
+        website == 'All' &&
+        subCategory == 'All' &&
+        category != 'All') {
       await SearchCubit.get(context).getPostsByDescNCategory(
           PostsByDescNCategoryRequest(
-              category: category, description: searchText));
+              category: category, description: searchText, seen: seen));
     } else if (searchText != '' &&
-        website == 'None' &&
-        subCategory != 'None' &&
-        category == 'None') {
+        website == 'All' &&
+        subCategory != 'All' &&
+        category == 'All') {
       await SearchCubit.get(context).getPostsByDescNSubCategory(
           PostsByDescNSubCategoryRequest(
-              description: searchText, subCategory: subCategory));
+              description: searchText, subCategory: subCategory, seen: seen));
     } else if (searchText != '' &&
-        website != 'None' &&
-        subCategory == 'None' &&
-        category == 'None') {
+        website != 'All' &&
+        subCategory == 'All' &&
+        category == 'All') {
       await SearchCubit.get(context).getPostsByDescNWebsite(
           PostsByDescNWebsiteRequest(
-              description: searchText, website: website));
+              description: searchText, website: website, seen: seen));
     } else if (searchText == '' &&
-        website == 'None' &&
-        subCategory != 'None' &&
-        category != 'None') {
+        website == 'All' &&
+        subCategory != 'All' &&
+        category != 'All') {
       await SearchCubit.get(context).getPostsByDescNWebsite(
           PostsByDescNWebsiteRequest(
-              description: searchText, website: website));
+              description: searchText, website: website, seen: seen));
     } else if (searchText == '' &&
-        website != 'None' &&
-        subCategory == 'None' &&
-        category != 'None') {
+        website != 'All' &&
+        subCategory == 'All' &&
+        category != 'All') {
       await SearchCubit.get(context).getPostsByCategoryNWebsite(
-          PostsByCategoryNWebsiteRequest(website: website, category: category));
+          PostsByCategoryNWebsiteRequest(
+              website: website, category: category, seen: seen));
     } else if (searchText == '' &&
-        website != 'None' &&
-        subCategory != 'None' &&
-        category == 'None') {
+        website != 'All' &&
+        subCategory != 'All' &&
+        category == 'All') {
       await SearchCubit.get(context).getPostsBySubCategoryNWebsite(
           PostsBySubCategoryNWebsiteRequest(
-              website: website, subCategory: subCategory));
+              website: website, subCategory: subCategory, seen: seen));
       // search with one field ----------------------------------------
     } else if (searchText != '' &&
-        website == 'None' &&
-        subCategory == 'None' &&
-        category == 'None') {
-      await SearchCubit.get(context)
-          .getPostsByDesc(PostsByDescRequest(description: searchText));
+        website == 'All' &&
+        subCategory == 'All' &&
+        category == 'All') {
+      await SearchCubit.get(context).getPostsByDesc(
+          PostsByDescRequest(description: searchText, seen: seen));
     } else if (searchText == '' &&
-        website != 'None' &&
-        subCategory == 'None' &&
-        category == 'None') {
-      BlocProvider.of<SearchCubit>(context)
-          .getPostsByWebsite(PostsByWebsiteRequest(website: website));
+        website != 'All' &&
+        subCategory == 'All' &&
+        category == 'All') {
+      BlocProvider.of<SearchCubit>(context).getPostsByWebsite(
+          PostsByWebsiteRequest(website: website, seen: seen));
     } else if (searchText == '' &&
-        website == 'None' &&
-        subCategory == 'None' &&
-        category != 'None') {
-      await SearchCubit.get(context)
-          .getPostsByCategory(PostsByCategoryRequest(category: category));
+        website == 'All' &&
+        subCategory == 'All' &&
+        category != 'All') {
+      await SearchCubit.get(context).getPostsByCategory(
+          PostsByCategoryRequest(category: category, seen: seen));
     } else if (searchText == '' &&
-        website == 'None' &&
-        subCategory != 'None' &&
-        category == 'None') {
+        website == 'All' &&
+        subCategory != 'All' &&
+        category == 'All') {
       await SearchCubit.get(context).getPostsBySubCategory(
-          PostsBySubCategoryRequest(subCategory: subCategory));
+          PostsBySubCategoryRequest(subCategory: subCategory, seen: seen));
     }
     totalPages = getPagesCount();
   }

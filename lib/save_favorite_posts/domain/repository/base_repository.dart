@@ -12,6 +12,7 @@ import '../reposnses/posts_response.dart';
 import '../requests/iud/update_category_name_request.dart';
 import '../requests/iud/update_sub_category_name_request.dart';
 import '../requests/iud/update_website_name_request.dart';
+import '../requests/search/get_all_posts_request.dart';
 import '../requests/search/posts_by_category_n_subcategory_n_website_request.dart';
 import '../requests/search/posts_by_category_n_subcategory_request.dart';
 import '../requests/search/posts_by_category_n_website_request.dart';
@@ -44,7 +45,7 @@ abstract class BaseRepository {
   Future<Either<Failure, List<WebsiteResponse>>> getAllWebsites();
 
   // get all data ----------------------------------------
-  Future<Either<Failure, List<PostsResponse>>> getAllPosts();
+  Future<Either<Failure, List<PostsResponse>>> getAllPosts(GetAllPostsRequest getAllPostsRequest);
 
   // search with all fields ----------------------------------------
   Future<Either<Failure, List<PostsResponse>>> getPostsByDescNCategoryNSubCategoryNWebsite(PostsByDescNCategoryNSubCategoryNWebsiteRequest postsByDescNCategoryNSubCategoryNWebsiteRequest);

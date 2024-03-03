@@ -14,20 +14,26 @@ class SearchResultView extends StatelessWidget {
   final Function goToEdit;
   final Function toggleSeen;
   final VoidCallback removeCallback;
+  final VoidCallback shareCallback;
   const SearchResultView(
-      {super.key, required this.postsResponse, required this.removeCallback, required this.index, required this.goToEdit, required this.toggleSeen});
+      {super.key, required this.postsResponse, required this.removeCallback, required this.shareCallback, required this.index, required this.goToEdit, required this.toggleSeen});
 
   @override
   Widget build(BuildContext context) {
     return Slidable(
         endActionPane: ActionPane(
-          extentRatio: 0.2,
+          extentRatio: 0.4.w,
           motion: const ScrollMotion(),
           children: [
             SizedBox(width: 10.w),
             CustomIconButton(
               icon: AssetsManager.deleteImg,
               onTap: removeCallback,
+            ),
+            SizedBox(width: 10.w),
+            CustomIconButton(
+              icon: AssetsManager.shareImg,
+              onTap: shareCallback,
             ),
           ],
         ),

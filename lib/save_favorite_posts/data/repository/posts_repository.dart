@@ -16,6 +16,7 @@ import '../../domain/reposnses/posts_response.dart';
 import '../../domain/requests/iud/update_category_name_request.dart';
 import '../../domain/requests/iud/update_sub_category_name_request.dart';
 import '../../domain/requests/iud/update_website_name_request.dart';
+import '../../domain/requests/search/get_all_posts_request.dart';
 import '../../domain/requests/search/posts_by_category_n_subcategory_request.dart';
 import '../../domain/requests/search/posts_by_category_request.dart';
 import '../../domain/requests/search/posts_by_desc_n_category_n_subcategory_n_website_request.dart';
@@ -39,9 +40,9 @@ class PostsRepository extends BaseRepository {
   );
 
   @override
-  Future<Either<Failure, List<PostsResponse>>> getAllPosts() async {
+  Future<Either<Failure, List<PostsResponse>>> getAllPosts(GetAllPostsRequest getAllPostsRequest) async {
     try {
-      final result = await _baseLocalDataSource.getAllPosts();
+      final result = await _baseLocalDataSource.getAllPosts(getAllPostsRequest);
       return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);
