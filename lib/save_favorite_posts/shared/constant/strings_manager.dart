@@ -56,6 +56,13 @@ class AppStrings {
   static const descriptionRequired = "Description Field Required";
   static const seen = "Seen";
   static const hideSeen = "Hide Seen";
+  static const rating = 'Rating';
+  static const notes = 'Notes';
+  static const backup = 'BackUp';
+  static const notesToRestore = 'Note: You must put backup file in downloads folder';
+  static const restore = 'Restore';
+  static const backUpDone = 'Backup successfully done and the database file in "Downloads" folder';
+  static const restoreDone = 'Restore successfully done you must close the app and open again';
 
   // error handler
   static const String unknownError = "unknown_error";

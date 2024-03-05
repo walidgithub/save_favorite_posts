@@ -17,4 +17,8 @@ class AssetsManager {
   static String shareImg = '$imagePath/share.svg';
   static String goImg = '$imagePath/go.svg';
   static String editIcon = '$imagePath/edit.svg';
+  static String drawer = '$imagePath/drawer.svg';
+  static String rate = '$imagePath/rate.svg';
+  static const String backUpImg = '$imagePath/restore_img.svg';
+  static const String restoreImg = '$imagePath/backup_img.svg';
 }

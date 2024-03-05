@@ -10,20 +10,12 @@ class PaginationView extends StatefulWidget {
   int totalPages;
   int currentPage;
   List<int> middlePages;
-  Function firstPage;
-  Function lastPage;
-  Function decreaseNum;
-  Function increaseNum;
-  Function getMiddlePage;
+  Function changePage;
   PaginationView(
       {required this.totalPages,
       required this.currentPage,
       required this.middlePages,
-      required this.firstPage,
-      required this.lastPage,
-      required this.increaseNum,
-      required this.decreaseNum,
-      required this.getMiddlePage,
+      required this.changePage,
       Key? key})
       : super(key: key);
 
@@ -93,7 +85,7 @@ class _PaginationViewState extends State<PaginationView> {
                   }
                 }
               }
-              widget.decreaseNum(currentPage, middlePages);
+              widget.changePage(currentPage, middlePages);
             },
             child: Icon(
               Icons.arrow_back_ios,
@@ -120,7 +112,7 @@ class _PaginationViewState extends State<PaginationView> {
                 ];
               }
 
-              widget.firstPage(currentPage, middlePages);
+              widget.changePage(currentPage, middlePages);
             },
             child: containerComponent(
                 context,
@@ -213,7 +205,7 @@ class _PaginationViewState extends State<PaginationView> {
                               }
                             }
 
-                            widget.getMiddlePage(currentPage, middlePages);
+                            widget.changePage(currentPage, middlePages);
                           },
                           child: containerComponent(
                               context,
@@ -295,7 +287,7 @@ class _PaginationViewState extends State<PaginationView> {
                           ];
                         }
 
-                        widget.lastPage(currentPage, middlePages);
+                        widget.changePage(currentPage, middlePages);
                       },
                       child: containerComponent(
                           context,
@@ -371,7 +363,7 @@ class _PaginationViewState extends State<PaginationView> {
                   }
                 }
               }
-              widget.increaseNum(currentPage, middlePages);
+              widget.changePage(currentPage, middlePages);
             },
             child: Icon(Icons.arrow_forward_ios,
                 size: 25.sp,

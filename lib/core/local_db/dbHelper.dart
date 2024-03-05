@@ -1,4 +1,9 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:save_favorite_posts/save_favorite_posts/data/models/website_model.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/insert_post_request.dart';
@@ -468,5 +473,64 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     final result = await db.rawQuery(
         'SELECT * FROM saved_posts where postId = ?',[getPostByIdRequest.id]);
     return result.map((map) => PostsModel.fromJson(map)).toList();
+  }
+
+  // ------------------------------------------------------------------------------
+  // edit package id and db name !!!!!
+  getDBPath() async {
+    String databasePath = await getDatabasesPath();
+    print(databasePath);
+    Directory? externalStoragePath = await getExternalStorageDirectory();
+    print(externalStoragePath);
+  }
+
+  backupDB() async {
+    var externalStorageStatus = await Permission.manageExternalStorage.status;
+    if (!externalStorageStatus.isGranted) {
+      await Permission.manageExternalStorage.request();
+    }
+    var storageStatus = await Permission.storage.status;
+    if (!storageStatus.isGranted) {
+      await Permission.storage.request();
+    }
+    try {
+      File ourDBFile = File('/data/user/0/com.qurany.shemerly/databases/saved_posts_test.db');
+      await ourDBFile.copy('/sdcard/Download/saved_posts_test.db');
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+  }
+
+  restoreDB() async {
+    var externalStorageStatus = await Permission.manageExternalStorage.status;
+    if (!externalStorageStatus.isGranted) {
+      await Permission.manageExternalStorage.request();
+    }
+    var storageStatus = await Permission.storage.status;
+    if (!storageStatus.isGranted) {
+      await Permission.storage.request();
+    }
+
+    try {
+      File savedDBFile = File('/sdcard/Download/saved_posts_test.db');
+      await savedDBFile.copy('/data/user/0/com.qurany.shemerly/databases/saved_posts_test.db');
+    } catch (e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
+  }
+
+  deleteDB() async {
+    try {
+      _db = null;
+      deleteDatabase('/data/user/0/com.qurany.shemerly/databases/saved_posts_test.db');
+    } catch(e) {
+      if (kDebugMode) {
+        print(e.toString());
+      }
+    }
   }
 }

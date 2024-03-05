@@ -213,27 +213,7 @@ class _SearchViewState extends State<SearchView> {
                                     totalPages: totalPages,
                                     currentPage: currentPage,
                                     middlePages: middlePages,
-                                    firstPage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
-                                      currentPage = returnCurrentPage;
-                                      middlePages = returnedMiddlePages;
-                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
-                                    },
-                                    lastPage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
-                                      currentPage = returnCurrentPage;
-                                      middlePages = returnedMiddlePages;
-                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
-                                    },
-                                    getMiddlePage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
-                                      currentPage = returnCurrentPage;
-                                      middlePages = returnedMiddlePages;
-                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
-                                    },
-                                    increaseNum: (int returnCurrentPage, List<int> returnedMiddlePages) async {
-                                      currentPage = returnCurrentPage;
-                                      middlePages = returnedMiddlePages;
-                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
-                                    },
-                                    decreaseNum: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                    changePage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
                                       currentPage = returnCurrentPage;
                                       middlePages = returnedMiddlePages;
                                       await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
