@@ -4,13 +4,11 @@ class PostsByDescNCategoryRequest extends Equatable {
   final String description;
   final String category;
   final int seen;
-  final int pageNum;
 
   const PostsByDescNCategoryRequest({
     required this.description,
     required this.category,
     required this.seen,
-    required this.pageNum,
   });
 
 
@@ -19,10 +17,9 @@ class PostsByDescNCategoryRequest extends Equatable {
       'description': description,
       'category': category,
       'seen': seen,
-      'pageNum': pageNum,
     };
   }
 
   @override
-  List<Object?> get props => [description, category,seen,pageNum];
+  List<Object?> get props => [description, category,seen];
 }

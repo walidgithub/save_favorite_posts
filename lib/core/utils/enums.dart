@@ -5,6 +5,7 @@ enum RequestState {
   subCategoryLoading,
   searchLoading,
   postLoading,
+  paginateLoading,
   //-------------------
   insertLoading,
   updateLoading,
@@ -17,6 +18,7 @@ enum RequestState {
   subCategoryLoaded,
   searchLoaded,
   postLoaded,
+  paginateLoaded,
   //-------------------
   insertDone,
   updateDone,
@@ -29,6 +31,7 @@ enum RequestState {
   subCategoryError,
   searchError,
   postError,
+  paginateError,
   //-------------------
   insertError,
   updateError,

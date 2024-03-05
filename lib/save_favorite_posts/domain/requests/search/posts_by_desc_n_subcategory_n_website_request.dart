@@ -5,14 +5,12 @@ class PostsByDescNSubCategoryNWebsiteRequest extends Equatable {
   final String subCategory;
   final String website;
   final int seen;
-  final int pageNum;
 
   const PostsByDescNSubCategoryNWebsiteRequest({
     required this.description,
     required this.subCategory,
     required this.website,
     required this.seen,
-    required this.pageNum,
   });
 
 
@@ -22,10 +20,9 @@ class PostsByDescNSubCategoryNWebsiteRequest extends Equatable {
       'subCategory': subCategory,
       'website': website,
       'seen': seen,
-      'pageNum': pageNum,
     };
   }
 
   @override
-  List<Object?> get props => [description, subCategory, website,seen,pageNum];
+  List<Object?> get props => [description, subCategory, website,seen];
 }

@@ -8,15 +8,43 @@ import 'container_component.dart';
 
 class PaginationView extends StatefulWidget {
   int totalPages;
+  int currentPage;
   List<int> middlePages;
-  PaginationView({required this.totalPages, required this.middlePages, Key? key}) : super(key: key);
+  Function firstPage;
+  Function lastPage;
+  Function decreaseNum;
+  Function increaseNum;
+  Function getMiddlePage;
+  PaginationView(
+      {required this.totalPages,
+      required this.currentPage,
+      required this.middlePages,
+      required this.firstPage,
+      required this.lastPage,
+      required this.increaseNum,
+      required this.decreaseNum,
+      required this.getMiddlePage,
+      Key? key})
+      : super(key: key);
 
   @override
   State<PaginationView> createState() => _PaginationViewState();
 }
 
 class _PaginationViewState extends State<PaginationView> {
-  int currentPage = 0;
+  int currentPage = 1;
+  List<int> middlePages = [];
+
+  @override
+  void didUpdateWidget(PaginationView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.currentPage != oldWidget.currentPage) {
+      currentPage = widget.currentPage;
+    }
+    if (widget.middlePages != oldWidget.middlePages) {
+      middlePages = widget.middlePages;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,49 +53,47 @@ class _PaginationViewState extends State<PaginationView> {
       children: [
         // decrease current page
         Bounceable(
-            duration: Duration(
-                milliseconds: AppConstants.durationOfBounceable),
+            duration: Duration(milliseconds: AppConstants.durationOfBounceable),
             onTap: () async {
-              await Future.delayed(Duration(
-                  milliseconds: AppConstants.durationOfBounceable));
+              await Future.delayed(
+                  Duration(milliseconds: AppConstants.durationOfBounceable));
               if (currentPage >= 2) {
-                setState(() {
-                  currentPage--;
+                currentPage--;
 
-                  if (widget.totalPages >= 5) {
-                    if (currentPage == widget.middlePages[0] &&
-                        (currentPage - 1) != 1 &&
-                        widget.totalPages >= 5) {
-                      widget.middlePages = [];
-                      widget.middlePages = [
-                        currentPage - 1,
-                        currentPage,
-                        currentPage + 1
-                      ];
-                    }
-
-                    if (currentPage == widget.middlePages[1] &&
-                        (currentPage + 2) != widget.totalPages) {
-                      widget.middlePages = [];
-                      widget.middlePages = [
-                        currentPage - 1,
-                        currentPage,
-                        currentPage + 1
-                      ];
-                    }
-
-                    if (currentPage == widget.middlePages[2] &&
-                        (currentPage + 1) != widget.totalPages) {
-                      widget.middlePages = [];
-                      widget.middlePages = [
-                        currentPage - 1,
-                        currentPage,
-                        currentPage + 1
-                      ];
-                    }
+                if (widget.totalPages >= 5) {
+                  if (currentPage == middlePages[0] &&
+                      (currentPage - 1) != 1 &&
+                      widget.totalPages >= 5) {
+                    middlePages = [];
+                    middlePages = [
+                      currentPage - 1,
+                      currentPage,
+                      currentPage + 1
+                    ];
                   }
-                });
+
+                  if (currentPage == middlePages[1] &&
+                      (currentPage + 2) != widget.totalPages) {
+                    middlePages = [];
+                    middlePages = [
+                      currentPage - 1,
+                      currentPage,
+                      currentPage + 1
+                    ];
+                  }
+
+                  if (currentPage == middlePages[2] &&
+                      (currentPage + 1) != widget.totalPages) {
+                    middlePages = [];
+                    middlePages = [
+                      currentPage - 1,
+                      currentPage,
+                      currentPage + 1
+                    ];
+                  }
+                }
               }
+              widget.decreaseNum(currentPage, middlePages);
             },
             child: Icon(
               Icons.arrow_back_ios,
@@ -79,22 +105,22 @@ class _PaginationViewState extends State<PaginationView> {
 
         // current page = 1
         Bounceable(
-            duration: Duration(
-                milliseconds: AppConstants.durationOfBounceable),
+            duration: Duration(milliseconds: AppConstants.durationOfBounceable),
             onTap: () async {
-              await Future.delayed(Duration(
-                  milliseconds: AppConstants.durationOfBounceable));
-              setState(() {
-                currentPage = 1;
+              await Future.delayed(
+                  Duration(milliseconds: AppConstants.durationOfBounceable));
 
-                if (widget.totalPages >= 5) {
-                  widget.middlePages = [
-                    currentPage + 1,
-                    currentPage + 2,
-                    currentPage + 3
-                  ];
-                }
-              });
+              currentPage = 1;
+
+              if (widget.totalPages >= 5) {
+                middlePages = [
+                  currentPage + 1,
+                  currentPage + 2,
+                  currentPage + 3
+                ];
+              }
+
+              widget.firstPage(currentPage, middlePages);
             },
             child: containerComponent(
                 context,
@@ -103,31 +129,35 @@ class _PaginationViewState extends State<PaginationView> {
                       style: TextStyle(
                           color: currentPage == 1
                               ? ColorManager.kLine
-                              : ColorManager.kPrimary,
+                              : ColorManager.kWhite,
                           fontSize: 20.sp)),
                 ),
                 height: 30.h,
                 width: 32.w,
                 color: currentPage == 1
                     ? ColorManager.kPrimary
-                    : ColorManager.kLine,
+                    : ColorManager.kOrange,
                 borderColor: ColorManager.kLine,
                 borderWidth: 0.0.w,
                 borderRadius: 5.w)),
 
         widget.totalPages >= 5
-            ? widget.middlePages[0] - 1 > 1
-            ? Text(
-          ' ..',
-          style: TextStyle(
-              color: ColorManager.kPrimary, fontSize: 20.sp),
-        )
-            : Container()
+            ? middlePages.isNotEmpty
+                ? middlePages[0] - 1 > 1
+                    ? Text(
+                        ' ..',
+                        style: TextStyle(
+                            color: ColorManager.kPrimary, fontSize: 20.sp),
+                      )
+                    : Container()
+                : Container()
             : Container(),
 
-        currentPage > 1 ? SizedBox(
-          width: 1.w,
-        ) : Container(),
+        currentPage > 1
+            ? SizedBox(
+                width: 1.w,
+              )
+            : Container(),
 
         // middle current pages
         Row(
@@ -138,77 +168,74 @@ class _PaginationViewState extends State<PaginationView> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                itemCount: widget.middlePages.length,
+                itemCount: middlePages.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Row(
                     children: [
                       Bounceable(
                           duration: Duration(
-                              milliseconds:
-                              AppConstants.durationOfBounceable),
+                              milliseconds: AppConstants.durationOfBounceable),
                           onTap: () async {
                             await Future.delayed(Duration(
                                 milliseconds:
-                                AppConstants.durationOfBounceable));
-                            setState(() {
-                              currentPage = widget.middlePages[index];
+                                    AppConstants.durationOfBounceable));
 
-                              if (widget.totalPages >= 5) {
-                                if (currentPage == widget.middlePages[0] &&
-                                    (currentPage - 1) != 1) {
-                                  widget.middlePages = [];
-                                  widget.middlePages = [
-                                    currentPage - 1,
-                                    currentPage,
-                                    currentPage + 1
-                                  ];
-                                }
-
-                                if (currentPage == widget.middlePages[1] &&
-                                    (currentPage + 2) != widget.totalPages) {
-                                  widget.middlePages = [];
-                                  widget.middlePages = [
-                                    currentPage - 1,
-                                    currentPage,
-                                    currentPage + 1
-                                  ];
-                                }
-
-                                if (currentPage == widget.middlePages[2] &&
-                                    (currentPage + 1) != widget.totalPages) {
-                                  widget.middlePages = [];
-                                  widget.middlePages = [
-                                    currentPage - 1,
-                                    currentPage,
-                                    currentPage + 1
-                                  ];
-                                }
+                            currentPage = middlePages[index];
+                            if (widget.totalPages >= 5) {
+                              if (currentPage == middlePages[0] &&
+                                  (currentPage - 1) != 1) {
+                                middlePages = [];
+                                middlePages = [
+                                  currentPage - 1,
+                                  currentPage,
+                                  currentPage + 1
+                                ];
                               }
-                            });
+
+                              if (currentPage == middlePages[1] &&
+                                  (currentPage + 2) != widget.totalPages) {
+                                middlePages = [];
+                                middlePages = [
+                                  currentPage - 1,
+                                  currentPage,
+                                  currentPage + 1
+                                ];
+                              }
+
+                              if (currentPage == middlePages[2] &&
+                                  (currentPage + 1) != widget.totalPages) {
+                                middlePages = [];
+                                middlePages = [
+                                  currentPage - 1,
+                                  currentPage,
+                                  currentPage + 1
+                                ];
+                              }
+                            }
+
+                            widget.getMiddlePage(currentPage, middlePages);
                           },
                           child: containerComponent(
                               context,
                               margin: const EdgeInsets.only(left: 2),
                               width: 30.w,
                               Center(
-                                  child: Text(
-                                      widget.middlePages[index].toString(),
+                                  child: Text(middlePages[index].toString(),
                                       style: TextStyle(
-                                          color: currentPage ==
-                                              widget.middlePages[index]
-                                              ? ColorManager.kLine
-                                              : ColorManager.kPrimary,
+                                          color:
+                                              currentPage == middlePages[index]
+                                                  ? ColorManager.kLine
+                                                  : ColorManager.kPrimary,
                                           fontSize: 20.sp))),
                               padding: EdgeInsets.fromLTRB(
-                                  widget.middlePages[index].bitLength > 1 ? 10 : 5,
+                                  middlePages[index].bitLength > 1 ? 10 : 5,
                                   0,
-                                  widget.middlePages[index].bitLength > 1 ? 10 : 5,
+                                  middlePages[index].bitLength > 1 ? 10 : 5,
                                   0),
-                              color: currentPage == widget.middlePages[index]
+                              color: currentPage == middlePages[index]
                                   ? ColorManager.kPrimary
                                   : ColorManager.kLine,
-                              borderColor:
-                              currentPage == widget.middlePages[index]
+                              borderColor: currentPage == middlePages[index]
                                   ? ColorManager.kPrimary
                                   : ColorManager.kLine,
                               borderWidth: 0.0.w,
@@ -226,125 +253,125 @@ class _PaginationViewState extends State<PaginationView> {
         ),
 
         widget.totalPages >= 5
-            ? widget.middlePages[2] < widget.totalPages - 1
-            ? Text(
-          '..',
-          style: TextStyle(
-              color: ColorManager.kPrimary, fontSize: 20.sp),
-        )
-            : Container()
+            ? middlePages.isNotEmpty
+                ? middlePages[2] < widget.totalPages - 1
+                    ? Text(
+                        '..',
+                        style: TextStyle(
+                            color: ColorManager.kPrimary, fontSize: 20.sp),
+                      )
+                    : Container()
+                : Container()
             : Container(),
 
         widget.totalPages >= 5
-            ? widget.middlePages[2] < widget.totalPages - 1
-            ? SizedBox(
-          width: AppConstants.smallWidthBetweenElements,
-        )
-            : Container()
+            ? middlePages.isNotEmpty
+                ? middlePages[2] < widget.totalPages - 1
+                    ? SizedBox(
+                        width: AppConstants.smallWidthBetweenElements,
+                      )
+                    : Container()
+                : Container()
             : Container(),
 
         // last current page
         widget.totalPages > 1
             ? Row(
-          children: [
-            Bounceable(
-                duration: Duration(
-                    milliseconds:
-                    AppConstants.durationOfBounceable),
-                onTap: () async {
-                  await Future.delayed(Duration(
-                      milliseconds:
-                      AppConstants.durationOfBounceable));
-                  setState(() {
-                    currentPage = widget.totalPages;
+                children: [
+                  Bounceable(
+                      duration: Duration(
+                          milliseconds: AppConstants.durationOfBounceable),
+                      onTap: () async {
+                        await Future.delayed(Duration(
+                            milliseconds: AppConstants.durationOfBounceable));
 
-                    if (widget.totalPages >= 5) {
-                      widget.middlePages = [
-                        currentPage - 3,
-                        currentPage - 2,
-                        currentPage - 1
-                      ];
-                    }
-                  });
-                },
-                child: containerComponent(
-                    context,
-                    Center(
-                      child: Text(widget.totalPages.toString(),
-                          style: TextStyle(
-                              color: currentPage == widget.totalPages
-                                  ? ColorManager.kLine
-                                  : ColorManager.kWhite,
-                              fontSize: 20.sp)),
-                    ),
-                    height: 30.h,
-                    padding: EdgeInsets.fromLTRB(
-                        widget.totalPages.bitLength > 1 ? 10 : 5,
-                        0,
-                        widget.totalPages.bitLength > 1 ? 10 : 5,
-                        0),
-                    color: widget.totalPages == currentPage
-                        ? ColorManager.kPrimary
-                        : ColorManager.kLightBrown,
-                    borderColor: widget.totalPages == currentPage
-                        ? ColorManager.kPrimary
-                        : ColorManager.kLightBrown,
-                    borderWidth: 0.0.w,
-                    borderRadius: 5.w))
-          ],
-        )
+                        currentPage = widget.totalPages;
+
+                        if (widget.totalPages >= 5) {
+                          middlePages = [
+                            currentPage - 3,
+                            currentPage - 2,
+                            currentPage - 1
+                          ];
+                        }
+
+                        widget.lastPage(currentPage, middlePages);
+                      },
+                      child: containerComponent(
+                          context,
+                          Center(
+                            child: Text(widget.totalPages.toString(),
+                                style: TextStyle(
+                                    color: currentPage == widget.totalPages
+                                        ? ColorManager.kLine
+                                        : ColorManager.kWhite,
+                                    fontSize: 20.sp)),
+                          ),
+                          height: 30.h,
+                          padding: EdgeInsets.fromLTRB(
+                              widget.totalPages.bitLength > 1 ? 10 : 5,
+                              0,
+                              widget.totalPages.bitLength > 1 ? 10 : 5,
+                              0),
+                          color: widget.totalPages == currentPage
+                              ? ColorManager.kPrimary
+                              : ColorManager.kLightBrown,
+                          borderColor: widget.totalPages == currentPage
+                              ? ColorManager.kPrimary
+                              : ColorManager.kLightBrown,
+                          borderWidth: 0.0.w,
+                          borderRadius: 5.w))
+                ],
+              )
             : Container(),
 
         widget.totalPages > 1
             ? SizedBox(
-          width: AppConstants.smallWidthBetweenElements,
-        )
+                width: AppConstants.smallWidthBetweenElements,
+              )
             : Container(),
 
         // increase current page
         Bounceable(
-            duration: Duration(
-                milliseconds: AppConstants.durationOfBounceable),
+            duration: Duration(milliseconds: AppConstants.durationOfBounceable),
             onTap: () async {
-              await Future.delayed(Duration(
-                  milliseconds: AppConstants.durationOfBounceable));
+              await Future.delayed(
+                  Duration(milliseconds: AppConstants.durationOfBounceable));
 
               if (currentPage < widget.totalPages) {
-                setState(() {
-                  currentPage++;
-                  if (widget.totalPages >= 5) {
-                    if (currentPage == widget.middlePages[0] &&
-                        (currentPage - 1) != 1) {
-                      widget.middlePages = [];
-                      widget.middlePages = [
-                        currentPage - 1,
-                        currentPage,
-                        currentPage + 1
-                      ];
-                    }
-
-                    if (currentPage == widget.middlePages[1] &&
-                        (currentPage + 2) != widget.totalPages) {
-                      widget.middlePages = [];
-                      widget.middlePages = [
-                        currentPage - 1,
-                        currentPage,
-                        currentPage + 1
-                      ];
-                    }
-
-                    if (currentPage == widget.middlePages[2] &&
-                        (currentPage + 1) != widget.totalPages) {
-                      widget.middlePages = [];
-                      widget.middlePages = [
-                        currentPage - 1,
-                        currentPage,
-                        currentPage + 1
-                      ];
-                    }
+                currentPage++;
+                if (widget.totalPages >= 5) {
+                  if (currentPage == middlePages[0] && (currentPage - 1) != 1) {
+                    middlePages = [];
+                    middlePages = [
+                      currentPage - 1,
+                      currentPage,
+                      currentPage + 1
+                    ];
                   }
-                });
+
+                  if (currentPage == middlePages[1] &&
+                      (currentPage + 2) != widget.totalPages) {
+                    middlePages = [];
+                    middlePages = [
+                      currentPage - 1,
+                      currentPage,
+                      currentPage + 1
+                    ];
+                  }
+
+                  if (currentPage == middlePages[2] &&
+                      (currentPage + 1) != widget.totalPages) {
+                    middlePages = [];
+                    middlePages = [
+                      currentPage - 1,
+                      currentPage,
+                      currentPage + 1
+                    ];
+                  }
+                }
               }
+              widget.increaseNum(currentPage, middlePages);
             },
             child: Icon(Icons.arrow_forward_ios,
                 size: 25.sp,

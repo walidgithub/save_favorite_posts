@@ -11,7 +11,6 @@ import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_m
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 import '../../../../core/utils/enums.dart';
-import '../../../data/models/posts_model.dart';
 import '../../../domain/entities/search_filter.dart';
 import '../../../domain/reposnses/posts_response.dart';
 import '../../../domain/requests/search/get_post_by_id_request.dart';
@@ -29,8 +28,6 @@ import '../../../domain/requests/search/posts_by_subcategory_n_website_request.d
 import '../../../domain/requests/search/posts_by_subcategory_request.dart';
 import '../../../domain/requests/search/posts_by_website_request.dart';
 import '../../../shared/constant/strings_manager.dart';
-import '../../di/di.dart';
-import '../../router/app_router.dart';
 import '../../ui_components/buttons/custom_icon_button.dart';
 import '../../ui_components/dialogs/loading_dialog.dart';
 import '../../ui_components/others/custom_animation.dart';
@@ -57,38 +54,26 @@ class _SearchViewState extends State<SearchView> {
 
   bool loading = false;
 
-  int getPagesCount() {
-    double pagesTotal = postsModel.length / 10;
+  int currentPage = 0;
+  int totalPages = 0;
+  int itemsInPage = 4;
+  List<int> middlePages = [];
+
+
+  int getPagesCount(int listCount) {
+    double pagesTotal = listCount / itemsInPage;
     return pagesTotal.floor();
   }
 
-  int currentPage = 0;
-  int totalPages = 0;
-  List<int> middlePages = [];
-
   List<PostsResponse> postData = [];
+  List paginationList = [];
+  List<PostsResponse> mainList = [];
 
   @override
   void initState() {
     super.initState();
     _searchController.text = '';
-    totalPages = getPagesCount();
     _searchFocusNode.addListener(_onFocusChange);
-    if (totalPages != 0) {
-      currentPage = 1;
-      middlePages = [];
-
-      if (totalPages >= 5) {
-        middlePages = [currentPage + 1, currentPage + 2, currentPage + 3];
-      } else {
-        for (int i = 1; i < totalPages - 1; i++) {
-          middlePages.add(i + 1);
-        }
-      }
-    } else {
-      currentPage = 0;
-      middlePages = [];
-    }
   }
 
   @override
@@ -120,17 +105,34 @@ class _SearchViewState extends State<SearchView> {
   }
 
   Widget bodyContent(BuildContext context) {
-
     getMatchingEvent(context);
 
     return BlocConsumer<SearchCubit, SearchState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.searchState == RequestState.searchLoading) {
           loading = true;
           showLoading();
         } else if (state.searchState == RequestState.searchLoaded) {
           loading = false;
           hideLoading();
+          mainList = state.searchList;
+          totalPages = getPagesCount(mainList.length);
+          if (totalPages != 0) {
+            currentPage = 1;
+            middlePages = [];
+
+            if (totalPages >= 5) {
+              middlePages = [currentPage + 1, currentPage + 2, currentPage + 3];
+            } else {
+              for (int i = 1; i < totalPages - 1; i++) {
+                middlePages.add(i + 1);
+              }
+            }
+          } else {
+            currentPage = 0;
+            middlePages = [];
+          }
+          await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
         } else if (state.searchState == RequestState.searchError) {
           loading = false;
           hideLoading();
@@ -164,6 +166,16 @@ class _SearchViewState extends State<SearchView> {
         } else if (state.searchState == RequestState.toggleSeenError) {
           loading = false;
           hideLoading();
+        } else if (state.searchState == RequestState.paginateLoading) {
+          loading = true;
+          showLoading();
+        } else if (state.searchState == RequestState.paginateLoaded) {
+          loading = false;
+          hideLoading();
+          paginationList = state.searchList;
+        } else if (state.searchState == RequestState.paginateError) {
+          loading = false;
+          hideLoading();
         }
       },
       builder: (context, state) {
@@ -178,7 +190,7 @@ class _SearchViewState extends State<SearchView> {
                     SizedBox(height: 20.h),
                     loading
                         ? Expanded(child: shimmerBody())
-                        : Expanded(child: _searchBody(state.searchList)),
+                        : Expanded(child: _searchBody(paginationList)),
                     SizedBox(
                       height: AppConstants.smallHeightBetweenElements,
                     ),
@@ -199,7 +211,33 @@ class _SearchViewState extends State<SearchView> {
                                   width: MediaQuery.of(context).size.width,
                                   child: PaginationView(
                                     totalPages: totalPages,
+                                    currentPage: currentPage,
                                     middlePages: middlePages,
+                                    firstPage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                      currentPage = returnCurrentPage;
+                                      middlePages = returnedMiddlePages;
+                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                    },
+                                    lastPage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                      currentPage = returnCurrentPage;
+                                      middlePages = returnedMiddlePages;
+                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                    },
+                                    getMiddlePage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                      currentPage = returnCurrentPage;
+                                      middlePages = returnedMiddlePages;
+                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                    },
+                                    increaseNum: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                      currentPage = returnCurrentPage;
+                                      middlePages = returnedMiddlePages;
+                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                    },
+                                    decreaseNum: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                      currentPage = returnCurrentPage;
+                                      middlePages = returnedMiddlePages;
+                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                    },
                                   ))
                             ],
                           )
@@ -482,6 +520,6 @@ class _SearchViewState extends State<SearchView> {
       await SearchCubit.get(context).getPostsBySubCategory(
           PostsBySubCategoryRequest(subCategory: subCategory, seen: seen));
     }
-    totalPages = getPagesCount();
+    // totalPages = getPagesCount();
   }
 }

@@ -5,6 +5,7 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/togg
 import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/iud/toggle_seen_post_usecase.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/cubit/search/search_state.dart';
 import '../../../../../core/utils/enums.dart';
+import '../../../../domain/reposnses/posts_response.dart';
 import '../../../../domain/requests/search/get_all_posts_request.dart';
 import '../../../../domain/requests/search/get_post_by_id_request.dart';
 import '../../../../domain/requests/search/posts_by_category_n_subcategory_n_website_request.dart';
@@ -444,5 +445,25 @@ class SearchCubit extends Cubit<SearchState> {
           postId: r,
               searchState: RequestState.toggleSeenDone,
         )));
+  }
+
+  Future<void> paginatePages(List<PostsResponse> comingList, int currentPage, int itemsInPage) async {
+    emit(state.copyWith(
+        searchState: RequestState.paginateLoading, searchMessage: '', searchList: []));
+
+    try {
+      List<PostsResponse> newList = [];
+      int startIndex = currentPage == 0 ? 0 : (currentPage - 1) * itemsInPage;
+      int endIndex = currentPage * itemsInPage;
+      newList = comingList.sublist(startIndex, endIndex);
+
+      emit(state.copyWith(
+        searchList: newList,
+        searchState: RequestState.paginateLoaded,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+                  searchState: RequestState.paginateError, searchMessage: 'error when paginate'));
+    }
   }
 }
