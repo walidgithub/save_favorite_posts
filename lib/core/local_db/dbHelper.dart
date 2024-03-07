@@ -494,8 +494,8 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
       await Permission.storage.request();
     }
     try {
-      File ourDBFile = File('/data/user/0/com.qurany.shemerly/databases/saved_posts_test.db');
-      await ourDBFile.copy('/sdcard/Download/saved_posts_test.db');
+      File ourDBFile = File('/data/user/0/com.saved_posts.saved_posts/databases/saved_posts_last.db');
+      await ourDBFile.copy('/sdcard/Download/saved_posts_last.db');
     } catch (e) {
       if (kDebugMode) {
         print(e.toString());
@@ -514,8 +514,8 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
     }
 
     try {
-      File savedDBFile = File('/sdcard/Download/saved_posts_test.db');
-      await savedDBFile.copy('/data/user/0/com.qurany.shemerly/databases/saved_posts_test.db');
+      File savedDBFile = File('/sdcard/Download/saved_posts_last.db');
+      await savedDBFile.copy('/data/user/0/com.saved_posts.saved_posts/databases/saved_posts_last.db');
     } catch (e) {
       if (kDebugMode) {
         print(e.toString());
@@ -526,7 +526,7 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
   deleteDB() async {
     try {
       _db = null;
-      deleteDatabase('/data/user/0/com.qurany.shemerly/databases/saved_posts_test.db');
+      deleteDatabase('/data/user/0/com.saved_posts.saved_posts/databases/saved_posts_last.db');
     } catch(e) {
       if (kDebugMode) {
         print(e.toString());

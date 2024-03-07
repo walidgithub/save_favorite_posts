@@ -48,7 +48,7 @@ class _PaginationViewState extends State<PaginationView> {
 
   @override
   void initState() {
-
+    middlePages = widget.middlePages;
     super.initState();
   }
 

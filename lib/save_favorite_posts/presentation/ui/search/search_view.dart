@@ -11,6 +11,8 @@ import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_m
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 import '../../../../core/utils/enums.dart';
+import '../../../../core/utils/functions.dart';
+import '../../../data/models/posts_model.dart';
 import '../../../domain/entities/search_filter.dart';
 import '../../../domain/reposnses/posts_response.dart';
 import '../../../domain/requests/search/get_post_by_id_request.dart';
@@ -52,7 +54,7 @@ class SearchView extends StatefulWidget {
 class _SearchViewState extends State<SearchView> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
-  var scaffoldKey = GlobalKey<ScaffoldState>();
+
 
   bool loading = false;
 
@@ -94,14 +96,16 @@ class _SearchViewState extends State<SearchView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: scaffoldKey,
-        drawer: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.75,
-            child: const DrawerInfo()),
-        body: SafeArea(
-      child: bodyContent(context),
-    ));
+    return WillPopScope(
+      onWillPop: () => onBackButtonPressed(context),
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+            body: SafeArea(
+          child: bodyContent(context),
+        )),
+      ),
+    );
   }
 
   Widget bodyContent(BuildContext context) {
@@ -115,7 +119,8 @@ class _SearchViewState extends State<SearchView> {
         } else if (state.searchState == RequestState.searchLoaded) {
           loading = false;
           hideLoading();
-          mainList = state.searchList;
+          // mainList = state.searchList;
+          mainList = postsModel;
           totalPages = getPagesCount(mainList.length);
 
           if (totalPages != 0) {
@@ -134,8 +139,6 @@ class _SearchViewState extends State<SearchView> {
             currentPage = 0;
             middlePages = [];
           }
-          print('middlePages');
-          print(middlePages);
 
         } else if (state.searchState == RequestState.searchError) {
           loading = false;
@@ -262,23 +265,9 @@ class _SearchViewState extends State<SearchView> {
       child: Column(
         children: [
           SizedBox(height: 20.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const HeadingRichText(
-                text1: '${AppStrings.youCan}\n',
-                text2: AppStrings.searchForPosts,
-              ),
-              CustomIconButton(
-                onTap: () async {
-                  await Future.delayed(
-                      const Duration(milliseconds: 700));
-                  scaffoldKey.currentState?.openDrawer();
-                },
-                icon: AssetsManager.drawer,
-                borderCol: ColorManager.kLine,
-              )
-            ],
+          const HeadingRichText(
+            text1: '${AppStrings.youCan}\n',
+            text2: AppStrings.searchForPosts,
           ),
           SizedBox(height: 28.h),
           Row(

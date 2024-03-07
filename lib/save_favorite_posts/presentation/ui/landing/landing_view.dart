@@ -5,7 +5,9 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/posts_r
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
+import '../../ui_components/buttons/custom_icon_button.dart';
 import '../add_new_post/add_new_post_view.dart';
+import '../onboarding/components/drawer_info_page.dart';
 import '../search/search_view.dart';
 
 class LandingView extends StatefulWidget {
@@ -20,12 +22,33 @@ class _SearchViewState extends State<LandingView> {
   List searchFilter = [];
   bool editPost = false;
   List<PostsResponse> postData = [];
+  var scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: selectedPage(context,_currentIndex),
+      key: scaffoldKey,
+      drawer: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.75,
+          child: const DrawerInfo()),
+      body: Stack(
+        children: [
+          selectedPage(context,_currentIndex),
+          Positioned(
+            top: 70.h,
+            left: MediaQuery.of(context).size.width - 70.w,
+            child: CustomIconButton(
+            onTap: () async {
+              await Future.delayed(
+                  const Duration(milliseconds: 700));
+              scaffoldKey.currentState?.openDrawer();
+            },
+            icon: AssetsManager.drawer,
+            borderCol: ColorManager.kLine,
+          ),)
+        ],
+      ),
       bottomNavigationBar: SizedBox(
         height: 70.h,
         child: BottomNavigationBar(
