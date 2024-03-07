@@ -24,79 +24,100 @@ class _DrawerInfoState extends State<DrawerInfo> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: ColorManager.kLightPink,
+      backgroundColor: ColorManager.kBackground,
       child:
       SingleChildScrollView(
         child: ListView(
           padding: EdgeInsets.zero,
           shrinkWrap: true,
-          physics: const ScrollPhysics(),
+          physics: const AlwaysScrollableScrollPhysics(),
           children: [
             Container(
-              height: MediaQuery.of(context).size.height - 230.h,
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+              padding: const EdgeInsets.fromLTRB(20, 50, 20, 5),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text(AppStrings.notes,style: AppTypography.kExtraLight15,),
-                  // RichText(
-                  //   text: TextSpan(
-                  //       text: text1,
-                  //       style: AppTypography.kLight30
-                  //           .copyWith(color: ColorManager.kSecondary, height: 1.2),
-                  //       children: [
-                  //         TextSpan(
-                  //             text: text2,
-                  //             style: AppTypography.kBold30
-                  //                 .copyWith(color: ColorManager.kSecondary)),
-                  //
-                  //       ]),
-                  // ),
-                  Divider(
-                    thickness: 1.h,
+                  Text(AppStrings.notes,style: AppTypography.kBold24,),
+                  SizedBox(height: AppConstants.smallHeightBetweenElements,),
+                  RichText(
+                    text: TextSpan(
+                        text: AppStrings.toBegin,
+                        style: AppTypography.kBold18
+                            .copyWith(color: ColorManager.kSecondary, height: 1.5),
+                        children: [
+                          TextSpan(
+                              text: AppStrings.howToBegin,
+                              style: AppTypography.kExtraLight14
+                                  .copyWith(color: ColorManager.kSecondary)),
+
+                        ]),
                   ),
                 ],
               ),
             ),
             const Divider(),
+            Container(
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 5),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Text(AppStrings.about,style: AppTypography.kBold24,),
+                  SizedBox(height: AppConstants.smallHeightBetweenElements,),
+                  Text(AppStrings.aboutText,style: AppTypography.kLight13,),
+                ],
+              ),
+            ),
+            const Divider(),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 5),
+              padding: const EdgeInsets.fromLTRB(20, 0, 10, 5),
               child: Column(
                 children: [
-                  Text(AppStrings.rating,style: AppTypography.kExtraLight15,),
+                  Text(AppStrings.rating,style: AppTypography.kBold24,),
                   SizedBox(
                     height: AppConstants.smallHeightBetweenElements,
                   ),
-                  Bounceable(
-                    onTap: () async {
-                      await Future.delayed(const Duration(milliseconds: 700));
-                      LaunchReview.launch();
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          AssetsManager.rate,
-                          width: 25.w,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(AppStrings.clickToRate,style: AppTypography.kLight11),
+                      SizedBox(width: 10.w,),
+                      Bounceable(
+                        onTap: () async {
+                          await Future.delayed(const Duration(milliseconds: 700));
+                          LaunchReview.launch();
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              AssetsManager.rate,
+                              width: 25.w,
+                              color: ColorManager.kOrange,
+                            ),
+                            SvgPicture.asset(
+                              AssetsManager.rate,
+                              width: 25.w,
+                              color: ColorManager.kOrange,
+                            ),
+                            SvgPicture.asset(
+                              AssetsManager.rate,
+                              width: 25.w,
+                              color: ColorManager.kOrange,
+                            ),
+                            SvgPicture.asset(
+                              AssetsManager.rate,
+                              width: 25.w,
+                              color: ColorManager.kOrange,
+                            ),
+                            SvgPicture.asset(
+                              AssetsManager.rate,
+                              width: 25.w,
+                              color: ColorManager.kOrange,
+                            ),
+                          ],
                         ),
-                        SvgPicture.asset(
-                          AssetsManager.rate,
-                          width: 25.w,
-                        ),
-                        SvgPicture.asset(
-                          AssetsManager.rate,
-                          width: 25.w,
-                        ),
-                        SvgPicture.asset(
-                          AssetsManager.rate,
-                          width: 25.w,
-                        ),
-                        SvgPicture.asset(
-                          AssetsManager.rate,
-                          width: 25.w,
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                   const Divider(),
                   SizedBox(
@@ -106,7 +127,6 @@ class _DrawerInfoState extends State<DrawerInfo> {
                     onTap: () async {
                       await Future.delayed(const Duration(milliseconds: 700));
                       await dbHelper.backupDB();
-                      // await dbHelper.getDBPath();
                       Navigator.of(context).pop();
                       final snackBar = SnackBar(
                         duration: Duration(
@@ -124,7 +144,7 @@ class _DrawerInfoState extends State<DrawerInfo> {
                           AssetsManager.backUpImg,
                           width: 20.w,
                         ),
-                        Text(AppStrings.backup,style: AppTypography.kExtraLight15,)
+                        Text(AppStrings.backup,style: AppTypography.kBold14.copyWith(color: ColorManager.kOrange),)
                       ],
                     ),
                   ),
@@ -163,7 +183,7 @@ class _DrawerInfoState extends State<DrawerInfo> {
                           AssetsManager.restoreImg,
                           width: 20.w,
                         ),
-                        Text(AppStrings.restore,style: AppTypography.kExtraLight15,)
+                        Text(AppStrings.restore,style: AppTypography.kBold14.copyWith(color: ColorManager.kOrange))
                       ],
                     ),
                   )

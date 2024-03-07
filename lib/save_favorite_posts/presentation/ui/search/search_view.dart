@@ -34,6 +34,7 @@ import '../../ui_components/others/custom_animation.dart';
 import '../../ui_components/texts/heading_rich_text.dart';
 import '../cubit/search/search_cubit.dart';
 import '../cubit/search/search_state.dart';
+import '../onboarding/components/drawer_info_page.dart';
 import 'components/filter_sheet.dart';
 import 'components/pagination.dart';
 import 'components/search_field.dart';
@@ -51,6 +52,7 @@ class SearchView extends StatefulWidget {
 class _SearchViewState extends State<SearchView> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
+  var scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool loading = false;
 
@@ -73,19 +75,13 @@ class _SearchViewState extends State<SearchView> {
   void initState() {
     super.initState();
     _searchController.text = '';
-    _searchFocusNode.addListener(_onFocusChange);
   }
 
   @override
   void dispose() {
-    _searchFocusNode.removeListener(_onFocusChange);
     _searchFocusNode.dispose();
     _searchController.dispose();
     super.dispose();
-  }
-
-  void _onFocusChange() {
-    setState(() {});
   }
 
   void _onSearch(BuildContext context) {
@@ -99,6 +95,10 @@ class _SearchViewState extends State<SearchView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: scaffoldKey,
+        drawer: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.75,
+            child: const DrawerInfo()),
         body: SafeArea(
       child: bodyContent(context),
     ));
@@ -117,8 +117,10 @@ class _SearchViewState extends State<SearchView> {
           hideLoading();
           mainList = state.searchList;
           totalPages = getPagesCount(mainList.length);
+
           if (totalPages != 0) {
             currentPage = 1;
+            await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
             middlePages = [];
 
             if (totalPages >= 5) {
@@ -132,7 +134,9 @@ class _SearchViewState extends State<SearchView> {
             currentPage = 0;
             middlePages = [];
           }
-          await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+          print('middlePages');
+          print(middlePages);
+
         } else if (state.searchState == RequestState.searchError) {
           loading = false;
           hideLoading();
@@ -194,7 +198,7 @@ class _SearchViewState extends State<SearchView> {
                     SizedBox(
                       height: AppConstants.smallHeightBetweenElements,
                     ),
-                    totalPages > 1
+                    middlePages.isNotEmpty
                         ? Column(
                             children: [
                               DottedDivider(
@@ -213,7 +217,27 @@ class _SearchViewState extends State<SearchView> {
                                     totalPages: totalPages,
                                     currentPage: currentPage,
                                     middlePages: middlePages,
-                                    changePage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                    firstPage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                      currentPage = returnCurrentPage;
+                                      middlePages = returnedMiddlePages;
+                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                    },
+                                    lastPage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                      currentPage = returnCurrentPage;
+                                      middlePages = returnedMiddlePages;
+                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                    },
+                                    nextPage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                      currentPage = returnCurrentPage;
+                                      middlePages = returnedMiddlePages;
+                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                    },
+                                    prevPage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                      currentPage = returnCurrentPage;
+                                      middlePages = returnedMiddlePages;
+                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                    },
+                                    middlePage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
                                       currentPage = returnCurrentPage;
                                       middlePages = returnedMiddlePages;
                                       await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
@@ -238,9 +262,23 @@ class _SearchViewState extends State<SearchView> {
       child: Column(
         children: [
           SizedBox(height: 20.h),
-          const HeadingRichText(
-            text1: '${AppStrings.youCan}\n',
-            text2: AppStrings.searchForPosts,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const HeadingRichText(
+                text1: '${AppStrings.youCan}\n',
+                text2: AppStrings.searchForPosts,
+              ),
+              CustomIconButton(
+                onTap: () async {
+                  await Future.delayed(
+                      const Duration(milliseconds: 700));
+                  scaffoldKey.currentState?.openDrawer();
+                },
+                icon: AssetsManager.drawer,
+                borderCol: ColorManager.kLine,
+              )
+            ],
           ),
           SizedBox(height: 28.h),
           Row(

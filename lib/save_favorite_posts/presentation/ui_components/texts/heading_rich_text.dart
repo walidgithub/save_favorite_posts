@@ -28,13 +28,6 @@ class HeadingRichText extends StatelessWidget {
 
               ]),
         ),
-        CustomIconButton(
-          onTap: () {
-
-          },
-          icon: AssetsManager.filter,
-          borderCol: ColorManager.kLine,
-        )
       ],
     );
   }

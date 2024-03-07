@@ -57,12 +57,17 @@ class AppStrings {
   static const seen = "Seen";
   static const hideSeen = "Hide Seen";
   static const rating = 'Rating';
+  static const clickToRate = 'Click On Stars';
   static const notes = 'Notes';
   static const backup = 'BackUp';
   static const notesToRestore = 'Note: You must put backup file in downloads folder';
   static const restore = 'Restore';
   static const backUpDone = 'Backup successfully done and the database file in "Downloads" folder';
   static const restoreDone = 'Restore successfully done you must close the app and open again';
+  static const howToBegin = ' You can add posts manually or use share method in your favorite websites.';
+  static const toBegin = 'To begin,';
+  static const about = 'About';
+  static const aboutText = 'it serves as a centralized hub for all your saved posts from various websites, including popular platforms like LinkedIn, Facebook, and more. With this app, you can conveniently save your posts using various sharing methods and access them at a later time. The app also offers robust search and filtering capabilities, allowing you to easily locate and organize your saved posts according to your preferences.';
 
   // error handler
   static const String unknownError = "unknown_error";

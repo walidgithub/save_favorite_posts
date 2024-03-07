@@ -4,7 +4,6 @@ class AssetsManager {
   static const String linkedIn = '$imagePath/linkedin.jpg';
   static const String facebook = '$imagePath/facebook.jpg';
   static const String others = '$imagePath/others.jpg';
-  static const String starFilled = '$imagePath/star.png';
   static const String logo = '$imagePath/logo.png';
   static const String language = '$imagePath/language.svg';
   static const String search = '$imagePath/search.svg';

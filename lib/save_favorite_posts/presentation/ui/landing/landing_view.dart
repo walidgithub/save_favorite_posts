@@ -6,7 +6,6 @@ import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_m
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 import '../add_new_post/add_new_post_view.dart';
-import '../onboarding/components/drawer_info_page.dart';
 import '../search/search_view.dart';
 
 class LandingView extends StatefulWidget {
@@ -21,16 +20,11 @@ class _SearchViewState extends State<LandingView> {
   List searchFilter = [];
   bool editPost = false;
   List<PostsResponse> postData = [];
-  var scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
       extendBody: true,
-      drawer: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.75,
-          child: const DrawerInfo()),
       body: selectedPage(context,_currentIndex),
       bottomNavigationBar: SizedBox(
         height: 70.h,
@@ -80,7 +74,7 @@ class _SearchViewState extends State<LandingView> {
         setState(() {
           _currentIndex = 0;
         });
-      }, searchFilter: searchFilter,postData: postData,editPost: editPost,);
+      }, searchFilter: searchFilter,postData: postData,editPost: editPost);
     }
     return Container();
   }
