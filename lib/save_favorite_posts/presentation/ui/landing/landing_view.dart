@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_sharing_intent/flutter_sharing_intent.dart';
+import 'package:flutter_sharing_intent/model/sharing_file.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/posts_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
@@ -23,6 +27,42 @@ class _SearchViewState extends State<LandingView> {
   bool editPost = false;
   List<PostsResponse> postData = [];
   var scaffoldKey = GlobalKey<ScaffoldState>();
+
+  late StreamSubscription _intentDataStreamSubscription;
+
+  List<SharedFile>? list;
+
+  String externalPostLinkValue = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // For sharing images coming from outside the app while the app is in the memory
+    _intentDataStreamSubscription = FlutterSharingIntent.instance
+        .getMediaStream()
+        .listen((List<SharedFile> value) {
+      setState(() {
+        list = value;
+      });
+    }, onError: (err) {});
+
+    // For sharing images coming from outside the app while the app is closed
+    FlutterSharingIntent.instance
+        .getInitialSharing()
+        .then((List<SharedFile> value) {
+      setState(() {
+        list = value;
+      });
+    });
+
+    externalPostLinkValue = '';
+  }
+
+  @override
+  void dispose() {
+    _intentDataStreamSubscription.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +137,7 @@ class _SearchViewState extends State<LandingView> {
         setState(() {
           _currentIndex = 0;
         });
-      }, searchFilter: searchFilter,postData: postData,editPost: editPost);
+      }, searchFilter: searchFilter,postData: postData,editPost: editPost, externalPostLinkValue: externalPostLinkValue,);
     }
     return Container();
   }
