@@ -13,9 +13,4 @@ class CategoryModel extends CategoryResponse {
 }
 
 
-List<CategoryResponse> categoryResponse = [
-  // CategoryModel(id: 1, title: 'All'),
-  // CategoryModel(id: 2, title: 'Flutter'),
-  // CategoryModel(id: 3, title: 'UI UX'),
-  // CategoryModel(id: 4, title: 'SQL'),
-];
+List<CategoryResponse> categoryResponse = [];

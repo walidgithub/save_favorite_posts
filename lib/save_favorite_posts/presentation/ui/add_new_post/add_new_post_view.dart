@@ -14,6 +14,7 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/upda
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/add_new_post/components/filter_textfield.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import '../../../../core/utils/enums.dart';
+import '../../../../core/utils/functions.dart';
 import '../../../data/models/category_model.dart';
 import '../../../data/models/sub_category_model.dart';
 import '../../../data/models/website_model.dart';
@@ -112,27 +113,33 @@ class _AddNewPostViewState extends State<AddNewPostView> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Column(
-            children: [
-              SizedBox(height: 20.h),
-              HeadingRichText(
-                text1: external
-                    ? '${AppStrings.external}\n'
-                    : widget.editPost
-                        ? ''
-                        : '${AppStrings.manual}\n',
-                text2: widget.editPost
-                    ? AppStrings.editPost
-                    : AppStrings.addNewPost,
+    return WillPopScope(
+      onWillPop: () => onBackButtonPressed(context),
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SafeArea(
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            body: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: Column(
+                children: [
+                  SizedBox(height: 20.h),
+                  HeadingRichText(
+                    text1: external
+                        ? '${AppStrings.external}\n'
+                        : widget.editPost
+                            ? ''
+                            : '${AppStrings.manual}\n',
+                    text2: widget.editPost
+                        ? AppStrings.editPost
+                        : AppStrings.addNewPost,
+                  ),
+                  SizedBox(height: 28.h),
+                  Expanded(child: _buildBody()),
+                ],
               ),
-              SizedBox(height: 28.h),
-              Expanded(child: _buildBody()),
-            ],
+            ),
           ),
         ),
       ),

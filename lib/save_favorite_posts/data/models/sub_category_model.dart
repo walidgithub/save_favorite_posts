@@ -12,11 +12,4 @@ class SubCategoryModel extends SubCategoryResponse {
   }
 }
 
-List<SubCategoryResponse> subCategoryResponse = [
-  // SubCategoryModel(id: 1, title: 'All'),
-  // SubCategoryModel(id: 2, title: 'Designs'),
-  // SubCategoryModel(id: 3, title: 'Animation'),
-  // SubCategoryModel(id: 4, title: 'Examples'),
-  // SubCategoryModel(id: 5, title: 'Projects'),
-  // SubCategoryModel(id: 6, title: 'Packages'),
-];
+List<SubCategoryResponse> subCategoryResponse = [];
