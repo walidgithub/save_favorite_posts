@@ -3,9 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 
+import '../../../../core/preferences/app_pref.dart';
 import '../../../../core/utils/functions.dart';
 import '../../../domain/entities/onboarding.dart';
 import '../../../shared/constant/constant_values_manager.dart';
+import '../../di/di.dart';
 import '../../router/app_router.dart';
 import '../../ui_components/buttons/custom_outlined_button.dart';
 import 'components/custom_indicator.dart';
@@ -20,6 +22,7 @@ class OnBoardingView extends StatefulWidget {
 
 class _OnBoardingViewState extends State<OnBoardingView> {
   PageController pageController = PageController();
+  final AppPreferences _appPreferences = sl<AppPreferences>();
   int currentIndex = 0;
 
   @override
@@ -62,6 +65,7 @@ class _OnBoardingViewState extends State<OnBoardingView> {
                   width: 130.w,
                   onTap: () {
                     if (currentIndex == (onBoardingList.length - 1)) {
+                      _appPreferences.setFirstLoad();
                       Navigator.of(context).pushReplacementNamed(Routes.landing);
                     } else {
                       pageController.nextPage(

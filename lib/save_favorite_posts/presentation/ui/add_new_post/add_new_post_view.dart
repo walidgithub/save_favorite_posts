@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/entities/search_filter.dart';
+import 'package:flutter_sharing_intent/flutter_sharing_intent.dart';
+import 'package:flutter_sharing_intent/model/sharing_file.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/category_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_category_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website_response.dart';
@@ -39,11 +42,13 @@ class AddNewPostView extends StatefulWidget {
   final List searchFilter;
   final bool editPost;
   final List<PostsResponse> postData;
+  final String externalPostLinkValue;
   const AddNewPostView(
       {required this.goToSearch,
       required this.searchFilter,
       required this.postData,
       required this.editPost,
+      required this.externalPostLinkValue,
       Key? key})
       : super(key: key);
 
@@ -85,6 +90,11 @@ class _AddNewPostViewState extends State<AddNewPostView> {
       _postLinkController.text = '';
       _descriptionController.text = '';
     }
+
+    if (widget.externalPostLinkValue != '') {
+      external = true;
+    }
+
     super.initState();
   }
 
@@ -238,8 +248,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       spellCheckConfiguration: const SpellCheckConfiguration(),
                       controller: _postLinkController,
                       decoration: InputDecoration(
-                          // hintText: '${list?.join("\n\n")}',
-                          hintText: AppStrings.link,
+                          hintText: external ? widget.externalPostLinkValue : AppStrings.link,
                           hintStyle: TextStyle(fontSize: 15.sp),
                           labelText: AppStrings.postLink,
                           labelStyle: TextStyle(
@@ -665,8 +674,15 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       Expanded(
                         child: PrimaryButton(
                             onTap: () async {
-                              _postLinkController.text =
-                                  'https://www.google.com/';
+                              external ? widget.externalPostLinkValue : _postLinkController.text;
+
+                              bool _validURL = Uri.parse(_postLinkController.text).isAbsolute;
+
+                              if (!_validURL) {
+                                showError(AppStrings.linkRequired, context);
+                                return;
+                              }
+
                               if (websiteResponse.isNotEmpty) {
                                 _websiteEditingController.text =
                                     selectedWebSiteResponse!.title.toString();
@@ -691,52 +707,21 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                               }
 
                               if (_postLinkController.text.trim() == "") {
-                                final snackBar = SnackBar(
-                                  duration: Duration(
-                                      milliseconds:
-                                          AppConstants.durationOfSnackBar),
-                                  content: const Text(AppStrings.linkRequired),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                showError(AppStrings.linkRequired, context);
                                 return;
                               } else if (_websiteEditingController.text
                                       .trim() ==
                                   "") {
-                                final snackBar = SnackBar(
-                                  duration: Duration(
-                                      milliseconds:
-                                          AppConstants.durationOfSnackBar),
-                                  content:
-                                      const Text(AppStrings.websiteRequired),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                showError(AppStrings.websiteRequired, context);
                                 return;
                               } else if (_categoryEditingController.text
                                       .trim() ==
                                   "") {
-                                final snackBar = SnackBar(
-                                  duration: Duration(
-                                      milliseconds:
-                                          AppConstants.durationOfSnackBar),
-                                  content:
-                                      const Text(AppStrings.categoryRequired),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                showError(AppStrings.categoryRequired, context);
                                 return;
                               } else if (_descriptionController.text.trim() ==
                                   "") {
-                                final snackBar = SnackBar(
-                                  duration: Duration(
-                                      milliseconds:
-                                          AppConstants.durationOfSnackBar),
-                                  content: const Text(
-                                      AppStrings.descriptionRequired),
-                                );
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(snackBar);
+                                showError(AppStrings.descriptionRequired, context);
                                 return;
                               }
                               showLoading();
@@ -828,5 +813,17 @@ class _AddNewPostViewState extends State<AddNewPostView> {
         },
       ),
     );
+  }
+
+  void showError(String errorMessage, BuildContext context) {
+    final snackBar = SnackBar(
+      duration: Duration(
+          milliseconds:
+          AppConstants.durationOfSnackBar),
+      content:
+      Text(errorMessage),
+    );
+    ScaffoldMessenger.of(context)
+        .showSnackBar(snackBar);
   }
 }

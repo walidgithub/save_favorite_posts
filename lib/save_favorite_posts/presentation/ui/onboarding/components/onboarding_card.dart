@@ -27,18 +27,21 @@ class OnBoardingCard extends StatelessWidget {
             child: Image.asset(onBoarding.image,fit: BoxFit.cover),
           ),
           SizedBox(height: AppConstants.heightBetweenElements),
-          RichText(
-            textAlign: TextAlign.center,
-            text: TextSpan(
-                text: onBoarding.title1,
-                style: AppTypography.kLight36
-                    .copyWith(color: ColorManager.kSecondary),
-                children: [
-                  TextSpan(
-                    text: onBoarding.title2,
-                    style: AppTypography.kBold36,
-                  )
-                ]),
+          Padding(
+            padding: EdgeInsets.all(10.w),
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                  text: onBoarding.title1,
+                  style: AppTypography.kLight36
+                      .copyWith(color: ColorManager.kSecondary),
+                  children: [
+                    TextSpan(
+                      text: onBoarding.title2,
+                      style: AppTypography.kBold36,
+                    )
+                  ]),
+            ),
           ),
           SizedBox(height: AppConstants.heightBetweenElements),
           Text(

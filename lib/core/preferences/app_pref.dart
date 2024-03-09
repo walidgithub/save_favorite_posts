@@ -2,7 +2,9 @@ import 'dart:ui';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../save_favorite_posts/shared/constant/language_manager.dart';
 
+
 const String PREFS_KEY_LANG = "PREFS_KEY_LANG";
+const String FIRST_LOAD = "FIRST_LOAD";
 
 class AppPreferences {
   final SharedPreferences _sharedPreferences;
@@ -44,5 +46,14 @@ class AppPreferences {
       isLangChanged = false;
       return ENGLISH_LOCAL;
     }
+  }
+
+  //first load
+  Future<void> setFirstLoad() async {
+    _sharedPreferences.setBool(FIRST_LOAD, true);
+  }
+
+  Future<bool> isFirstLoad() async {
+    return _sharedPreferences.getBool(FIRST_LOAD) ?? false;
   }
 }

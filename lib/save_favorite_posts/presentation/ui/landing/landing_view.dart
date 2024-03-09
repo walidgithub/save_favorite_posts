@@ -1,5 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_sharing_intent/flutter_sharing_intent.dart';
+import 'package:flutter_sharing_intent/model/sharing_file.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/posts_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
@@ -21,11 +25,52 @@ class _SearchViewState extends State<LandingView> {
   bool editPost = false;
   List<PostsResponse> postData = [];
 
+  late StreamSubscription _intentDataStreamSubscription;
+
+  List<SharedFile>? list;
+
+  String externalPostLinkValue = '';
+  @override
+  void initState() {
+    // For sharing images coming from outside the app while the app is in the memory
+    _intentDataStreamSubscription = FlutterSharingIntent.instance
+        .getMediaStream()
+        .listen((List<SharedFile> value) {
+      setState(() {
+        list = value;
+      });
+    }, onError: (err) {});
+
+    // For sharing images coming from outside the app while the app is closed
+    FlutterSharingIntent.instance
+        .getInitialSharing()
+        .then((List<SharedFile> value) {
+      setState(() {
+        list = value;
+      });
+    });
+
+    externalPostLinkValue = '${list?.join("\n\n")}';
+    if (externalPostLinkValue == '') {
+      _currentIndex = 1;
+    } else {
+      _currentIndex = 0;
+    }
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _intentDataStreamSubscription.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      body: selectedPage(context,_currentIndex),
+      body: selectedPage(context, _currentIndex),
       bottomNavigationBar: SizedBox(
         height: 70.h,
         child: BottomNavigationBar(
@@ -61,7 +106,8 @@ class _SearchViewState extends State<LandingView> {
 
   Widget selectedPage(BuildContext context, int index) {
     if (index == 0) {
-      return SearchView(goToEdit: (List lastSearchFilter, List<PostsResponse> gotPostData) {
+      return SearchView(
+          goToEdit: (List lastSearchFilter, List<PostsResponse> gotPostData) {
         setState(() {
           editPost = true;
           searchFilter = lastSearchFilter;
@@ -69,14 +115,17 @@ class _SearchViewState extends State<LandingView> {
           _currentIndex = 1;
         });
       });
-    } else if(index == 1) {
-      return AddNewPostView(goToSearch: () {
-        setState(() {
-          _currentIndex = 0;
-        });
-      }, searchFilter: searchFilter,postData: postData,editPost: editPost);
+    } else if (index == 1) {
+      return AddNewPostView(
+          goToSearch: () {
+            setState(() {
+              _currentIndex = 0;
+            });
+          },
+          searchFilter: searchFilter,
+          postData: postData,
+          editPost: editPost, externalPostLinkValue: externalPostLinkValue,);
     }
     return Container();
   }
 }
-

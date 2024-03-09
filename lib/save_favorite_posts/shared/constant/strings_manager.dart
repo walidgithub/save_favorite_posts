@@ -67,6 +67,7 @@ class AppStrings {
   static const howToBegin = ' You can add posts manually or use share method in your favorite websites.';
   static const toBegin = 'To begin,';
   static const about = 'About';
+  static const urlError = 'Please write a valid url like''\n''https://www.google.com/';
   static const aboutText = 'it serves as a centralized hub for all your saved posts from various websites, including popular platforms like LinkedIn, Facebook, and more. With this app, you can conveniently save your posts using various sharing methods and access them at a later time. The app also offers robust search and filtering capabilities, allowing you to easily locate and organize your saved posts according to your preferences.';
 
   // error handler

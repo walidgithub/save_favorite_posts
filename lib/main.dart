@@ -75,6 +75,23 @@ class _MyAppState extends State<MyApp> {
     super.didChangeDependencies();
   }
 
+  bool firstLoad = true;
+
+  goNext() {
+    _appPreferences.isFirstLoad().then((isFirstLoad) => {
+      if (isFirstLoad) {firstLoad = false} else {firstLoad = true}
+    });
+  }
+
+  @override
+  void initState() {
+    goNext();
+    print('firstLoad');
+    print(firstLoad);
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -97,7 +114,7 @@ class _MyAppState extends State<MyApp> {
                 title: 'Posts',
                 builder: EasyLoading.init(),
                 onGenerateRoute: RouteGenerator.getRoute,
-                initialRoute: Routes.landing,
+                initialRoute: firstLoad ? Routes.onBoarding : Routes.landing,
                 theme: AppTheme.lightTheme,
               ),
             ));
