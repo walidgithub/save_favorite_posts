@@ -479,9 +479,7 @@ import '../../save_favorite_posts/domain/requests/search/posts_by_website_reques
   // edit package id and db name !!!!!
   getDBPath() async {
     String databasePath = await getDatabasesPath();
-    print(databasePath);
     Directory? externalStoragePath = await getExternalStorageDirectory();
-    print(externalStoragePath);
   }
 
   backupDB() async {

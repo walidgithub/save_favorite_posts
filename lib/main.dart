@@ -86,8 +86,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     goNext();
-    print('firstLoad');
-    print(firstLoad);
     super.initState();
   }
 

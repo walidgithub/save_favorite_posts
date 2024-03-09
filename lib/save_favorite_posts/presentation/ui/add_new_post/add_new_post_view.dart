@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_sharing_intent/flutter_sharing_intent.dart';
@@ -95,7 +96,6 @@ class _AddNewPostViewState extends State<AddNewPostView> {
     if (widget.externalPostLinkValue != '') {
       external = true;
     }
-
     super.initState();
   }
 
@@ -213,7 +213,11 @@ class _AddNewPostViewState extends State<AddNewPostView> {
             }
           } else if (state.postState == RequestState.insertDone) {
             hideLoading();
-            widget.goToSearch();
+            if (external) {
+              SystemNavigator.pop();
+            } else {
+              widget.goToSearch();
+            }
           } else if (state.postState == RequestState.updateDone) {
             hideLoading();
             widget.goToSearch();
@@ -245,7 +249,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                     height: 10.h,
                   ),
                   TextField(
-                      autofocus: true,
+                      autofocus: external ? false : true,
                       readOnly: external
                           ? true
                           : widget.editPost
@@ -686,7 +690,7 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                               bool _validURL = Uri.parse(_postLinkController.text).isAbsolute;
 
                               if (!_validURL) {
-                                showError(AppStrings.linkRequired, context);
+                                showError(AppStrings.urlError, context);
                                 return;
                               }
 

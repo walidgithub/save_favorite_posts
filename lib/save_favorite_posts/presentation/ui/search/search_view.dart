@@ -12,7 +12,6 @@ import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/functions.dart';
-import '../../../data/models/posts_model.dart';
 import '../../../domain/entities/search_filter.dart';
 import '../../../domain/reposnses/posts_response.dart';
 import '../../../domain/requests/search/get_post_by_id_request.dart';
@@ -119,8 +118,7 @@ class _SearchViewState extends State<SearchView> {
         } else if (state.searchState == RequestState.searchLoaded) {
           loading = false;
           hideLoading();
-          // mainList = state.searchList;
-          mainList = postsModel;
+          mainList = state.searchList;
           totalPages = getPagesCount(mainList.length);
 
           if (totalPages != 0) {
