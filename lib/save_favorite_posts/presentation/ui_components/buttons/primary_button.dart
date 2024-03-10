@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
 
 import '../../../shared/constant/app_typography.dart';
 import '../../../shared/style/colors_manager.dart';

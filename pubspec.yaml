@@ -69,6 +69,7 @@ dependencies:
   path_provider: ^2.1.2
   path: ^1.8.0
   intl: ^0.18.1
+  share_plus: ^7.2.2
 
 dev_dependencies:
   flutter_test:

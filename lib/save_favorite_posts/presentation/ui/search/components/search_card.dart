@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:readmore/readmore.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
@@ -147,11 +146,11 @@ class _SearchCardState extends State<SearchCard> {
   }
 
   _launchURL(String path, BuildContext context) async {
-    Uri _url = Uri.parse(path);
-    if (await launchUrl(_url)) {
-      await launchUrl(_url);
+    Uri url = Uri.parse(path);
+    if (await launchUrl(url)) {
+      await launchUrl(url);
     } else {
-      throw 'Could not launch $_url';
+      throw 'Could not launch $url';
     }
   }
 }

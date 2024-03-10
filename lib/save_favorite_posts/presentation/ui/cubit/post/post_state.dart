@@ -2,8 +2,6 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../../core/utils/enums.dart';
 import '../../../../domain/reposnses/category_response.dart';
-import '../../../../domain/reposnses/filter_response.dart';
-import '../../../../domain/reposnses/posts_response.dart';
 import '../../../../domain/reposnses/sub_category_response.dart';
 import '../../../../domain/reposnses/website_response.dart';
 

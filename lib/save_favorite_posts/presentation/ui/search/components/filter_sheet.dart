@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/category_response.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_category_response.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
 import '../../../../../core/utils/enums.dart';
@@ -44,7 +41,7 @@ class _FilterSheetState extends State<FilterSheet> {
     categoryResponse = [];
     subCategoryResponse = [];
     websiteResponse = [];
-    if (searchFilter[0].seen == 0 ? hideSeen = false : hideSeen = true);
+    if (searchFilter[0].seen == 0 ? hideSeen = false : hideSeen = true) {}
     super.initState();
   }
 

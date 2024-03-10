@@ -9,7 +9,6 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/posts_r
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/strings_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
-import '../../../shared/constant/constant_values_manager.dart';
 import '../../ui_components/buttons/custom_icon_button.dart';
 import '../add_new_post/add_new_post_view.dart';
 import '../onboarding/components/drawer_info_page.dart';
@@ -66,11 +65,6 @@ class _SearchViewState extends State<LandingView> {
   @override
   Widget build(BuildContext context) {
     externalPostLinkValue = '${list?.join("\n\n")}';
-    if (externalPostLinkValue != '') {
-      _currentIndex = 1;
-    } else {
-      _currentIndex = 0;
-    }
     return Scaffold(
       extendBody: true,
       key: scaffoldKey,
@@ -100,15 +94,6 @@ class _SearchViewState extends State<LandingView> {
           selectedItemColor: ColorManager.kSecondary,
           currentIndex: _currentIndex,
           onTap: (value) {
-            final snackBar = SnackBar(
-              duration: Duration(
-                  milliseconds:
-                  AppConstants.durationOfSnackBar),
-              content:
-              Text('list value is $externalPostLinkValue current index is $_currentIndex'),
-            );
-            ScaffoldMessenger.of(context)
-                .showSnackBar(snackBar);
             setState(() {
               postData = [];
               searchFilter = [];
@@ -145,13 +130,17 @@ class _SearchViewState extends State<LandingView> {
           postData = gotPostData;
           _currentIndex = 1;
         });
-      });
+      }, externalPostLinkValue: externalPostLinkValue, goToAddExternal: () {
+        setState(() {
+          _currentIndex = 1;
+        });
+      },);
     } else if(index == 1) {
       return AddNewPostView(goToSearch: () {
         setState(() {
           _currentIndex = 0;
         });
-      }, searchFilter: searchFilter,postData: postData,editPost: editPost, externalPostLinkValue: externalPostLinkValue,);
+      }, searchFilter: searchFilter,postData: postData,editPost: editPost, externalPostLinkValue: externalPostLinkValue);
     }
     return Container();
   }

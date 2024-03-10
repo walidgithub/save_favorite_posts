@@ -13,7 +13,6 @@ import '../../../di/di.dart';
 import '../../../ui_components/dialogs/loading_dialog.dart';
 import '../../cubit/post/post_cubit.dart';
 import '../../cubit/post/post_state.dart';
-import 'add_new_item_arguments.dart';
 import '../../../ui_components/buttons/custom_outlined_button.dart';
 import '../../../ui_components/buttons/primary_button.dart';
 import '../../../ui_components/dividers/custom_divider.dart';

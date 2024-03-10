@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/landing/landing_view.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/onboarding/onboarding_view.dart';

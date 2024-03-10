@@ -1,5 +1,4 @@
 import '../../domain/reposnses/website_response.dart';
-import '../../domain/reposnses/website_response.dart';
 
 class WebsiteModel extends WebsiteResponse {
   WebsiteModel({

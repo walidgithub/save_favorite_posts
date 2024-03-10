@@ -10,6 +10,7 @@ import 'package:save_favorite_posts/save_favorite_posts/shared/constant/app_typo
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/assets_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/constant/constant_values_manager.dart';
 import 'package:save_favorite_posts/save_favorite_posts/shared/style/colors_manager.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../core/utils/enums.dart';
 import '../../../../core/utils/functions.dart';
 import '../../../domain/entities/search_filter.dart';
@@ -33,9 +34,9 @@ import '../../ui_components/buttons/custom_icon_button.dart';
 import '../../ui_components/dialogs/loading_dialog.dart';
 import '../../ui_components/others/custom_animation.dart';
 import '../../ui_components/texts/heading_rich_text.dart';
+import '../add_new_post/add_new_post_view.dart';
 import '../cubit/search/search_cubit.dart';
 import '../cubit/search/search_state.dart';
-import '../onboarding/components/drawer_info_page.dart';
 import 'components/filter_sheet.dart';
 import 'components/pagination.dart';
 import 'components/search_field.dart';
@@ -44,7 +45,9 @@ import 'components/shimmer_card.dart';
 
 class SearchView extends StatefulWidget {
   final Function goToEdit;
-  const SearchView({required this.goToEdit, Key? key}) : super(key: key);
+  final Function goToAddExternal;
+  final String externalPostLinkValue;
+  const SearchView({required this.goToEdit, required this.goToAddExternal, required this.externalPostLinkValue, Key? key}) : super(key: key);
 
   @override
   State<SearchView> createState() => _SearchViewState();
@@ -54,18 +57,16 @@ class _SearchViewState extends State<SearchView> {
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
 
-
   bool loading = false;
 
   int currentPage = 0;
   int totalPages = 0;
-  int itemsInPage = 4;
+  int itemsInPage = 7;
   List<int> middlePages = [];
-
 
   int getPagesCount(int listCount) {
     double pagesTotal = listCount / itemsInPage;
-    return pagesTotal.floor();
+    return pagesTotal.ceil();
   }
 
   List<PostsResponse> postData = [];
@@ -76,6 +77,9 @@ class _SearchViewState extends State<SearchView> {
   void initState() {
     super.initState();
     _searchController.text = '';
+    if (widget.externalPostLinkValue != '') {
+      widget.goToAddExternal();
+    }
   }
 
   @override
@@ -120,10 +124,10 @@ class _SearchViewState extends State<SearchView> {
           hideLoading();
           mainList = state.searchList;
           totalPages = getPagesCount(mainList.length);
-
           if (totalPages != 0) {
             currentPage = 1;
-            await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+            await SearchCubit.get(context)
+                .paginatePages(mainList, currentPage, itemsInPage);
             middlePages = [];
 
             if (totalPages >= 5) {
@@ -137,7 +141,6 @@ class _SearchViewState extends State<SearchView> {
             currentPage = 0;
             middlePages = [];
           }
-
         } else if (state.searchState == RequestState.searchError) {
           loading = false;
           hideLoading();
@@ -199,7 +202,7 @@ class _SearchViewState extends State<SearchView> {
                     SizedBox(
                       height: AppConstants.smallHeightBetweenElements,
                     ),
-                    middlePages.isNotEmpty
+                    totalPages > 1
                         ? Column(
                             children: [
                               DottedDivider(
@@ -218,30 +221,45 @@ class _SearchViewState extends State<SearchView> {
                                     totalPages: totalPages,
                                     currentPage: currentPage,
                                     middlePages: middlePages,
-                                    firstPage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                    firstPage: (int returnCurrentPage,
+                                        List<int> returnedMiddlePages) async {
                                       currentPage = returnCurrentPage;
                                       middlePages = returnedMiddlePages;
-                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                      await SearchCubit.get(context)
+                                          .paginatePages(mainList, currentPage,
+                                              itemsInPage);
                                     },
-                                    lastPage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                    lastPage: (int returnCurrentPage,
+                                        List<int> returnedMiddlePages) async {
                                       currentPage = returnCurrentPage;
                                       middlePages = returnedMiddlePages;
-                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                      await SearchCubit.get(context)
+                                          .paginatePages(mainList, currentPage,
+                                              itemsInPage);
                                     },
-                                    nextPage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                    nextPage: (int returnCurrentPage,
+                                        List<int> returnedMiddlePages) async {
                                       currentPage = returnCurrentPage;
                                       middlePages = returnedMiddlePages;
-                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                      await SearchCubit.get(context)
+                                          .paginatePages(mainList, currentPage,
+                                              itemsInPage);
                                     },
-                                    prevPage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                    prevPage: (int returnCurrentPage,
+                                        List<int> returnedMiddlePages) async {
                                       currentPage = returnCurrentPage;
                                       middlePages = returnedMiddlePages;
-                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                      await SearchCubit.get(context)
+                                          .paginatePages(mainList, currentPage,
+                                              itemsInPage);
                                     },
-                                    middlePage: (int returnCurrentPage, List<int> returnedMiddlePages) async {
+                                    middlePage: (int returnCurrentPage,
+                                        List<int> returnedMiddlePages) async {
                                       currentPage = returnCurrentPage;
                                       middlePages = returnedMiddlePages;
-                                      await SearchCubit.get(context).paginatePages(mainList,currentPage,itemsInPage);
+                                      await SearchCubit.get(context)
+                                          .paginatePages(mainList, currentPage,
+                                              itemsInPage);
                                     },
                                   ))
                             ],
@@ -351,7 +369,7 @@ class _SearchViewState extends State<SearchView> {
                                 DeletePostRequest(id: searchList[index].id));
                           },
                           shareCallback: () async {
-                            // share content
+                            Share.shareUri(Uri.parse(searchList[index].link));
                           },
                         ),
                       ),

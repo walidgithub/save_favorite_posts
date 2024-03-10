@@ -1,8 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/failure.dart';
 import '../../repository/base_repository.dart';
-import '../../reposnses/filter_response.dart';
-import '../../reposnses/posts_response.dart';
 import '../../reposnses/website_response.dart';
 import '../base_usecase/base_usecase.dart';
 

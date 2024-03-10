@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../shared/constant/app_typography.dart';
-import '../../../shared/constant/assets_manager.dart';
 import '../../../shared/style/colors_manager.dart';
-import '../buttons/custom_icon_button.dart';
 
 class HeadingRichText extends StatelessWidget {
   final String text1;

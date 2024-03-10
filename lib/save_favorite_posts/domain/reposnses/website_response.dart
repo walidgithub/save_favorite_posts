@@ -1,7 +1,9 @@
 import 'filter_response.dart';
 
 class WebsiteResponse extends FilterResponse {
+  @override
   int? id;
+  @override
   String? title;
 
   WebsiteResponse({

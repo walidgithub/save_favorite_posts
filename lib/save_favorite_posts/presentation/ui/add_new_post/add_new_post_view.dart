@@ -1,12 +1,8 @@
-import 'dart:async';
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_sharing_intent/flutter_sharing_intent.dart';
-import 'package:flutter_sharing_intent/model/sharing_file.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/category_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/sub_category_response.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/website_response.dart';
@@ -89,11 +85,12 @@ class _AddNewPostViewState extends State<AddNewPostView> {
       _postLinkController.text = widget.postData[0].link;
       _descriptionController.text = widget.postData[0].description;
     } else {
-      _postLinkController.text = '';
+      _postLinkController.text = 'https://';
       _descriptionController.text = '';
     }
 
     if (widget.externalPostLinkValue != '') {
+      _postLinkController.text = widget.externalPostLinkValue;
       external = true;
     }
     super.initState();
@@ -687,9 +684,9 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                             onTap: () async {
                               external ? widget.externalPostLinkValue : _postLinkController.text;
 
-                              bool _validURL = Uri.parse(_postLinkController.text).isAbsolute;
+                              bool validURL = Uri.parse(_postLinkController.text).isAbsolute;
 
-                              if (!_validURL) {
+                              if (!validURL) {
                                 showError(AppStrings.urlError, context);
                                 return;
                               }

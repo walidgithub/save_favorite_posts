@@ -1,11 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/requests/search/get_post_by_id_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_all_categories_usecase.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_all_subcategories_usecase.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_all_websites_usecase.dart';
-import 'package:save_favorite_posts/save_favorite_posts/domain/usecases/search/get_post_by_id_usecase.dart';
 import 'package:save_favorite_posts/save_favorite_posts/presentation/ui/cubit/post/post_state.dart';
 
 import '../../../../../core/utils/enums.dart';
@@ -22,7 +20,6 @@ import '../../../../domain/usecases/iud/update_category_name_usecase.dart';
 import '../../../../domain/usecases/iud/update_post_usecase.dart';
 import '../../../../domain/usecases/iud/update_sub_category_name_usecase.dart';
 import '../../../../domain/usecases/iud/update_website_name_usecase.dart';
-import '../../../../domain/usecases/search/get_post_by_id_usecase.dart';
 
 class PostCubit extends Cubit<PostState> {
   final GetAllCategoriesUseCase getAllCategoriesUseCase;

@@ -23,7 +23,6 @@ import '../../../../domain/requests/search/posts_by_desc_request.dart';
 import '../../../../domain/requests/search/posts_by_subcategory_n_website_request.dart';
 import '../../../../domain/requests/search/posts_by_subcategory_request.dart';
 import '../../../../domain/requests/search/posts_by_website_request.dart';
-import '../../../../domain/usecases/base_usecase/base_usecase.dart';
 import '../../../../domain/usecases/iud/delete_post_usecase.dart';
 import '../../../../domain/usecases/search/get_all_posts_usecase.dart';
 import '../../../../domain/usecases/search/get_post_by_id_usecase.dart';
@@ -32,7 +31,6 @@ import '../../../../domain/usecases/search/get_posts_by_category_n_subcategory_u
 import '../../../../domain/usecases/search/get_posts_by_category_n_website_usecase.dart';
 import '../../../../domain/usecases/search/get_posts_by_category_usecase.dart';
 import '../../../../domain/usecases/search/get_posts_by_desc_n_category_n_subcategory_n_website_usecases.dart';
-import 'package:bloc/bloc.dart';
 import '../../../../domain/usecases/search/get_posts_by_desc_n_category_n_subcategory_usecase.dart';
 import '../../../../domain/usecases/search/get_posts_by_desc_n_category_n_website_usecase.dart';
 import '../../../../domain/usecases/search/get_posts_by_desc_n_category_usecase.dart';
@@ -455,7 +453,12 @@ class SearchCubit extends Cubit<SearchState> {
       List<PostsResponse> newList = [];
       int startIndex = currentPage == 0 ? 0 : (currentPage - 1) * itemsInPage;
       int endIndex = currentPage * itemsInPage;
-      newList = comingList.sublist(startIndex, endIndex);
+      if (endIndex > comingList.length) {
+        endIndex = comingList.length;
+        newList = comingList.sublist(startIndex, endIndex);
+      } else {
+        newList = comingList.sublist(startIndex, endIndex);
+      }
 
       emit(state.copyWith(
         searchList: newList,

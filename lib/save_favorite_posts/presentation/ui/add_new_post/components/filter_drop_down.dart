@@ -5,7 +5,6 @@ import 'package:save_favorite_posts/save_favorite_posts/domain/reposnses/filter_
 
 import '../../../../shared/constant/app_typography.dart';
 import '../../../../shared/constant/constant_values_manager.dart';
-import '../../../../shared/constant/strings_manager.dart';
 import '../../../../shared/style/colors_manager.dart';
 
 class FilterDropDown extends StatefulWidget {
