@@ -1,7 +1,10 @@
+import 'dart:isolate';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:save_favorite_posts/save_favorite_posts/data/models/posts_model.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/delete_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/iud/toggle_seen_post_request.dart';
 import 'package:save_favorite_posts/save_favorite_posts/domain/requests/search/get_all_posts_request.dart';
@@ -77,6 +80,10 @@ class _SearchViewState extends State<SearchView> {
   void initState() {
     super.initState();
     _searchController.text = '';
+    searchForPosts(context);
+  }
+
+  void searchForPosts(BuildContext context) {
     getMatchingEvent(context);
   }
 
@@ -91,7 +98,7 @@ class _SearchViewState extends State<SearchView> {
     String searchText = _searchController.text;
     if (_searchFocusNode.hasFocus && searchText.isNotEmpty) {
       searchFilter[0].searchText = _searchController.text;
-      getMatchingEvent(context);
+      searchForPosts(context);
     }
   }
 
@@ -118,7 +125,6 @@ class _SearchViewState extends State<SearchView> {
         } else if (state.searchState == RequestState.searchLoaded) {
           loading = false;
           hideLoading();
-
           mainList = state.searchList;
           totalPages = getPagesCount(mainList.length);
           if (totalPages != 0) {
@@ -148,7 +154,7 @@ class _SearchViewState extends State<SearchView> {
           loading = false;
           hideLoading();
           searchFilter[0].searchText = _searchController.text;
-          getMatchingEvent(context);
+          searchForPosts(context);
         } else if (state.searchState == RequestState.deleteError) {
           loading = false;
           hideLoading();
@@ -313,7 +319,7 @@ class _SearchViewState extends State<SearchView> {
                       return FilterSheet(
                         search: () {
                           searchFilter[0].searchText = _searchController.text;
-                          getMatchingEvent(context);
+                          searchForPosts(context);
                           Navigator.pop(context);
                         },
                       );
