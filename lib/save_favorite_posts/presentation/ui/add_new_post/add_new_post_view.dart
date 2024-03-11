@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -89,11 +88,25 @@ class _AddNewPostViewState extends State<AddNewPostView> {
       _descriptionController.text = '';
     }
 
-    if (widget.externalPostLinkValue != '') {
-      _postLinkController.text = widget.externalPostLinkValue;
+    if (widget.externalPostLinkValue != '' &&
+        widget.externalPostLinkValue != 'null') {
+      _postLinkController.text = getLinkUrl(widget.externalPostLinkValue)
+          .substring(0, getLinkUrl(widget.externalPostLinkValue).indexOf(','));
       external = true;
     }
     super.initState();
+  }
+
+  String getLinkUrl(String url) {
+    String deleteValue = url.substring(8, url.length);
+    return deleteValue;
+  }
+
+  String getWebsiteName(String url) {
+    int startIndex = url.indexOf("https://www.") + 5;
+    int endIndex = url.indexOf(".com");
+    String websiteName = url.substring(startIndex, endIndex);
+    return websiteName;
   }
 
   void _onWebsiteSubmit(BuildContext context) {
@@ -256,7 +269,9 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       spellCheckConfiguration: const SpellCheckConfiguration(),
                       controller: _postLinkController,
                       decoration: InputDecoration(
-                          hintText: external ? widget.externalPostLinkValue : AppStrings.link,
+                          hintText: external
+                              ? _postLinkController.text
+                              : AppStrings.link,
                           hintStyle: TextStyle(fontSize: 15.sp),
                           labelText: AppStrings.postLink,
                           labelStyle: TextStyle(
@@ -682,9 +697,9 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                       Expanded(
                         child: PrimaryButton(
                             onTap: () async {
-                              external ? widget.externalPostLinkValue : _postLinkController.text;
-
-                              bool validURL = Uri.parse(_postLinkController.text).isAbsolute;
+                              bool validURL =
+                                  Uri.parse(_postLinkController.text)
+                                      .isAbsolute;
 
                               if (!validURL) {
                                 showError(AppStrings.urlError, context);
@@ -729,7 +744,8 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                 return;
                               } else if (_descriptionController.text.trim() ==
                                   "") {
-                                showError(AppStrings.descriptionRequired, context);
+                                showError(
+                                    AppStrings.descriptionRequired, context);
                                 return;
                               }
                               showLoading();
@@ -825,13 +841,9 @@ class _AddNewPostViewState extends State<AddNewPostView> {
 
   void showError(String errorMessage, BuildContext context) {
     final snackBar = SnackBar(
-      duration: Duration(
-          milliseconds:
-          AppConstants.durationOfSnackBar),
-      content:
-      Text(errorMessage),
+      duration: Duration(milliseconds: AppConstants.durationOfSnackBar),
+      content: Text(errorMessage),
     );
-    ScaffoldMessenger.of(context)
-        .showSnackBar(snackBar);
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

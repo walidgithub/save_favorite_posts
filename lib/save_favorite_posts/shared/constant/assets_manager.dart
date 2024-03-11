@@ -14,7 +14,7 @@ class AssetsManager {
   static const String filter = '$imagePath/filter.svg';
   static String deleteImg = '$imagePath/delete.svg';
   static String shareImg = '$imagePath/share.svg';
-  static String goImg = '$imagePath/go.svg';
+  static String linkImg = '$imagePath/link.svg';
   static String editIcon = '$imagePath/edit.svg';
   static String drawer = '$imagePath/drawer.svg';
   static String rate = '$imagePath/rate.svg';

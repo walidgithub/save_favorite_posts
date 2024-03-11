@@ -27,10 +27,8 @@ class _DrawerInfoState extends State<DrawerInfo> {
       backgroundColor: ColorManager.kBackground,
       child:
       SingleChildScrollView(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          shrinkWrap: true,
-          physics: const AlwaysScrollableScrollPhysics(),
+        physics: const AlwaysScrollableScrollPhysics(),
+        child: Column(
           children: [
             Container(
               padding: const EdgeInsets.fromLTRB(20, 50, 20, 5),
@@ -69,7 +67,7 @@ class _DrawerInfoState extends State<DrawerInfo> {
             ),
             const Divider(),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 10, 5),
+              padding: const EdgeInsets.fromLTRB(20, 0, 10, 20),
               child: Column(
                 children: [
                   Text(AppStrings.rating,style: AppTypography.kBold24,),

@@ -89,7 +89,7 @@ class _SearchViewState extends State<LandingView> {
         ],
       ),
       bottomNavigationBar: SizedBox(
-        height: 70.h,
+        height: 100.h,
         child: BottomNavigationBar(
           selectedItemColor: ColorManager.kSecondary,
           currentIndex: _currentIndex,
@@ -110,7 +110,7 @@ class _SearchViewState extends State<LandingView> {
                   width: 30.w),
             ),
             BottomNavigationBarItem(
-              icon: SvgPicture.asset(AssetsManager.addNew),
+              icon: SvgPicture.asset(AssetsManager.addNew, width: 25.w),
               label: AppStrings.addNew,
               activeIcon:
                   SvgPicture.asset(AssetsManager.addNewSelected, width: 30.w),
@@ -131,9 +131,9 @@ class _SearchViewState extends State<LandingView> {
           _currentIndex = 1;
         });
       }, externalPostLinkValue: externalPostLinkValue, goToAddExternal: () {
-        setState(() {
-          _currentIndex = 1;
-        });
+          setState(() {
+            _currentIndex = 1;
+          });
       },);
     } else if(index == 1) {
       return AddNewPostView(goToSearch: () {

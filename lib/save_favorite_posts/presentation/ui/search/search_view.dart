@@ -77,9 +77,7 @@ class _SearchViewState extends State<SearchView> {
   void initState() {
     super.initState();
     _searchController.text = '';
-    if (widget.externalPostLinkValue != '') {
-      widget.goToAddExternal();
-    }
+    getMatchingEvent(context);
   }
 
   @override
@@ -112,8 +110,6 @@ class _SearchViewState extends State<SearchView> {
   }
 
   Widget bodyContent(BuildContext context) {
-    getMatchingEvent(context);
-
     return BlocConsumer<SearchCubit, SearchState>(
       listener: (context, state) async {
         if (state.searchState == RequestState.searchLoading) {
@@ -122,6 +118,7 @@ class _SearchViewState extends State<SearchView> {
         } else if (state.searchState == RequestState.searchLoaded) {
           loading = false;
           hideLoading();
+
           mainList = state.searchList;
           totalPages = getPagesCount(mainList.length);
           if (totalPages != 0) {
@@ -181,6 +178,11 @@ class _SearchViewState extends State<SearchView> {
           loading = false;
           hideLoading();
           paginationList = state.searchList;
+
+          if (widget.externalPostLinkValue != '' && widget.externalPostLinkValue != 'null') {
+            widget.goToAddExternal();
+          }
+
         } else if (state.searchState == RequestState.paginateError) {
           loading = false;
           hideLoading();

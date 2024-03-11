@@ -98,7 +98,7 @@ class _SearchCardState extends State<SearchCard> {
                     _launchURL(widget.postsResponse.link, context);
                   },
                   size: 40.w,
-                  icon: AssetsManager.goImg,
+                  icon: AssetsManager.linkImg,
                 ),
               ),
               SizedBox(
