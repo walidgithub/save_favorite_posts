@@ -194,16 +194,12 @@ class _AddNewPostViewState extends State<AddNewPostView> {
             }
           } else if (state.postState == RequestState.subCategoryLoaded) {
             hideLoading();
-            for (var i in state.subCategoryList) {
+            for (var i in state.subCategoryList.where((element) => element.title != '')) {
               subCategoryResponse.add(i);
             }
-            subCategoryResponse.insert(
-                0, SubCategoryModel(id: 0, title: 'All'));
-            if (widget.postData.isNotEmpty) {
-              selectedSubCategoryResponse = subCategoryResponse
-                  .where((element) =>
-                      element.title == widget.postData[0].subCategory)
-                  .first;
+            subCategoryResponse.insert(0, SubCategoryModel(id: 0, title: 'All'));
+            if (widget.postData[0].subCategory == 'null' || widget.postData[0].subCategory != '') {
+                selectedSubCategoryResponse = subCategoryResponse.where((element) => element.title == widget.postData[0].subCategory).first;
             } else {
               selectedSubCategoryResponse = subCategoryResponse[0];
             }
@@ -561,19 +557,19 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                   onSubmit: (v) =>
                                       _onSubCategorySubmit(context),
                                 )
-                              : FilterDropDown(
-                                  filterEditingController:
-                                      _subCategoryEditingController,
-                                  selectedFilter: selectedSubCategoryResponse!,
-                                  filterResponse: subCategoryResponse,
-                                  hintText: AppStrings.searchForSubCategory,
-                                  onChanged: (subCategoryResponse) {
-                                    setState(() {
-                                      selectedSubCategoryResponse =
-                                          subCategoryResponse;
-                                    });
-                                  },
-                                ),
+                              : selectedSubCategoryResponse != '' || selectedSubCategoryResponse != 'null' ? FilterDropDown(
+                            filterEditingController:
+                            _subCategoryEditingController,
+                            selectedFilter: selectedSubCategoryResponse!,
+                            filterResponse: subCategoryResponse,
+                            hintText: AppStrings.searchForSubCategory,
+                            onChanged: (subCategoryResponse) {
+                              setState(() {
+                                selectedSubCategoryResponse =
+                                    subCategoryResponse;
+                              });
+                            },
+                          ) : Container(),
                           subCategoryResponse.isEmpty
                               ? Container()
                               : Padding(
@@ -618,45 +614,48 @@ class _AddNewPostViewState extends State<AddNewPostView> {
                                     children: [
                                       GestureDetector(
                                         onTap: () {
-                                          if (selectedSubCategoryResponse!.title
-                                                  .toString() !=
-                                              'All') {
-                                            EditItemDialog.show(
-                                                context,
-                                                EditItemDialogData(
-                                                    dialogTitle: AppStrings
-                                                        .editSubCategory,
-                                                    oldItemName:
-                                                        selectedSubCategoryResponse!
-                                                            .title
-                                                            .toString(),
-                                                    textName:
-                                                        AppStrings.subCategory,
-                                                    returnName:
-                                                        (String updatedName) {
-                                                      setState(() {
-                                                        int old = subCategoryResponse
-                                                            .indexWhere((element) =>
-                                                                element.title ==
-                                                                selectedSubCategoryResponse!
-                                                                    .title
-                                                                    .toString());
-                                                        subCategoryResponse[
-                                                                old] =
-                                                            SubCategoryModel(
-                                                                title:
-                                                                    updatedName,
-                                                                id: null);
-                                                        selectedSubCategoryResponse =
-                                                            subCategoryResponse
-                                                                .where((element) =>
-                                                                    element
-                                                                        .title ==
-                                                                    updatedName)
-                                                                .first;
-                                                      });
-                                                    }));
+                                          if (subCategoryResponse.isNotEmpty) {
+                                            if (selectedSubCategoryResponse!.title
+                                                .toString() !=
+                                                'All') {
+                                              EditItemDialog.show(
+                                                  context,
+                                                  EditItemDialogData(
+                                                      dialogTitle: AppStrings
+                                                          .editSubCategory,
+                                                      oldItemName:
+                                                      selectedSubCategoryResponse!
+                                                          .title
+                                                          .toString(),
+                                                      textName:
+                                                      AppStrings.subCategory,
+                                                      returnName:
+                                                          (String updatedName) {
+                                                        setState(() {
+                                                          int old = subCategoryResponse
+                                                              .indexWhere((element) =>
+                                                          element.title ==
+                                                              selectedSubCategoryResponse!
+                                                                  .title
+                                                                  .toString());
+                                                          subCategoryResponse[
+                                                          old] =
+                                                              SubCategoryModel(
+                                                                  title:
+                                                                  updatedName,
+                                                                  id: null);
+                                                          selectedSubCategoryResponse =
+                                                              subCategoryResponse
+                                                                  .where((element) =>
+                                                              element
+                                                                  .title ==
+                                                                  updatedName)
+                                                                  .first;
+                                                        });
+                                                      }));
+                                            }
                                           }
+
                                         },
                                         child: const Icon(
                                           Icons.edit,
