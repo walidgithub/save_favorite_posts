@@ -1,5 +1,3 @@
-import 'dart:isolate';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,11 +35,10 @@ import '../../ui_components/buttons/custom_icon_button.dart';
 import '../../ui_components/dialogs/loading_dialog.dart';
 import '../../ui_components/others/custom_animation.dart';
 import '../../ui_components/texts/heading_rich_text.dart';
-import '../add_new_post/add_new_post_view.dart';
 import '../cubit/search/search_cubit.dart';
 import '../cubit/search/search_state.dart';
+import 'components/custome_pagination.dart';
 import 'components/filter_sheet.dart';
-import 'components/pagination.dart';
 import 'components/search_field.dart';
 import 'components/search_result_card.dart';
 import 'components/shimmer_card.dart';
@@ -125,7 +122,8 @@ class _SearchViewState extends State<SearchView> {
         } else if (state.searchState == RequestState.searchLoaded) {
           loading = false;
           hideLoading();
-          mainList = state.searchList;
+          // mainList = state.searchList;
+          mainList = postsModel;
           totalPages = getPagesCount(mainList.length);
           if (totalPages != 0) {
             currentPage = 1;
@@ -228,46 +226,12 @@ class _SearchViewState extends State<SearchView> {
                                   child: PaginationView(
                                     totalPages: totalPages,
                                     currentPage: currentPage,
-                                    middlePages: middlePages,
-                                    firstPage: (int returnCurrentPage,
-                                        List<int> returnedMiddlePages) async {
+                                    getData: (returnCurrentPage, returnedMiddlePages) async {
                                       currentPage = returnCurrentPage;
                                       middlePages = returnedMiddlePages;
                                       await SearchCubit.get(context)
                                           .paginatePages(mainList, currentPage,
-                                              itemsInPage);
-                                    },
-                                    lastPage: (int returnCurrentPage,
-                                        List<int> returnedMiddlePages) async {
-                                      currentPage = returnCurrentPage;
-                                      middlePages = returnedMiddlePages;
-                                      await SearchCubit.get(context)
-                                          .paginatePages(mainList, currentPage,
-                                              itemsInPage);
-                                    },
-                                    nextPage: (int returnCurrentPage,
-                                        List<int> returnedMiddlePages) async {
-                                      currentPage = returnCurrentPage;
-                                      middlePages = returnedMiddlePages;
-                                      await SearchCubit.get(context)
-                                          .paginatePages(mainList, currentPage,
-                                              itemsInPage);
-                                    },
-                                    prevPage: (int returnCurrentPage,
-                                        List<int> returnedMiddlePages) async {
-                                      currentPage = returnCurrentPage;
-                                      middlePages = returnedMiddlePages;
-                                      await SearchCubit.get(context)
-                                          .paginatePages(mainList, currentPage,
-                                              itemsInPage);
-                                    },
-                                    middlePage: (int returnCurrentPage,
-                                        List<int> returnedMiddlePages) async {
-                                      currentPage = returnCurrentPage;
-                                      middlePages = returnedMiddlePages;
-                                      await SearchCubit.get(context)
-                                          .paginatePages(mainList, currentPage,
-                                              itemsInPage);
+                                          itemsInPage);
                                     },
                                   ))
                             ],
