@@ -47,7 +47,12 @@ class SearchView extends StatefulWidget {
   final Function goToEdit;
   final Function goToAddExternal;
   final String externalPostLinkValue;
-  const SearchView({required this.goToEdit, required this.goToAddExternal, required this.externalPostLinkValue, Key? key}) : super(key: key);
+  const SearchView(
+      {required this.goToEdit,
+      required this.goToAddExternal,
+      required this.externalPostLinkValue,
+      Key? key})
+      : super(key: key);
 
   @override
   State<SearchView> createState() => _SearchViewState();
@@ -125,23 +130,9 @@ class _SearchViewState extends State<SearchView> {
           // mainList = state.searchList;
           mainList = postsModel;
           totalPages = getPagesCount(mainList.length);
-          if (totalPages != 0) {
-            currentPage = 1;
-            await SearchCubit.get(context)
-                .paginatePages(mainList, currentPage, itemsInPage);
-            middlePages = [];
-
-            if (totalPages >= 5) {
-              middlePages = [currentPage + 1, currentPage + 2, currentPage + 3];
-            } else {
-              for (int i = 1; i < totalPages - 1; i++) {
-                middlePages.add(i + 1);
-              }
-            }
-          } else {
-            currentPage = 0;
-            middlePages = [];
-          }
+          currentPage = 1;
+          await SearchCubit.get(context)
+              .paginatePages(mainList, currentPage, itemsInPage);
         } else if (state.searchState == RequestState.searchError) {
           loading = false;
           hideLoading();
@@ -183,10 +174,10 @@ class _SearchViewState extends State<SearchView> {
           hideLoading();
           paginationList = state.searchList;
 
-          if (widget.externalPostLinkValue != '' && widget.externalPostLinkValue != 'null') {
+          if (widget.externalPostLinkValue != '' &&
+              widget.externalPostLinkValue != 'null') {
             widget.goToAddExternal();
           }
-
         } else if (state.searchState == RequestState.paginateError) {
           loading = false;
           hideLoading();
@@ -226,12 +217,13 @@ class _SearchViewState extends State<SearchView> {
                                   child: PaginationView(
                                     totalPages: totalPages,
                                     currentPage: currentPage,
-                                    getData: (returnCurrentPage, returnedMiddlePages) async {
+                                    getData: (returnCurrentPage,
+                                        returnedMiddlePages) async {
                                       currentPage = returnCurrentPage;
                                       middlePages = returnedMiddlePages;
                                       await SearchCubit.get(context)
                                           .paginatePages(mainList, currentPage,
-                                          itemsInPage);
+                                              itemsInPage);
                                     },
                                   ))
                             ],

@@ -269,12 +269,10 @@ class _PaginationViewState extends State<PaginationView> {
                                               : widget.unSelectedTextColor ?? const Color(0xFFFFFFFF),
                                           fontSize: widget.textFontSize ?? 20))),
                               padding: EdgeInsets.fromLTRB(
-                                  middlePages[index].toString().length > 1 ? widget.padding ?? 5 * 2 : widget.padding ?? 5,
+                                  widget.padding ?? 10,
                                   0,
-                                  middlePages[index].toString().length > 1 ? widget.padding ?? 5 * 2 : widget.padding ?? 5,
+                                  widget.padding ?? 10,
                                   0),
-                              width: currentPage.toString().length > 1 ?
-                              null : widget.normalWidth ?? 30,
                               color: currentPage == middlePages[index]
                                   ? widget.activeButtonColor ?? const Color(0xFF84BD93)
                                   : widget.middleButtonColor ?? const Color(0xFFE6DCCD),
